@@ -38,6 +38,9 @@ new class extends Component
                     <div class="flex items-center gap-1 scale-90 origin-left">
                         <span class="px-2 py-0.5 rounded bg-blue-100 text-blue-700 text-xs font-bold dark:bg-blue-900/40 dark:text-blue-300">RFC: {{ auth()->user()->rfc }}</span>
                     </div>
+                    <div class="flex items-center gap-1 scale-90 origin-left">
+                        {!! user_role_badge() !!}
+                    </div>
                 </div>
             </div>
             
@@ -71,10 +74,22 @@ new class extends Component
                                 'bg-emerald-100 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400' => $tx->amount > 0,
                                 'bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400' => $tx->amount < 0,
                             ])>
-                                @if($tx->type === 'income') <x-flux:icon.arrow-down-left class="size-5" />
-                                @elseif($tx->type === 'expense' || $tx->type === 'tax') <x-flux:icon.arrow-up-right class="size-5" />
-                                @elseif($tx->type === 'p2p') <x-flux:icon.arrows-right-left class="size-5" />
-                                @else <x-flux:icon.banknotes class="size-5" />
+                                @if($tx->type === 'income') 
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                                      <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 13.5 12 21m0 0-7.5-7.5M12 21V3" />
+                                    </svg>
+                                @elseif($tx->type === 'expense' || $tx->type === 'tax') 
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                                      <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18" />
+                                    </svg>
+                                @elseif($tx->type === 'p2p') 
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                                      <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+                                    </svg>
+                                @else 
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                                      <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z" />
+                                    </svg>
                                 @endif
                             </div>
                             <div>
@@ -92,7 +107,9 @@ new class extends Component
                     </div>
                 @empty
                     <div class="p-12 text-center text-neutral-500">
-                        <x-flux:icon.banknotes class="size-12 mx-auto mb-3 opacity-20" />
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-12 mx-auto mb-3 opacity-20">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z" />
+                        </svg>
                         <p>No hay transacciones aún.</p>
                     </div>
                 @endforelse
@@ -111,7 +128,9 @@ new class extends Component
                     <p class="text-[11px] text-neutral-500 italic">
                         Sabías que cada AulaChain ganado contribuye con un 5% al fondo común de la clase para eventos especiales.
                     </p>
-                    <x-flux:button variant="ghost" size="sm" class="w-full text-xs">¿Qué es el RFC?</x-flux:button>
+                    <button class="w-full text-xs py-1.5 px-3 rounded-lg text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors font-medium">
+                        ¿Qué es el RFC?
+                    </button>
                 </div>
             </div>
 

@@ -71,6 +71,12 @@ class User extends Authenticatable
                 $user->rfc = "{$initials}{$date}{$random}";
                 $user->save();
             }
+            
+            // Asignar rol de 'alumno' automáticamente si no tiene ningún rol
+            // Los admins y docentes se crean con roles específicos desde el seeder o panel admin
+            if (!$user->hasAnyRole(['admin', 'docente', 'alumno'])) {
+                $user->assignRole('alumno');
+            }
         });
     }
 

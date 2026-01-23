@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class AulaChainSeeder extends Seeder
@@ -13,7 +12,7 @@ class AulaChainSeeder extends Seeder
     public function run(): void
     {
         // 1. Create Teacher Role if needed (via Spatie)
-        // (Assuming roles are handled elsewhere or manual for now, 
+        // (Assuming roles are handled elsewhere or manual for now,
         // but let's at least create some sample tasks and rewards)
 
         // 2. Sample Tasks

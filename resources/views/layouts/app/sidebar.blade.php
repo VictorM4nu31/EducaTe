@@ -16,6 +16,53 @@
                         {{ __('Dashboard') }}
                     </flux:sidebar.item>
                 </flux:sidebar.group>
+
+                @role('admin')
+                    <flux:sidebar.group heading="Administración" class="grid">
+                        <flux:sidebar.item icon="layout-grid" :href="route('admin.dashboard')" :current="request()->routeIs('admin.dashboard')" wire:navigate>
+                            Dashboard Admin
+                        </flux:sidebar.item>
+                        <flux:sidebar.item icon="user-group" :href="route('admin.docentes.index')" :current="request()->routeIs('admin.docentes.*')" wire:navigate>
+                            Docentes
+                        </flux:sidebar.item>
+                        <flux:sidebar.item icon="users" :href="route('admin.alumnos.index')" :current="request()->routeIs('admin.alumnos.index')" wire:navigate>
+                            Alumnos
+                        </flux:sidebar.item>
+                        <flux:sidebar.item icon="cog-6-tooth" :href="route('admin.settings')" :current="request()->routeIs('admin.settings')" wire:navigate>
+                            Ajustes
+                        </flux:sidebar.item>
+                    </flux:sidebar.group>
+                @endrole
+
+                @role('docente')
+                    <flux:sidebar.group heading="Docencia" class="grid">
+                        <flux:sidebar.item icon="academic-cap" :href="route('teacher.tasks')" :current="request()->routeIs('teacher.tasks*')" wire:navigate>
+                            Tareas
+                        </flux:sidebar.item>
+                        <flux:sidebar.item icon="gift" :href="route('teacher.rewards')" :current="request()->routeIs('teacher.rewards*')" wire:navigate>
+                            Recompensas
+                        </flux:sidebar.item>
+                        <flux:sidebar.item icon="chart-bar" :href="route('teacher.reports')" :current="request()->routeIs('teacher.reports')" wire:navigate>
+                            Reportes
+                        </flux:sidebar.item>
+                    </flux:sidebar.group>
+                @endrole
+
+                @role('alumno')
+                    @unlessrole('admin|docente')
+                        <flux:sidebar.group heading="Mi Aula" class="grid">
+                            <flux:sidebar.item icon="pencil-square" :href="route('tasks')" :current="request()->routeIs('tasks')" wire:navigate>
+                                Mis Tareas
+                            </flux:sidebar.item>
+                            <flux:sidebar.item icon="document-text" :href="route('exams')" :current="request()->routeIs('exams')" wire:navigate>
+                                Exámenes
+                            </flux:sidebar.item>
+                            <flux:sidebar.item icon="shopping-bag" :href="route('marketplace')" :current="request()->routeIs('marketplace')" wire:navigate>
+                                Marketplace
+                            </flux:sidebar.item>
+                        </flux:sidebar.group>
+                    @endunlessrole
+                @endrole
             </flux:sidebar.nav>
 
             <flux:spacer />

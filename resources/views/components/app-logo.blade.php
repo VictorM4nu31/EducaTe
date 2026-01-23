@@ -1,15 +1,21 @@
 @props([
     'sidebar' => false,
+    'iconOnly' => false,
+    'name' => config('app.name', 'EducaTe'),
 ])
 
-@if($sidebar)
-    <flux:sidebar.brand name="Laravel Starter Kit" {{ $attributes }}>
+@if($iconOnly)
+    <div {{ $attributes->merge(['class' => 'flex aspect-square size-8 items-center justify-center rounded-md bg-accent-content text-accent-foreground']) }}>
+        <x-app-logo-icon class="size-5 fill-current text-white dark:text-black" />
+    </div>
+@elseif($sidebar)
+    <flux:sidebar.brand :name="$name" {{ $attributes }}>
         <x-slot name="logo" class="flex aspect-square size-8 items-center justify-center rounded-md bg-accent-content text-accent-foreground">
             <x-app-logo-icon class="size-5 fill-current text-white dark:text-black" />
         </x-slot>
     </flux:sidebar.brand>
 @else
-    <flux:brand name="Laravel Starter Kit" {{ $attributes }}>
+    <flux:brand :name="$name" {{ $attributes }}>
         <x-slot name="logo" class="flex aspect-square size-8 items-center justify-center rounded-md bg-accent-content text-accent-foreground">
             <x-app-logo-icon class="size-5 fill-current text-white dark:text-black" />
         </x-slot>
