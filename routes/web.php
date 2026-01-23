@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\Admin\DocenteController;
+use App\Http\Controllers\Teacher\GroupController;
+use App\Http\Controllers\Student\JoinGroupController;
+use App\Http\Controllers\SatEducationController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -52,13 +55,28 @@ Route::middleware(['auth', 'verified', 'role:admin|docente'])->prefix('teacher')
     // Gestión de Tareas
     Route::view('tasks', 'teacher.tasks.index')->name('tasks');
     Route::view('tasks/create', 'teacher.tasks.create')->name('tasks.create');
+    
+    // Revisión de Entregas
+    Route::get('tasks/submissions', [\App\Http\Controllers\Teacher\TaskSubmissionController::class, 'index'])->name('tasks.submissions');
+    Route::get('tasks/submissions/{submission}', [\App\Http\Controllers\Teacher\TaskSubmissionController::class, 'show'])->name('tasks.submissions.show');
+    Route::post('tasks/submissions/{submission}/grade', [\App\Http\Controllers\Teacher\TaskSubmissionController::class, 'grade'])->name('tasks.submissions.grade');
 
     // Gestión de Recompensas
-    Route::view('rewards', 'teacher.rewards.index')->name('rewards');
-    Route::view('rewards/create', 'teacher.rewards.create')->name('rewards.create');
+    Route::resource('rewards', \App\Http\Controllers\Teacher\RewardController::class);
 
     // Reportes y Analíticas
     Route::view('reports', 'teacher.reports')->name('reports');
+
+    // Gestión de Exámenes
+    Route::resource('exams', \App\Http\Controllers\Teacher\ExamController::class);
+    Route::post('exams/{exam}/questions', [\App\Http\Controllers\Teacher\QuestionController::class, 'store'])->name('exams.questions.store');
+    Route::put('exams/{exam}/questions/{question}', [\App\Http\Controllers\Teacher\QuestionController::class, 'update'])->name('exams.questions.update');
+    Route::delete('exams/{exam}/questions/{question}', [\App\Http\Controllers\Teacher\QuestionController::class, 'destroy'])->name('exams.questions.destroy');
+
+    // Gestión de Clases/Grupos
+    Route::resource('groups', GroupController::class);
+    Route::post('groups/{group}/regenerate-code', [GroupController::class, 'regenerateCode'])->name('groups.regenerate-code');
+    Route::delete('groups/{group}/students/{student}', [GroupController::class, 'removeStudent'])->name('groups.remove-student');
 });
 
 // ========================================
@@ -67,12 +85,31 @@ Route::middleware(['auth', 'verified', 'role:admin|docente'])->prefix('teacher')
 Route::middleware(['auth', 'verified', 'role:alumno'])->group(function () {
     // Tareas del alumno
     Route::view('tasks', 'student.tasks.index')->name('tasks');
+    Route::get('tasks/{task}/submit', [\App\Http\Controllers\Student\TaskSubmissionController::class, 'create'])->name('tasks.submit');
+    Route::post('tasks/{task}/submit', [\App\Http\Controllers\Student\TaskSubmissionController::class, 'store'])->name('tasks.submit.store');
+    Route::get('submissions/{submission}/download', [\App\Http\Controllers\Student\TaskSubmissionController::class, 'download'])->name('submissions.download');
 
     // Exámenes
-    Route::view('exams', 'student.exams.index')->name('exams');
+    Route::get('exams', [\App\Http\Controllers\Student\ExamController::class, 'index'])->name('exams');
+    Route::get('exams/{exam}/start', [\App\Http\Controllers\Student\ExamController::class, 'start'])->name('exams.start');
+    Route::post('exams/{exam}/attempts/{attempt}/submit', [\App\Http\Controllers\Student\ExamController::class, 'submit'])->name('exams.submit');
 
     // Marketplace de recompensas
     Route::view('marketplace', 'student.marketplace.index')->name('marketplace');
+
+    // Unirse a Clases
+    Route::get('groups/join', [JoinGroupController::class, 'show'])->name('groups.join');
+    Route::post('groups/join', [JoinGroupController::class, 'join'])->name('groups.join.store');
+    Route::delete('groups/{group}/leave', [JoinGroupController::class, 'leave'])->name('groups.leave');
+});
+
+// ========================================
+// MÓDULO EDUCATIVO SAT (Todos los usuarios)
+// ========================================
+Route::middleware(['auth', 'verified'])->prefix('sat-education')->name('sat-education.')->group(function () {
+    Route::get('/', [SatEducationController::class, 'index'])->name('index');
+    Route::get('rfc', [SatEducationController::class, 'rfc'])->name('rfc');
+    Route::get('lessons/{lesson}', [SatEducationController::class, 'show'])->name('show');
 });
 
 require __DIR__.'/settings.php';

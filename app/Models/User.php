@@ -61,14 +61,33 @@ class User extends Authenticatable
             $user->wallet()->create(['balance' => 0]);
 
             // Generate simulated RFC if not present
+            // Formato: 4 letras (iniciales) + 6 dígitos (fecha) + 3 caracteres (homoclave)
             if (!$user->rfc) {
-                $initials = strtoupper(substr($user->name, 0, 4));
+                // Obtener iniciales del nombre (máximo 4 caracteres)
+                $nameParts = explode(' ', $user->name);
+                $initials = '';
+                
+                // Tomar primera letra de cada palabra hasta 4 caracteres
+                foreach ($nameParts as $part) {
+                    if (strlen($initials) < 4 && !empty($part)) {
+                        $initials .= strtoupper(substr($part, 0, 1));
+                    }
+                }
+                
+                // Completar a 4 caracteres si es necesario
                 if (strlen($initials) < 4) {
                     $initials = str_pad($initials, 4, 'X');
+                } else {
+                    $initials = substr($initials, 0, 4);
                 }
+                
+                // Fecha en formato YYMMDD (año, mes, día)
                 $date = now()->format('ymd');
-                $random = strtoupper(Str::random(3));
-                $user->rfc = "{$initials}{$date}{$random}";
+                
+                // Homoclave: 3 caracteres alfanuméricos aleatorios
+                $homoclave = strtoupper(Str::random(3));
+                
+                $user->rfc = "{$initials}{$date}{$homoclave}";
                 $user->save();
             }
             
@@ -101,6 +120,48 @@ class User extends Authenticatable
     public function wallet()
     {
         return $this->hasOne(Wallet::class);
+    }
+
+    /**
+     * Objetivos de ahorro del usuario
+     */
+    public function savingsGoals()
+    {
+        return $this->hasMany(SavingsGoal::class);
+    }
+
+    /**
+     * Clases que el profesor ha creado
+     */
+    public function taughtGroups()
+    {
+        return $this->hasMany(Group::class, 'teacher_id');
+    }
+
+    /**
+     * Clases a las que el estudiante pertenece
+     */
+    public function groups()
+    {
+        return $this->belongsToMany(Group::class, 'group_user')
+            ->withPivot('joined_at')
+            ->withTimestamps();
+    }
+
+    /**
+     * Verificar si el usuario está en una clase específica
+     */
+    public function isInGroup(Group $group): bool
+    {
+        return $this->groups()->where('group_id', $group->id)->exists();
+    }
+
+    /**
+     * Verificar si el usuario es profesor de una clase
+     */
+    public function isTeacherOf(Group $group): bool
+    {
+        return $this->id === $group->teacher_id;
     }
 
     /**

@@ -255,7 +255,7 @@ new class extends Component {
                             @endfor
                         </div>
 
-                        <flux:icon.qr-code class="relative z-20 dark:text-accent-foreground"/>
+                        <flux:icon icon="" class="relative z-20 dark:text-accent-foreground"/>
                     </div>
                 </div>
 
@@ -306,7 +306,7 @@ new class extends Component {
                     <div class="relative w-64 overflow-hidden border rounded-lg border-stone-200 dark:border-stone-700 aspect-square">
                         @empty($qrCodeSvg)
                             <div class="absolute inset-0 flex items-center justify-center bg-white dark:bg-stone-700 animate-pulse">
-                                <flux:icon.loading/>
+                                <flux:icon icon=""/>
                             </div>
                         @else
                             <div x-data class="flex items-center justify-center h-full p-4">
@@ -358,7 +358,7 @@ new class extends Component {
                         <div class="flex items-stretch w-full border rounded-xl dark:border-stone-700">
                             @empty($manualSetupKey)
                                 <div class="flex items-center justify-center w-full p-3 bg-stone-100 dark:bg-stone-700">
-                                    <flux:icon.loading variant="mini"/>
+                                    <flux:icon icon="" variant="mini"/>
                                 </div>
                             @else
                                 <input
@@ -372,8 +372,8 @@ new class extends Component {
                                     @click="copy()"
                                     class="px-3 transition-colors border-l cursor-pointer border-stone-200 dark:border-stone-600"
                                 >
-                                    <flux:icon.document-duplicate x-show="!copied" variant="outline"></flux:icon>
-                                    <flux:icon.check
+                                    <flux:icon icon="" x-show="!copied" variant="outline"></flux:icon>
+                                    <flux:icon icon=""
                                         x-show="copied"
                                         variant="solid"
                                         class="text-green-500"
@@ -387,3 +387,4 @@ new class extends Component {
         </div>
     </flux:modal>
 </section>
+

@@ -73,7 +73,7 @@
                     @empty
                         <tr>
                             <td colspan="6" class="px-6 py-12 text-center text-neutral-500">
-                                <flux:icon.users class="size-12 mx-auto mb-3 opacity-20" />
+                                <flux:icon icon="" class="size-12 mx-auto mb-3 opacity-20" />
                                 <p>No hay alumnos registrados aún.</p>
                             </td>
                         </tr>
@@ -89,3 +89,4 @@
         @endif
     </div>
 </x-layouts::app>
+

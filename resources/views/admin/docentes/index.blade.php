@@ -90,7 +90,7 @@
                     @empty
                         <tr>
                             <td colspan="6" class="px-6 py-12 text-center text-neutral-500">
-                                <flux:icon.user-group class="size-12 mx-auto mb-3 opacity-20" />
+                                <flux:icon icon="users" class="size-12 mx-auto mb-3 opacity-20" />
                                 <p>No hay docentes registrados aún.</p>
                                 <flux:button href="{{ route('admin.docentes.create') }}" variant="ghost" size="sm" class="mt-4">
                                     Crear el primer docente
@@ -109,3 +109,4 @@
         @endif
     </div>
 </x-layouts::app>
+

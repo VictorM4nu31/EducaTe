@@ -67,10 +67,10 @@ new class extends Component
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         @foreach($rewards as $reward)
-            <x-flux:card class="flex flex-col">
+            <flux:card class="flex flex-col">
                 <div class="flex-1 space-y-4">
                     <div class="flex items-center justify-between">
-                        <x-flux:badge size="sm" color="blue">{{ $reward->category }}</x-flux:badge>
+                        <flux:badge size="sm" color="blue">{{ $reward->category }}</flux:badge>
                         <span class="text-xs text-neutral-500">Stock: {{ $reward->stock }}</span>
                     </div>
 
@@ -84,16 +84,16 @@ new class extends Component
                     <div class="font-bold text-xl text-neutral-900 dark:text-white">
                         <span class="text-emerald-500 text-sm">₳</span> {{ number_format($reward->cost, 0) }}
                     </div>
-                    <x-flux:button 
+                    <flux:button 
                         variant="primary" 
                         size="sm" 
                         wire:click="buy({{ $reward->id }})"
                         :disabled="$reward->stock <= 0 || $balance < $reward->cost"
                     >
                         {{ $reward->stock <= 0 ? 'Agotado' : 'Canjear' }}
-                    </x-flux:button>
+                    </flux:button>
                 </div>
-            </x-flux:card>
+            </flux:card>
         @endforeach
     </div>
 
@@ -104,7 +104,7 @@ new class extends Component
                     <livewire:marketplace.invoice-view :transaction="$lastTransaction" :reward="$selectedReward" />
                     
                     <div class="mt-8">
-                        <x-flux:button variant="primary" class="w-full" wire:click="closeInvoice">Entendido</x-flux:button>
+                        <flux:button variant="primary" class="w-full" wire:click="closeInvoice">Entendido</flux:button>
                     </div>
                 </div>
             </div>

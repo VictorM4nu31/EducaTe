@@ -58,12 +58,12 @@ new class extends Component
 
 <div class="max-w-3xl mx-auto space-y-6">
     @if(!$examStarted)
-        <x-flux:card class="text-center py-12">
-            <x-flux:icon.document-text class="size-16 mx-auto mb-4 text-blue-500 opacity-50" />
+        <flux:card class="text-center py-12">
+            <flux:icon icon="" class="size-16 mx-auto mb-4 text-blue-500 opacity-50" />
             <h2 class="text-2xl font-bold mb-2">Examen: Civismo y Responsabilidad</h2>
             <p class="text-neutral-500 mb-6">Puntos extra: 30 ₳ por calificación perfecta sin pistas.</p>
-            <x-flux:button variant="primary" size="lg" wire:click="startExam">Comenzar Examen</x-flux:button>
-        </x-flux:card>
+            <flux:button variant="primary" size="lg" wire:click="startExam">Comenzar Examen</flux:button>
+        </flux:card>
     @else
         <div class="flex items-center justify-between px-2">
             <div class="flex items-center gap-4">
@@ -80,16 +80,16 @@ new class extends Component
             </div>
         </div>
 
-        <x-flux:card class="space-y-8">
+        <flux:card class="space-y-8">
             <div class="space-y-4">
                 <h3 class="text-lg font-bold">Pregunta 1 de 10</h3>
                 <p class="text-neutral-800 dark:text-neutral-200 text-lg">¿Cuál es el principio fundamental que establece que el poder reside en el pueblo?</p>
                 
                 <div class="space-y-2">
-                    <x-flux:button variant="ghost" class="w-full justify-start py-4">A) Democracia Representativa</x-flux:button>
-                    <x-flux:button variant="ghost" class="w-full justify-start py-4">B) Monarquía Absoluta</x-flux:button>
-                    <x-flux:button variant="ghost" class="w-full justify-start py-4">C) Soberanía Nacional</x-flux:button>
-                    <x-flux:button variant="ghost" class="w-full justify-start py-4">D) Dictadura Militar</x-flux:button>
+                    <flux:button variant="ghost" class="w-full justify-start py-4">A) Democracia Representativa</flux:button>
+                    <flux:button variant="ghost" class="w-full justify-start py-4">B) Monarquía Absoluta</flux:button>
+                    <flux:button variant="ghost" class="w-full justify-start py-4">C) Soberanía Nacional</flux:button>
+                    <flux:button variant="ghost" class="w-full justify-start py-4">D) Dictadura Militar</flux:button>
                 </div>
             </div>
 
@@ -101,26 +101,27 @@ new class extends Component
                     </div>
                     
                     @if($hintsUsed < 3)
-                        <x-flux:button 
+                        <flux:button 
                             variant="primary" 
                             size="sm" 
                             wire:click="useHint"
                             wire:confirm="¿Usar pista por {{ $hintsUsed == 0 ? 15 : ($hintsUsed == 1 ? 25 : 40) }} ₳? Esto restará 2% a tu calificación."
                         >
                             Comprar Pista ({{ $hintsUsed == 0 ? 15 : ($hintsUsed == 1 ? 25 : 40) }} ₳)
-                        </x-flux:button>
+                        </flux:button>
                     @endif
                 </div>
 
                 @if($hintText)
                     <div class="p-4 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-100 dark:border-emerald-800 rounded-lg animate-in fade-in slide-in-from-top-2">
                         <div class="flex gap-3">
-                            <x-flux:icon.light-bulb class="size-5 text-emerald-600" />
+                            <flux:icon icon="" class="size-5 text-emerald-600" />
                             <p class="text-sm text-emerald-800 dark:text-emerald-300 font-medium">{{ $hintText }}</p>
                         </div>
                     </div>
                 @endif
             </div>
-        </x-flux:card>
+        </flux:card>
     @endif
 </div>
+

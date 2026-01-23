@@ -52,7 +52,7 @@ new class extends Component {
 >
     <div class="px-6 space-y-2">
         <div class="flex items-center gap-2">
-            <flux:icon.lock-closed variant="outline" class="size-4"/>
+            <flux:icon icon="" variant="outline" class="size-4"/>
             <flux:heading size="lg" level="3">{{ __('2FA Recovery Codes') }}</flux:heading>
         </div>
         <flux:text variant="subtle">
@@ -134,3 +134,4 @@ new class extends Component {
         </div>
     </div>
 </div>
+

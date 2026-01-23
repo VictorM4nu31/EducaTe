@@ -39,7 +39,13 @@
                         <flux:sidebar.item icon="academic-cap" :href="route('teacher.tasks')" :current="request()->routeIs('teacher.tasks*')" wire:navigate>
                             Tareas
                         </flux:sidebar.item>
-                        <flux:sidebar.item icon="gift" :href="route('teacher.rewards')" :current="request()->routeIs('teacher.rewards*')" wire:navigate>
+                        <flux:sidebar.item icon="document-text" :href="route('teacher.exams.index')" :current="request()->routeIs('teacher.exams*')" wire:navigate>
+                            Exámenes
+                        </flux:sidebar.item>
+                        <flux:sidebar.item icon="user-group" :href="route('teacher.groups.index')" :current="request()->routeIs('teacher.groups*')" wire:navigate>
+                            Mis Clases
+                        </flux:sidebar.item>
+                        <flux:sidebar.item icon="gift" :href="route('teacher.rewards.index')" :current="request()->routeIs('teacher.rewards*')" wire:navigate>
                             Recompensas
                         </flux:sidebar.item>
                         <flux:sidebar.item icon="chart-bar" :href="route('teacher.reports')" :current="request()->routeIs('teacher.reports')" wire:navigate>
@@ -57,6 +63,9 @@
                             <flux:sidebar.item icon="document-text" :href="route('exams')" :current="request()->routeIs('exams')" wire:navigate>
                                 Exámenes
                             </flux:sidebar.item>
+                            <flux:sidebar.item icon="user-group" :href="route('groups.join')" :current="request()->routeIs('groups.*')" wire:navigate>
+                                Mis Clases
+                            </flux:sidebar.item>
                             <flux:sidebar.item icon="shopping-bag" :href="route('marketplace')" :current="request()->routeIs('marketplace')" wire:navigate>
                                 Marketplace
                             </flux:sidebar.item>
@@ -68,6 +77,12 @@
             <flux:spacer />
 
             <flux:sidebar.nav>
+                <flux:sidebar.group heading="Educación" class="grid">
+                    <flux:sidebar.item icon="academic-cap" :href="route('sat-education.index')" :current="request()->routeIs('sat-education.*')" wire:navigate>
+                        Módulo SAT
+                    </flux:sidebar.item>
+                </flux:sidebar.group>
+
                 <flux:sidebar.item icon="folder-git-2" href="https://github.com/laravel/livewire-starter-kit" target="_blank">
                     {{ __('Repository') }}
                 </flux:sidebar.item>
