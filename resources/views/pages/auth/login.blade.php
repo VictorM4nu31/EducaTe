@@ -52,7 +52,7 @@
         @if (Route::has('register'))
             <div class="space-x-1 text-sm text-center rtl:space-x-reverse text-neutral-medium">
                 <span>{{ __('Don\'t have an account?') }}</span>
-                <flux:link :href="route('register')" wire:navigate>{{ __('Sign up') }}</flux:link>
+                <flux:link :href="route('register')" wire:navigate class="font-bold text-aulachain-blue hover:text-aulachain-blue-hover transition-colors">{{ __('Sign up') }}</flux:link>
             </div>
         @endif
     </div>

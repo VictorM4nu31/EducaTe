@@ -111,6 +111,40 @@ Route::middleware(['auth', 'verified', 'role:alumno'])->group(function () {
 });
 
 // ========================================
+// RECURSOS Y AYUDA (Todos los roles con control interno)
+// ========================================
+Route::middleware(['auth', 'verified'])->prefix('resources')->name('resources.')->group(function () {
+    // Reglamento (Ver todos, editar solo admin)
+    Route::get('regulations', [\App\Http\Controllers\Resources\RegulationController::class, 'index'])->name('regulations.index');
+    Route::middleware('role:admin')->group(function () {
+        Route::get('regulations/create', [\App\Http\Controllers\Resources\RegulationController::class, 'create'])->name('regulations.create');
+        Route::post('regulations', [\App\Http\Controllers\Resources\RegulationController::class, 'store'])->name('regulations.store');
+        Route::get('regulations/{regulation}/edit', [\App\Http\Controllers\Resources\RegulationController::class, 'edit'])->name('regulations.edit');
+        Route::put('regulations/{regulation}', [\App\Http\Controllers\Resources\RegulationController::class, 'update'])->name('regulations.update');
+    });
+
+    // Centro de Ayuda / FAQs
+    Route::get('help', function () {
+        return view('resources.help');
+    })->name('help');
+    
+    // Manual del Docente (Solo docentes/admins)
+    Route::middleware('role:admin|docente')->get('manual', function () {
+        return view('resources.manual');
+    })->name('manual');
+});
+
+Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
+    // Registro de Auditoría
+    Route::get('audit', [\App\Http\Controllers\Admin\AuditController::class, 'index'])->name('audit');
+    
+    // Soporte del Sistema
+    Route::get('support', function () {
+        return view('admin.support');
+    })->name('support');
+});
+
+// ========================================
 // MÓDULO EDUCATIVO SAT (Todos los usuarios)
 // ========================================
 Route::middleware(['auth', 'verified'])->prefix('sat-education')->name('sat-education.')->group(function () {

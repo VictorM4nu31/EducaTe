@@ -65,7 +65,7 @@
 
 @layer theme {
     .dark {
-        --color-accent: var(--color-white);
+        --color-accent: var(--color-aulachain-blue);
         --color-accent-content: var(--color-white);
         --color-accent-foreground: var(--color-neutral-800);
 
@@ -136,7 +136,16 @@
 }
 
 [data-flux-label] {
-    @apply !mb-0 !leading-tight;
+    @apply !mb-0 !leading-tight text-neutral-medium;
+}
+
+[data-flux-heading] {
+    color: var(--color-neutral-dark);
+    font-family: var(--font-heading);
+}
+
+[data-flux-subheading] {
+    color: var(--color-neutral-medium);
 }
 
 input:focus[data-flux-control],

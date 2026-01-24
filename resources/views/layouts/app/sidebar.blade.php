@@ -83,13 +83,25 @@
                     </flux:sidebar.item>
                 </flux:sidebar.group>
 
-                <flux:sidebar.item icon="folder-git-2" href="https://github.com/laravel/livewire-starter-kit" target="_blank">
-                    {{ __('Repository') }}
-                </flux:sidebar.item>
+                <flux:sidebar.group heading="Recursos" class="grid">
+                    @role('admin')
+                        <flux:sidebar.item icon="clipboard-document-check" :href="route('admin.audit')" :current="request()->routeIs('admin.audit')" wire:navigate>Registro de Auditoría</flux:sidebar.item>
+                        <flux:sidebar.item icon="lifebuoy" :href="route('admin.support')" :current="request()->routeIs('admin.support')" wire:navigate>Soporte del Sistema</flux:sidebar.item>
+                    @endrole
 
-                <flux:sidebar.item icon="book-open-text" href="https://laravel.com/docs/starter-kits#livewire" target="_blank">
-                    {{ __('Documentation') }}
-                </flux:sidebar.item>
+                    @role('docente')
+                        <flux:sidebar.item icon="book-open" :href="route('resources.manual')" :current="request()->routeIs('resources.manual')" wire:navigate>Manual del Docente</flux:sidebar.item>
+                        <flux:sidebar.item icon="question-mark-circle" :href="route('resources.help')" :current="request()->routeIs('resources.help')" wire:navigate>Centro de Ayuda</flux:sidebar.item>
+                    @endrole
+
+                    <flux:sidebar.item icon="document-text" :href="route('resources.regulations.index')" :current="request()->routeIs('resources.regulations.*')" wire:navigate>Reglamento del Aula</flux:sidebar.item>
+
+                    @role('alumno')
+                        @unlessrole('admin|docente')
+                            <flux:sidebar.item icon="chat-bubble-left-right" :href="route('resources.help')" :current="request()->routeIs('resources.help')" wire:navigate>Preguntas Frecuentes</flux:sidebar.item>
+                        @endunlessrole
+                    @endrole
+                </flux:sidebar.group>
             </flux:sidebar.nav>
 
             <x-desktop-user-menu class="hidden lg:block" :name="auth()->user()->name" />

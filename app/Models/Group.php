@@ -78,6 +78,14 @@ class Group extends Model
     /**
      * Obtener el número de estudiantes
      */
+    /**
+     * Tareas asignadas a la clase
+     */
+    public function tasks()
+    {
+        return $this->belongsToMany(Task::class, 'task_assignments')->withTimestamps();
+    }
+
     public function getStudentCountAttribute(): int
     {
         return $this->students()->count();
