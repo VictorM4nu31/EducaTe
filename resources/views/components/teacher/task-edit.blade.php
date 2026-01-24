@@ -7,6 +7,8 @@ use Livewire\Volt\Component;
 
 new class extends Component
 {
+    public Task $task;
+
     #[Validate('required|string|min:3')]
     public $title = '';
 
@@ -26,11 +28,19 @@ new class extends Component
     public $instructions = '';
 
     public $selectedGroups = [];
-
     public $groups;
 
-    public function mount()
+    public function mount(Task $task)
     {
+        $this->task = $task;
+        $this->title = $task->title;
+        $this->description = $task->description;
+        $this->difficulty = $task->difficulty;
+        $this->ac_reward = $task->ac_reward;
+        $this->due_date = $task->due_date ? $task->due_date->format('Y-m-d\TH:i') : '';
+        $this->instructions = $task->instructions;
+        
+        $this->selectedGroups = $task->assignments()->pluck('group_id')->toArray();
         $this->groups = auth()->user()->taughtGroups()->where('is_active', true)->get();
     }
 
@@ -50,27 +60,31 @@ new class extends Component
     {
         $this->validate();
 
-        $task = Task::create([
+        $data = [
             'title' => $this->title,
             'description' => $this->description,
             'instructions' => $this->instructions,
             'difficulty' => $this->difficulty,
             'ac_reward' => $this->ac_reward,
             'due_date' => $this->due_date ?: null,
-            'created_by' => auth()->id(),
-        ]);
+        ];
 
-        // Asignar a grupos seleccionados
+        if (is_null($this->task->created_by)) {
+            $data['created_by'] = auth()->id();
+        }
+
+        $this->task->update($data);
+
+        // Actualizar asignaciones
+        $this->task->assignments()->delete();
         foreach ($this->selectedGroups as $groupId) {
             TaskAssignment::create([
-                'task_id' => $task->id,
+                'task_id' => $this->task->id,
                 'group_id' => $groupId,
             ]);
         }
 
-        $this->dispatch('task-created');
-
-        return redirect()->route('teacher.tasks')->with('success', 'Tarea creada y asignada exitosamente');
+        return redirect()->route('teacher.tasks')->with('success', 'Tarea actualizada exitosamente');
     }
 };
 ?>
@@ -78,8 +92,8 @@ new class extends Component
 <div class="max-w-2xl mx-auto">
     <flux:card class="space-y-6">
         <div>
-            <h2 class="text-xl font-bold text-neutral-900 dark:text-white">Nueva Tarea Educativa</h2>
-            <p class="text-sm text-neutral-500">Asigna trabajo y define la recompensa en AulaChain.</p>
+            <h2 class="text-xl font-bold text-neutral-900 dark:text-white">Editar Tarea</h2>
+            <p class="text-sm text-neutral-500">Modifica los detalles de la actividad académica.</p>
         </div>
 
         <form wire:submit="save" class="space-y-4">
@@ -108,7 +122,7 @@ new class extends Component
                     <div class="space-y-2">
                         @foreach($this->groups as $group)
                             <label class="flex items-center gap-2 p-2 rounded-lg hover:bg-neutral-50 dark:hover:bg-neutral-800 cursor-pointer">
-                                <input type="checkbox" wire:model="selectedGroups" value="{{ $group->id }}" class="rounded border-neutral-300">
+                                <input type="checkbox" wire:model="selectedGroups" value="{{ $group->id }}" @checked(in_array($group->id, $selectedGroups)) class="rounded border-neutral-300">
                                 <div class="flex-1">
                                     <span class="font-medium text-neutral-900 dark:text-white">{{ $group->name }}</span>
                                     @if($group->subject)
@@ -119,20 +133,13 @@ new class extends Component
                             </label>
                         @endforeach
                     </div>
-                    <p class="text-xs text-neutral-500 dark:text-neutral-400">Selecciona las clases a las que se asignará esta tarea</p>
-                </div>
-            @else
-                <div class="p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg border border-yellow-200 dark:border-yellow-800">
-                    <p class="text-sm text-yellow-800 dark:text-yellow-200">
-                        No tienes clases creadas. <a href="{{ route('teacher.groups.create') }}" class="underline font-medium">Crea una clase</a> para poder asignar tareas.
-                    </p>
                 </div>
             @endif
 
             <div class="flex justify-end gap-3 pt-4">
                 <flux:button variant="ghost" href="{{ route('teacher.tasks') }}">Cancelar</flux:button>
-                <flux:button type="submit" variant="primary" :disabled="$this->groups->isEmpty()">
-                    Crear Tarea y Asignar
+                <flux:button type="submit" variant="primary">
+                    Guardar Cambios
                 </flux:button>
             </div>
         </form>

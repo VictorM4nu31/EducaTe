@@ -55,6 +55,9 @@ Route::middleware(['auth', 'verified', 'role:admin|docente'])->prefix('teacher')
     // Gestión de Tareas
     Route::view('tasks', 'teacher.tasks.index')->name('tasks');
     Route::view('tasks/create', 'teacher.tasks.create')->name('tasks.create');
+    Route::get('tasks/{task}/edit', function (\App\Models\Task $task) {
+        return view('teacher.tasks.edit', compact('task'));
+    })->name('tasks.edit');
     
     // Revisión de Entregas
     Route::get('tasks/submissions', [\App\Http\Controllers\Teacher\TaskSubmissionController::class, 'index'])->name('tasks.submissions');

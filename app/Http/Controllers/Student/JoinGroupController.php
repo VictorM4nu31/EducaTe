@@ -46,7 +46,7 @@ class JoinGroupController extends Controller
         $group->addStudent(auth()->user());
 
         return redirect()
-            ->route('student.groups.join')
+            ->route('groups.join')
             ->with('success', "Te has unido exitosamente a la clase: {$group->name}");
     }
 
@@ -62,7 +62,7 @@ class JoinGroupController extends Controller
         $group->removeStudent(auth()->user());
 
         return redirect()
-            ->route('student.groups.join')
+            ->route('groups.join')
             ->with('success', 'Has salido de la clase exitosamente');
     }
 }

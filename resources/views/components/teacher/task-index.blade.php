@@ -8,7 +8,12 @@ new class extends Component
     public function with()
     {
         return [
-            'tasks' => Task::latest()->get(),
+            'tasks' => Task::where(function($query) {
+                    $query->where('created_by', auth()->id())
+                          ->orWhereNull('created_by');
+                })
+                ->latest()
+                ->get(),
         ];
     }
 
@@ -70,7 +75,7 @@ new class extends Component
                             <flux:button href="{{ route('teacher.tasks.submissions') }}" variant="ghost" size="sm" icon="document-check">
                                 Revisar
                             </flux:button>
-                            <flux:button variant="ghost" size="sm" icon="pencil-square" />
+                            <flux:button href="{{ route('teacher.tasks.edit', $task) }}" variant="ghost" size="sm" icon="pencil-square" />
                             <flux:button variant="ghost" size="sm" icon="trash" wire:click="deleteTask({{ $task->id }})" wire:confirm="¿Estás seguro de eliminar esta tarea?" />
                         </flux:table.cell>
                     </flux:table.row>
