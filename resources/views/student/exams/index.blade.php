@@ -47,20 +47,20 @@
                         </div>
 
                         @if($attempt && $attempt->is_completed)
-                            <div class="p-3 bg-emerald-50 dark:bg-emerald-900/20 rounded-lg border border-emerald-200 dark:border-emerald-800">
+                            <div class="p-3 bg-aulachain-green/10 rounded-lg border border-aulachain-green/20">
                                 <div class="flex items-center justify-between">
                                     <div>
-                                        <p class="text-xs text-emerald-700 dark:text-emerald-300 mb-1">Calificación</p>
-                                        <p class="text-lg font-bold text-emerald-900 dark:text-emerald-200">{{ number_format($attempt->final_grade, 1) }}%</p>
+                                        <p class="text-xs text-aulachain-green mb-1 font-medium">Calificación</p>
+                                        <p class="text-lg font-bold text-aulachain-green-active">{{ number_format($attempt->final_grade, 1) }}%</p>
                                         @if($attempt->hints_used > 0)
-                                            <p class="text-[10px] text-emerald-600 dark:text-emerald-400 mt-1">
+                                            <p class="text-[10px] text-aulachain-green opacity-70 mt-1">
                                                 {{ $attempt->hints_used }} pista(s) usada(s)
                                             </p>
                                         @endif
                                     </div>
                                     <div>
-                                        <p class="text-xs text-emerald-700 dark:text-emerald-300 mb-1">AC Ganados</p>
-                                        <p class="text-lg font-bold text-emerald-900 dark:text-emerald-200">₳ {{ number_format($attempt->ac_earned, 2) }}</p>
+                                        <p class="text-xs text-aulachain-green mb-1 font-medium">AC Ganados</p>
+                                        <p class="text-lg font-bold text-aulachain-green-active">₳ {{ number_format($attempt->ac_earned, 2) }}</p>
                                     </div>
                                 </div>
                             </div>

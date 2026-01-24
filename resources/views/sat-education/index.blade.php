@@ -1,8 +1,11 @@
 <x-layouts::app title="Educación Fiscal - SAT">
     <div class="container mx-auto py-6">
-        <div class="mb-8">
-            <h1 class="text-3xl font-bold text-neutral-900 dark:text-white">Módulo Educativo SAT</h1>
-            <p class="text-neutral-500 dark:text-neutral-400">Aprende sobre el Sistema de Administración Tributaria y educación fiscal</p>
+        <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-academic-purple to-academic-purple-hover p-8 shadow-xl text-white mb-8">
+            <div class="relative z-10">
+                <h1 class="text-3xl font-bold">Módulo Educativo SAT</h1>
+                <p class="text-purple-100 italic">Aprende sobre el Sistema de Administración Tributaria y educación fiscal</p>
+            </div>
+            <div class="absolute -right-12 -top-12 h-40 w-40 rounded-full bg-white/10 blur-3xl"></div>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -17,9 +20,9 @@
                         <div class="space-y-3">
                             @foreach($categoryLessons as $lesson)
                                 <a href="{{ route('sat-education.show', $lesson) }}" 
-                                   class="block p-4 rounded-lg border border-neutral-200 dark:border-neutral-700 hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors">
-                                    <h3 class="font-bold text-neutral-900 dark:text-white mb-1">{{ $lesson->title }}</h3>
-                                    <p class="text-sm text-neutral-500 dark:text-neutral-400 line-clamp-2">
+                                   class="block p-4 rounded-lg border border-neutral-light bg-neutral-very-light dark:border-neutral-light dark:bg-neutral-light/10 hover:border-academic-purple/50 transition-colors group">
+                                    <h3 class="font-bold text-neutral-dark dark:text-white mb-1 group-hover:text-academic-purple transition-colors">{{ $lesson->title }}</h3>
+                                    <p class="text-sm text-neutral-medium dark:text-neutral-medium line-clamp-2">
                                         {{ strip_tags(\Illuminate\Support\Str::limit($lesson->content, 150)) }}
                                     </p>
                                 </a>
@@ -42,11 +45,11 @@
             <div class="space-y-6">
                 <!-- Mi RFC -->
                 <flux:card>
-                    <h3 class="font-bold text-neutral-900 dark:text-white mb-4">Mi RFC</h3>
+                    <h3 class="font-bold text-neutral-dark dark:text-white mb-4">Mi RFC</h3>
                     <div class="space-y-3">
-                        <div class="p-3 bg-emerald-50 dark:bg-emerald-900/20 rounded-lg border border-emerald-200 dark:border-emerald-800">
-                            <p class="text-xs text-emerald-700 dark:text-emerald-300 mb-1">Tu RFC Simulado</p>
-                            <code class="text-lg font-mono font-bold text-emerald-600 dark:text-emerald-400">{{ auth()->user()->rfc }}</code>
+                        <div class="p-3 bg-aulachain-green/10 rounded-lg border border-aulachain-green/20">
+                            <p class="text-xs text-aulachain-green mb-1 font-medium">Tu RFC Simulado</p>
+                            <code class="text-lg font-mono font-bold text-aulachain-green-active">{{ auth()->user()->rfc }}</code>
                         </div>
                         <flux:button href="{{ route('sat-education.rfc') }}" variant="primary" class="w-full">
                             Conocer mi RFC

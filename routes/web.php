@@ -10,6 +10,10 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
+Route::middleware(['auth'])->get('style-guide', function () {
+    return view('style-guide');
+})->name('style-guide');
+
 Route::get('dashboard', function () {
     $user = auth()->user();
 

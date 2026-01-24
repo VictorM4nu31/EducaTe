@@ -1,27 +1,32 @@
 <x-layouts::app title="Tomar Examen: {{ $exam->title }}">
     <div class="container mx-auto py-6 max-w-4xl">
-        <div class="mb-6">
-            <div class="flex items-center justify-between mb-4">
+        <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-academic-purple to-academic-purple-hover p-8 shadow-xl text-white mb-6">
+            <div class="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
                 <div>
-                    <h1 class="text-2xl font-bold text-neutral-900 dark:text-white">{{ $exam->title }}</h1>
+                    <h1 class="text-3xl font-bold">{{ $exam->title }}</h1>
                     @if($exam->time_limit)
-                        <p class="text-sm text-neutral-500 dark:text-neutral-400">Tiempo límite: {{ $exam->time_limit }} minutos</p>
+                        <p class="text-purple-100 italic">Tiempo límite: {{ $exam->time_limit }} minutos</p>
                     @endif
                 </div>
-                <div class="text-right">
-                    <p class="text-xs text-neutral-500 dark:text-neutral-400">Pistas usadas</p>
-                    <p class="text-lg font-bold text-blue-600 dark:text-blue-400">{{ $attempt->hints_used }} / 3</p>
+                <div class="bg-white/20 backdrop-blur-sm px-4 py-2 rounded-xl border border-white/30 text-center">
+                    <p class="text-[10px] text-purple-100 uppercase tracking-wider font-bold">Pistas usadas</p>
+                    <p class="text-2xl font-bold">{{ $attempt->hints_used }} / 3</p>
                 </div>
             </div>
+            <div class="absolute -right-12 -top-12 h-40 w-40 rounded-full bg-white/10 blur-3xl"></div>
+        </div>
 
             @if($exam->time_limit)
-                <div class="mb-4">
-                    <div class="w-full bg-neutral-200 dark:bg-neutral-700 rounded-full h-2">
-                        <div id="time-progress" class="bg-blue-500 h-2 rounded-full transition-all" style="width: 100%"></div>
+                <div class="mb-8">
+                    <div class="w-full bg-neutral-light dark:bg-neutral-light rounded-full h-3">
+                        <div id="time-progress" class="bg-warning-yellow h-3 rounded-full transition-all duration-300 shadow-sm" style="width: 100%"></div>
                     </div>
-                    <p class="text-xs text-neutral-500 dark:text-neutral-400 mt-1 text-center">
-                        Tiempo restante: <span id="time-remaining">{{ $exam->time_limit }}:00</span>
-                    </p>
+                    <div class="flex justify-between items-center mt-2 px-1">
+                        <span class="text-xs font-bold text-neutral-medium uppercase tracking-widest">Progreso del tiempo</span>
+                        <span class="text-sm font-bold text-neutral-dark font-mono bg-warning-yellow/10 px-2 py-0.5 rounded" id="time-remaining">
+                            {{ $exam->time_limit }}:00
+                        </span>
+                    </div>
                 </div>
             @endif
         </div>
@@ -46,10 +51,10 @@
                     <flux:card>
                         <div class="mb-4">
                             <div class="flex items-center justify-between mb-2">
-                                <h3 class="text-lg font-bold text-neutral-900 dark:text-white">
+                                <h3 class="text-lg font-bold text-academic-purple">
                                     Pregunta {{ $index + 1 }} de {{ $exam->questions->count() }}
                                 </h3>
-                                <span class="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded text-xs font-bold">
+                                <span class="px-2 py-1 bg-academic-purple/10 text-academic-purple rounded text-xs font-bold ring-1 ring-academic-purple/20">
                                     {{ $question->points }} puntos
                                 </span>
                             </div>
@@ -59,12 +64,12 @@
                         <div class="space-y-2">
                             @if($question->type === 'multiple_choice')
                                 @foreach($question->options as $key => $option)
-                                    <label class="flex items-center gap-3 p-3 rounded-lg border border-neutral-200 dark:border-neutral-700 hover:bg-neutral-50 dark:hover:bg-neutral-800 cursor-pointer transition-colors">
+                                    <label class="flex items-center gap-3 p-3 rounded-lg border border-neutral-light dark:border-neutral-light/20 hover:border-aulachain-blue/50 group cursor-pointer transition-colors has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20 has-[:checked]:border-aulachain-blue">
                                         <input 
                                             type="radio" 
                                             name="answers[{{ $question->id }}]" 
                                             value="{{ $key }}"
-                                            class="text-emerald-600 focus:ring-emerald-500"
+                                            class="text-aulachain-blue focus:ring-aulachain-blue"
                                         />
                                         <span class="font-medium text-neutral-700 dark:text-neutral-300">{{ $key }})</span>
                                         <span class="flex-1 text-neutral-900 dark:text-white">{{ $option }}</span>
@@ -102,7 +107,7 @@
                 <flux:button type="button" variant="ghost" href="{{ route('exams') }}">
                     Cancelar
                 </flux:button>
-                <flux:button type="submit" variant="primary" size="lg">
+                <flux:button type="submit" variant="primary" size="lg" class="bg-aulachain-green hover:bg-aulachain-green-hover active:bg-aulachain-green-active border-none shadow-lg">
                     Finalizar Examen
                 </flux:button>
             </div>

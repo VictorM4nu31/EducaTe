@@ -1,5 +1,5 @@
-@import 'tailwindcss';
-@import '../../vendor/livewire/flux/dist/flux.css';
+@import "tailwindcss";
+@import "../../vendor/livewire/flux/dist/flux.css";
 
 @source '../views';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
@@ -9,7 +9,15 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-heading:
+        "Outfit", ui-sans-serif, system-ui, sans-serif,
+        "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+        "Noto Color Emoji";
+
+    --font-sans:
+        "Instrument Sans", ui-sans-serif, system-ui, sans-serif,
+        "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+        "Noto Color Emoji";
 
     --color-zinc-50: #fafafa;
     --color-zinc-100: #f5f5f5;
@@ -23,9 +31,36 @@
     --color-zinc-900: #171717;
     --color-zinc-950: #0a0a0a;
 
-    --color-accent: var(--color-neutral-800);
-    --color-accent-content: var(--color-neutral-800);
+    --color-accent: var(--color-aulachain-blue);
+    --color-accent-content: var(--color-white);
     --color-accent-foreground: var(--color-white);
+
+    /* AulaChain Color System */
+    --color-aulachain-blue: #2563eb;
+    --color-aulachain-blue-hover: #1d4ed8;
+    --color-aulachain-blue-active: #1e40af;
+
+    --color-aulachain-green: #10b981;
+    --color-aulachain-green-hover: #059669;
+    --color-aulachain-green-active: #047857;
+
+    --color-aulachain-orange: #f59e0b;
+    --color-aulachain-orange-hover: #d97706;
+    --color-aulachain-orange-active: #b45309;
+
+    --color-academic-purple: #8b5cf6;
+    --color-academic-purple-hover: #7c3aed;
+
+    --color-warning-yellow: #eab308;
+    --color-alert-red: #ef4444;
+    --color-alert-red-hover: #dc2626;
+    --color-alert-red-active: #b91c1c;
+
+    /* Semantic Grays */
+    --color-neutral-dark: #1f2937;
+    --color-neutral-medium: #6b7280;
+    --color-neutral-light: #d1d5db;
+    --color-neutral-very-light: #f3f4f6;
 }
 
 @layer theme {
@@ -33,17 +68,66 @@
         --color-accent: var(--color-white);
         --color-accent-content: var(--color-white);
         --color-accent-foreground: var(--color-neutral-800);
+
+        /* Dark Mode Backgrounds & Text */
+        --color-neutral-dark: #F1F5F9;
+        --color-neutral-medium: #94A3B8;
+        --color-neutral-light: #334155;
+        --color-neutral-very-light: #1E293B;
+        --color-white: #0F172A; /* Overriding white for dark mode container backgrounds if needed, but safer to use semantic names */
+
+        /* Adjusted Accents for Dark Mode */
+        --color-aulachain-blue: #3B82F6;
+        --color-aulachain-orange: #FB923C;
+        --color-academic-purple: #A78BFA;
     }
 }
 
 @layer base {
-
     *,
     ::after,
     ::before,
     ::backdrop,
     ::file-selector-button {
-        border-color: var(--color-gray-200, currentColor);
+        border-color: var(--color-neutral-light, currentColor);
+    }
+
+    body {
+        color: var(--color-neutral-dark);
+        font-family: var(--font-sans);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        @apply bg-white dark:bg-neutral-dark;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        color: var(--color-neutral-dark);
+        font-family: var(--font-heading);
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        line-height: 1.2;
+    }
+
+    h1 { @apply text-4xl lg:text-5xl mb-6; }
+    h2 { @apply text-2xl lg:text-3xl mb-4; }
+    h3 { @apply text-xl lg:text-2xl mb-3; }
+
+    p {
+        color: var(--color-neutral-medium);
+        line-height: 1.625;
+        @apply mb-4 last:mb-0;
+    }
+
+    small {
+        @apply text-sm text-neutral-medium;
+    }
+
+    strong {
+        @apply font-bold text-neutral-dark;
+    }
+
+    blockquote {
+        @apply border-l-4 border-aulachain-blue pl-4 italic text-neutral-medium my-6;
     }
 }
 
@@ -52,7 +136,7 @@
 }
 
 [data-flux-label] {
-    @apply  !mb-0 !leading-tight;
+    @apply !mb-0 !leading-tight;
 }
 
 input:focus[data-flux-control],

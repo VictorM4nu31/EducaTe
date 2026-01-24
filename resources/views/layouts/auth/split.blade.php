@@ -3,15 +3,15 @@
     <head>
         @include('partials.head')
     </head>
-    <body class="min-h-screen bg-white antialiased dark:bg-linear-to-b dark:from-neutral-950 dark:to-neutral-900">
-        <div class="relative grid h-dvh flex-col items-center justify-center px-8 sm:px-0 lg:max-w-none lg:grid-cols-2 lg:px-0">
+    <body class="min-h-screen bg-white antialiased dark:bg-linear-to-b dark:from-neutral-dark dark:to-neutral-very-light">
+        <div class="relative grid h-dvh flex-col items-center justify-center px-8 sm:px-0 lg:max-w-none lg:grid-cols-2 lg:px-0 relative overflow-hidden">
             <div class="bg-muted relative hidden h-full flex-col p-10 text-white lg:flex dark:border-e dark:border-neutral-800">
-                <div class="absolute inset-0 bg-neutral-900"></div>
+                <div class="absolute inset-0 bg-neutral-dark"></div>
                 <a href="{{ route('home') }}" class="relative z-20 flex items-center text-lg font-medium" wire:navigate>
-                    <span class="flex h-10 w-10 items-center justify-center rounded-md">
-                        <x-app-logo-icon class="me-2 h-7 fill-current text-white" />
+                    <span class="flex h-10 w-10 items-center justify-center rounded-lg bg-aulachain-blue mr-3 shadow-lg shadow-aulachain-blue/20">
+                        <x-app-logo-icon class="h-6 fill-current text-white" />
                     </span>
-                    {{ config('app.name', 'Laravel') }}
+                    <span class="font-bold tracking-tight">Educa<span class="text-aulachain-blue">Te</span></span>
                 </a>
 
                 @php
@@ -28,8 +28,8 @@
             <div class="w-full lg:p-8">
                 <div class="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
                     <a href="{{ route('home') }}" class="z-20 flex flex-col items-center gap-2 font-medium lg:hidden" wire:navigate>
-                        <span class="flex h-9 w-9 items-center justify-center rounded-md">
-                            <x-app-logo-icon class="size-9 fill-current text-black dark:text-white" />
+                        <span class="flex h-12 w-12 items-center justify-center rounded-xl bg-aulachain-blue shadow-lg shadow-aulachain-blue/20">
+                            <x-app-logo-icon class="size-8 fill-current text-white" />
                         </span>
 
                         <span class="sr-only">{{ config('app.name', 'Laravel') }}</span>

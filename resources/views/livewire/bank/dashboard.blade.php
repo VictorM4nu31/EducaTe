@@ -177,7 +177,7 @@ new class extends Component
 
 <div class="space-y-6">
     <!-- Header with Balance -->
-    <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-500 via-emerald-600 to-blue-600 p-8 shadow-xl text-white">
+    <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-aulachain-green to-aulachain-green-active p-8 shadow-xl text-white">
         <div class="relative z-10">
             <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
                 <div>
@@ -222,10 +222,10 @@ new class extends Component
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-xs text-neutral-500 dark:text-neutral-400 mb-1">Ingresos (30d)</p>
-                    <p class="text-2xl font-bold text-emerald-600 dark:text-emerald-400">₳ {{ number_format($totalIncome, 2) }}</p>
+                    <p class="text-2xl font-bold text-aulachain-green">₳ {{ number_format($totalIncome, 2) }}</p>
                 </div>
-                <div class="p-3 bg-emerald-100 dark:bg-emerald-900/30 rounded-lg">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-emerald-600 dark:text-emerald-400">
+                <div class="p-3 bg-aulachain-green/10 rounded-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-aulachain-green">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 13.5 12 21m0 0-7.5-7.5M12 21V3" />
                     </svg>
                 </div>
@@ -236,10 +236,10 @@ new class extends Component
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-xs text-neutral-500 dark:text-neutral-400 mb-1">Gastos (30d)</p>
-                    <p class="text-2xl font-bold text-red-600 dark:text-red-400">₳ {{ number_format($totalExpenses, 2) }}</p>
+                    <p class="text-2xl font-bold text-alert-red">₳ {{ number_format($totalExpenses, 2) }}</p>
                 </div>
-                <div class="p-3 bg-red-100 dark:bg-red-900/30 rounded-lg">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-red-600 dark:text-red-400">
+                <div class="p-3 bg-alert-red/10 rounded-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-alert-red">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18" />
                     </svg>
                 </div>
@@ -250,10 +250,10 @@ new class extends Component
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-xs text-neutral-500 dark:text-neutral-400 mb-1">Impuestos (30d)</p>
-                    <p class="text-2xl font-bold text-orange-600 dark:text-orange-400">₳ {{ number_format($totalTaxes, 2) }}</p>
+                    <p class="text-2xl font-bold text-aulachain-orange">₳ {{ number_format($totalTaxes, 2) }}</p>
                 </div>
-                <div class="p-3 bg-orange-100 dark:bg-orange-900/30 rounded-lg">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-orange-600 dark:text-orange-400">
+                <div class="p-3 bg-aulachain-orange/10 rounded-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-aulachain-orange">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z" />
                     </svg>
                 </div>
@@ -297,14 +297,14 @@ new class extends Component
                         <div class="w-full flex flex-col items-center gap-1" style="height: 200px;">
                             <!-- Gasto (rojo) -->
                             <div 
-                                class="w-full bg-red-500 rounded-t transition-all duration-500 hover:bg-red-600"
+                                class="w-full bg-alert-red rounded-t transition-all duration-500 hover:bg-alert-red-hover"
                                 style="height: {{ ($data['expense'] / $maxValue) * 100 }}%"
                                 title="Gasto: ₳{{ number_format($data['expense'], 2) }}"
                             ></div>
                             
                             <!-- Ingreso (verde) -->
                             <div 
-                                class="w-full bg-emerald-500 rounded-t transition-all duration-500 hover:bg-emerald-600"
+                                class="w-full bg-aulachain-green rounded-t transition-all duration-500 hover:bg-aulachain-green-hover"
                                 style="height: {{ ($data['income'] / $maxValue) * 100 }}%"
                                 title="Ingreso: ₳{{ number_format($data['income'], 2) }}"
                             ></div>
@@ -323,11 +323,11 @@ new class extends Component
         
         <div class="mt-4 flex items-center justify-center gap-6 text-sm">
             <div class="flex items-center gap-2">
-                <div class="w-4 h-4 bg-emerald-500 rounded"></div>
+                <div class="w-4 h-4 bg-aulachain-green rounded"></div>
                 <span class="text-neutral-600 dark:text-neutral-400">Ingresos</span>
             </div>
             <div class="flex items-center gap-2">
-                <div class="w-4 h-4 bg-red-500 rounded"></div>
+                <div class="w-4 h-4 bg-alert-red rounded"></div>
                 <span class="text-neutral-600 dark:text-neutral-400">Gastos</span>
             </div>
         </div>
@@ -347,8 +347,9 @@ new class extends Component
                         <div class="flex items-center gap-4 flex-1">
                             <div @class([
                                 'p-2 rounded-lg shrink-0',
-                                'bg-emerald-100 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400' => $tx->amount > 0,
-                                'bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400' => $tx->amount < 0,
+                                'bg-aulachain-green/10 text-aulachain-green' => $tx->amount > 0,
+                                'bg-alert-red/10 text-alert-red' => ($tx->amount < 0 && $tx->type !== 'tax'),
+                                'bg-academic-purple/10 text-academic-purple' => $tx->type === 'tax',
                             ])>
                                 @if($tx->type === 'income') 
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
@@ -375,8 +376,9 @@ new class extends Component
                         </div>
                         <div @class([
                             'text-sm font-bold shrink-0 ml-4',
-                            'text-emerald-600 dark:text-emerald-400' => $tx->amount > 0,
-                            'text-red-600 dark:text-red-400' => $tx->amount < 0,
+                            'text-aulachain-green' => $tx->amount > 0,
+                            'text-alert-red' => ($tx->amount < 0 && $tx->type !== 'tax'),
+                            'text-academic-purple' => $tx->type === 'tax',
                         ])>
                             {{ $tx->amount > 0 ? '+' : '' }}{{ number_format($tx->amount, 2) }} ₳
                         </div>

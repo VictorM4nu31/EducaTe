@@ -49,10 +49,10 @@ new class extends Component
                 <div class="space-y-3">
                     <div class="flex items-center justify-between">
                         <flux:badge @class([
-                            'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300' => $task->difficulty === 'basic',
-                            'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300' => $task->difficulty === 'intermediate',
-                            'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300' => $task->difficulty === 'advanced',
-                            'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300' => $task->difficulty === 'excellence',
+                            'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300' => $task->difficulty === 'basic',
+                            'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300' => $task->difficulty === 'intermediate',
+                            'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300' => $task->difficulty === 'advanced',
+                            'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300' => $task->difficulty === 'excellence',
                         ]) size="sm">
                             {{ ucfirst($task->difficulty) }}
                         </flux:badge>
@@ -63,11 +63,11 @@ new class extends Component
                     <p class="text-sm text-neutral-500 line-clamp-2">{{ $task->description }}</p>
                 </div>
 
-                <div class="mt-6 flex items-center justify-between pt-4 border-t border-neutral-100 dark:border-neutral-800">
-                    <div class="flex items-center gap-1 font-bold text-emerald-600">
+                <div class="mt-6 flex items-center justify-between pt-4 border-t border-neutral-light dark:border-neutral-800">
+                    <div class="flex items-center gap-1 font-bold text-aulachain-green">
                         <span>₳</span> {{ number_format($task->ac_reward, 0) }}
                     </div>
-                    <flux:button variant="ghost" size="sm" icon="cloud-arrow-up">Subir Tarea</flux:button>
+                    <flux:button variant="primary" size="sm" icon="cloud-arrow-up" href="{{ route('tasks.submit', $task) }}">Subir Tarea</flux:button>
                 </div>
             </flux:card>
         @empty
