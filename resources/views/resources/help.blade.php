@@ -26,28 +26,37 @@
         <div class="space-y-4">
             <h2 class="text-2xl font-bold text-neutral-dark mb-6">Preguntas Frecuentes</h2>
             
-            <flux:accordion transition>
-                <flux:accordion.item>
-                    <flux:accordion.heading>¿Cómo me uno a una clase?</flux:accordion.heading>
-                    <flux:accordion.content>
+            <div class="space-y-4">
+                <details class="group bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-xl overflow-hidden">
+                    <summary class="flex items-center justify-between p-4 cursor-pointer hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors list-none select-none">
+                        <span class="font-medium text-neutral-900 dark:text-neutral-100">¿Cómo me uno a una clase?</span>
+                        <flux:icon icon="chevron-down" class="transform transition-transform group-open:rotate-180 text-neutral-400 group-hover:text-neutral-600" />
+                    </summary>
+                    <div class="p-4 pt-0 text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed border-t border-transparent group-open:border-neutral-100 dark:group-open:border-neutral-800">
                         Dirígete a "Mis Clases" en el sidebar y haz clic en "Unirse a Clase". Ingresa el código proporcionado por tu profesor.
-                    </flux:accordion.content>
-                </flux:accordion.item>
+                    </div>
+                </details>
 
-                <flux:accordion.item>
-                    <flux:accordion.heading>¿Qué pasa si pierdo un examen?</flux:accordion.heading>
-                    <flux:accordion.content>
+                <details class="group bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-xl overflow-hidden">
+                    <summary class="flex items-center justify-between p-4 cursor-pointer hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors list-none select-none">
+                        <span class="font-medium text-neutral-900 dark:text-neutral-100">¿Qué pasa si pierdo un examen?</span>
+                        <flux:icon icon="chevron-down" class="transform transition-transform group-open:rotate-180 text-neutral-400 group-hover:text-neutral-600" />
+                    </summary>
+                    <div class="p-4 pt-0 text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed border-t border-transparent group-open:border-neutral-100 dark:group-open:border-neutral-800">
                         Dependiendo de la configuración del docente, podrías tener una oportunidad de recuperación. Contacta a tu profesor directamente si el tiempo expiró.
-                    </flux:accordion.content>
-                </flux:accordion.item>
+                    </div>
+                </details>
 
-                <flux:accordion.item>
-                    <flux:accordion.heading>¿Puedo transferir mis AulaChain?</flux:accordion.heading>
-                    <flux:accordion.content>
+                <details class="group bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-xl overflow-hidden">
+                    <summary class="flex items-center justify-between p-4 cursor-pointer hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors list-none select-none">
+                        <span class="font-medium text-neutral-900 dark:text-neutral-100">¿Puedo transferir mis AulaChain?</span>
+                        <flux:icon icon="chevron-down" class="transform transition-transform group-open:rotate-180 text-neutral-400 group-hover:text-neutral-600" />
+                    </summary>
+                    <div class="p-4 pt-0 text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed border-t border-transparent group-open:border-neutral-100 dark:group-open:border-neutral-800">
                         Actualmente, los AulaChain son personales e intransferibles, diseñados para ser canjeados únicamente en el Marketplace de tu secundaria.
-                    </flux:accordion.content>
-                </flux:accordion.item>
-            </flux:accordion>
+                    </div>
+                </details>
+            </div>
         </div>
     </div>
 </x-layouts::app>
