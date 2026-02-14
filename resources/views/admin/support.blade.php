@@ -33,16 +33,16 @@
             </flux:card>
         </div>
 
-        <flux:card class="bg-aulachain-blue/5 border-aulachain-blue/20">
+        <flux:card class="bg-blue-500/5 border-blue-500/20">
             <div class="flex flex-col md:flex-row items-center gap-8 p-4">
                 <div class="bg-white dark:bg-neutral-dark p-4 rounded-2xl shadow-sm">
-                    <flux:icon icon="lifebuoy" class="size-12 text-aulachain-blue" />
+                    <flux:icon icon="lifebuoy" class="size-12 text-blue-500" />
                 </div>
                 <div class="flex-1 text-center md:text-left">
                     <h3 class="text-xl font-bold text-neutral-dark mb-2">¿Necesitas ayuda técnica avanzada?</h3>
                     <p class="text-neutral-medium">Contacta directamente con el equipo de desarrollo de EducaTe para reportar errores críticos o solicitar cambios en la infraestructura.</p>
                 </div>
-                <flux:button class="bg-aulachain-blue hover:bg-aulachain-blue-hover text-white border-none shadow-lg shadow-aulachain-blue/20">
+                <flux:button class="bg-blue-500 hover:bg-blue-600 text-white border-none shadow-lg shadow-blue-500/20">
                     Enviar Ticket
                 </flux:button>
             </div>

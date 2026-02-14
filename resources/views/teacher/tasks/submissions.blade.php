@@ -27,7 +27,7 @@
                         <flux:table.row>
                             <flux:table.cell>
                                 <div class="flex items-center gap-3">
-                                    <div class="h-10 w-10 rounded-full bg-aulachain-blue/10 flex items-center justify-center text-aulachain-blue font-bold">
+                                    <div class="h-10 w-10 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-500 font-bold">
                                         {{ $submission->user->initials() }}
                                     </div>
                                     <span class="font-medium text-neutral-900 dark:text-white">{{ $submission->user->name }}</span>
@@ -45,7 +45,7 @@
 
                             <flux:table.cell>
                                 <a href="{{ route('submissions.download', $submission) }}" 
-                                   class="text-sm text-aulachain-green hover:underline flex items-center gap-1 font-medium">
+                                   class="text-sm text-green-500 hover:underline flex items-center gap-1 font-medium">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
                                     </svg>
@@ -58,7 +58,7 @@
                                     <p class="text-sm text-neutral-900 dark:text-white">{{ $submission->submitted_at->format('d/m/Y H:i') }}</p>
                                     <div class="flex gap-2 mt-1">
                                         @if($submission->is_early)
-                                            <span class="px-2 py-0.5 bg-aulachain-green/10 text-aulachain-green rounded text-xs font-bold ring-1 ring-aulachain-green/20">
+                                            <span class="px-2 py-0.5 bg-green-500/10 text-green-600 rounded text-xs font-bold ring-1 ring-green-500/20">
                                                 Anticipada
                                             </span>
                                         @endif

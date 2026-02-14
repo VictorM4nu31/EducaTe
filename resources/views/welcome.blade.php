@@ -3,12 +3,12 @@
     <head>
         @include('partials.head', ['title' => 'EducaTe - Bienvenida'])
     </head>
-    <body class="min-h-screen bg-white dark:bg-neutral-dark text-neutral-dark font-sans selection:bg-aulachain-blue/30">
+    <body class="min-h-screen bg-white dark:bg-neutral-dark text-neutral-dark font-sans selection:bg-blue-500/30">
         
         <!-- Background Gradients -->
         <div class="fixed inset-0 overflow-hidden pointer-events-none -z-10 text-neutral-dark">
-            <div class="absolute -top-[25%] -left-[10%] w-[70%] h-[70%] bg-aulachain-blue/10 blur-[120px] rounded-full"></div>
-            <div class="absolute -bottom-[25%] -right-[10%] w-[70%] h-[70%] bg-aulachain-green/10 blur-[120px] rounded-full"></div>
+            <div class="absolute -top-[25%] -left-[10%] w-[70%] h-[70%] bg-blue-500/10 blur-[120px] rounded-full"></div>
+            <div class="absolute -bottom-[25%] -right-[10%] w-[70%] h-[70%] bg-green-500/10 blur-[120px] rounded-full"></div>
         </div>
 
         <flux:header container class="border-b border-neutral-light bg-white/80 backdrop-blur-md dark:border-neutral-light dark:bg-neutral-dark/80 sticky top-0 z-50">
@@ -39,16 +39,16 @@
             <!-- Hero Section -->
             <section class="relative pt-20 pb-24 lg:pt-32 lg:pb-40 overflow-hidden">
                 <div class="container mx-auto px-6 text-center">
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-aulachain-blue/10 border border-aulachain-blue/20 text-aulachain-blue text-sm font-medium mb-8 animate-fade-in-up">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-500 text-sm font-medium mb-8 animate-fade-in-up">
                         <span class="relative flex h-2 w-2">
-                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-aulachain-blue/40 opacity-75"></span>
-                            <span class="relative inline-flex rounded-full h-2 w-2 bg-aulachain-blue"></span>
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-500/40 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
                         </span>
                         Nueva Experiencia Educativa
                     </div>
                     
                     <h1 class="text-5xl lg:text-7xl font-bold tracking-tight mb-8 animate-fade-in-up" style="animation-delay: 100ms">
-                        Educa<span class="text-aulachain-blue">Te</span>
+                        Educa<span class="text-blue-500">Te</span>
                         <br />
                         El Futuro del Aprendizaje
                     </h1>
@@ -59,7 +59,7 @@
                     </p>
                     
                     <div class="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-in-up" style="animation-delay: 300ms">
-                        <flux:button variant="primary" href="{{ route('register') }}" class="w-full sm:w-auto px-8 h-12 text-base shadow-lg shadow-aulachain-blue/20">
+                        <flux:button variant="primary" href="{{ route('register') }}" class="w-full sm:w-auto px-8 h-12 text-base shadow-lg shadow-blue-500/20">
                             Crear Cuenta Gratuita
                         </flux:button>
                         <flux:button variant="ghost" href="#features" class="w-full sm:w-auto px-8 h-12 text-base border-neutral-light">
@@ -89,27 +89,27 @@
                     
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                         <!-- Feature 1 -->
-                        <div class="p-8 rounded-2xl bg-white dark:bg-neutral-dark border border-neutral-light dark:border-neutral-light/20 hover:border-aulachain-blue/50 transition-colors group">
-                            <div class="size-12 rounded-xl bg-aulachain-blue/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                                <flux:icon icon="academic-cap" class="text-aulachain-blue" />
+                        <div class="p-8 rounded-2xl bg-white dark:bg-neutral-dark border border-neutral-light dark:border-neutral-light/20 hover:border-blue-500/50 transition-colors group">
+                            <div class="size-12 rounded-xl bg-blue-500/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                                <flux:icon icon="academic-cap" class="text-blue-500" />
                             </div>
                             <h3 class="text-xl font-bold mb-3">Gestión Académica</h3>
                             <p class="text-neutral-medium leading-relaxed">Control total sobre docentes, alumnos y actividades curriculares desde un solo lugar.</p>
                         </div>
                         
                         <!-- Feature 2 -->
-                        <div class="p-8 rounded-2xl bg-white dark:bg-neutral-dark border border-neutral-light dark:border-neutral-light/20 hover:border-aulachain-green/50 transition-colors group">
-                            <div class="size-12 rounded-xl bg-aulachain-green/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                                <flux:icon icon="bolt" class="text-aulachain-green" />
+                        <div class="p-8 rounded-2xl bg-white dark:bg-neutral-dark border border-neutral-light dark:border-neutral-light/20 hover:border-green-500/50 transition-colors group">
+                            <div class="size-12 rounded-xl bg-green-500/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                                <flux:icon icon="bolt" class="text-green-500" />
                             </div>
                             <h3 class="text-xl font-bold mb-3">Gamificación</h3>
                             <p class="text-neutral-medium leading-relaxed">Marketplace de recompensas y sistema de niveles para incentivar el desempeño de los estudiantes.</p>
                         </div>
                         
                         <!-- Feature 3 -->
-                        <div class="p-8 rounded-2xl bg-white dark:bg-neutral-dark border border-neutral-light dark:border-neutral-light/20 hover:border-aulachain-orange/50 transition-colors group">
-                            <div class="size-12 rounded-xl bg-aulachain-orange/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                                <flux:icon icon="chart-bar-square" class="text-aulachain-orange" />
+                        <div class="p-8 rounded-2xl bg-white dark:bg-neutral-dark border border-neutral-light dark:border-neutral-light/20 hover:border-orange-500/50 transition-colors group">
+                            <div class="size-12 rounded-xl bg-orange-500/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                                <flux:icon icon="chart-bar-square" class="text-orange-500" />
                             </div>
                             <h3 class="text-xl font-bold mb-3">Analíticas Inteligentes</h3>
                             <p class="text-neutral-medium leading-relaxed">Reportes detallados y seguimiento en tiempo real del progreso de cada aula y estudiante.</p>
@@ -160,12 +160,12 @@
                             </ul>
                         </div>
                         <div class="lg:w-1/2 relative">
-                            <div class="relative bg-gradient-to-br from-aulachain-blue to-aulachain-green p-1 z-10 shadow-3xl rounded-3xl">
+                            <div class="relative bg-gradient-to-br from-blue-500 to-green-500 p-1 z-10 shadow-3xl rounded-3xl">
                                 <div class="bg-neutral-dark rounded-[22px] overflow-hidden aspect-square flex items-center justify-center p-12">
-                                     <x-app-logo-icon class="size-48 text-aulachain-blue" />
+                                     <x-app-logo-icon class="size-48 text-blue-500" />
                                 </div>
                             </div>
-                            <div class="absolute -top-12 -right-12 size-64 bg-aulachain-blue/20 blur-[100px] -z-10 rounded-full"></div>
+                            <div class="absolute -top-12 -right-12 size-64 bg-blue-500/20 blur-[100px] -z-10 rounded-full"></div>
                         </div>
                     </div>
                 </div>
@@ -174,15 +174,15 @@
             <!-- CTA Section -->
             <section class="py-24">
                 <div class="container mx-auto px-6">
-                    <div class="relative rounded-3xl bg-aulachain-blue px-8 py-16 md:px-16 md:py-24 text-center overflow-hidden shadow-2xl">
-                        <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,var(--color-aulachain-green),transparent)] opacity-30"></div>
+                    <div class="relative rounded-3xl bg-blue-500 px-8 py-16 md:px-16 md:py-24 text-center overflow-hidden shadow-2xl">
+                        <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,#7fb069,transparent)] opacity-30"></div>
                         <div class="relative z-10">
                             <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">¿Listo para transformar tu aula?</h2>
                             <p class="text-blue-50 text-lg md:text-xl max-w-2xl mx-auto mb-10">
                                 Únete a EducaTe hoy mismo y experimenta una nueva forma de enseñar y aprender.
                             </p>
                             <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-                                <flux:button variant="ghost" class="bg-white text-aulachain-blue hover:bg-neutral-very-light border-none w-full sm:w-auto h-12 px-8 text-base shadow-sm font-bold" href="{{ route('register') }}">
+                                <flux:button variant="ghost" class="bg-white text-blue-500 hover:bg-neutral-very-light border-none w-full sm:w-auto h-12 px-8 text-base shadow-sm font-bold" href="{{ route('register') }}">
                                     Comenzar ahora
                                 </flux:button>
                                 <flux:button variant="ghost" class="text-white border-white/30 hover:bg-white/10 w-full sm:w-auto h-12 px-8 text-base font-medium">
@@ -200,13 +200,13 @@
                 <div class="flex flex-col md:flex-row justify-between items-center gap-8">
                     <div class="flex items-center gap-3">
                         <x-app-logo icon-only />
-                        <span class="font-bold text-xl tracking-tight font-heading">Educa<span class="text-aulachain-blue">Te</span></span>
+                        <span class="font-bold text-xl tracking-tight font-heading">Educa<span class="text-blue-500">Te</span></span>
                     </div>
                     
                     <div class="flex gap-8 text-sm text-neutral-medium">
-                        <a href="#" class="hover:text-aulachain-blue transition-colors">Privacidad</a>
-                        <a href="#" class="hover:text-aulachain-blue transition-colors">Términos</a>
-                        <a href="#" class="hover:text-aulachain-blue transition-colors">Soporte</a>
+                        <a href="#" class="hover:text-blue-500 transition-colors">Privacidad</a>
+                        <a href="#" class="hover:text-blue-500 transition-colors">Términos</a>
+                        <a href="#" class="hover:text-blue-500 transition-colors">Soporte</a>
                     </div>
                     
                     <div class="text-neutral-medium text-sm">

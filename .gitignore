@@ -21,3 +21,9 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+
+# Tool-specific files
+.mcp.json
+boost.json
+CLAUDE.md
+

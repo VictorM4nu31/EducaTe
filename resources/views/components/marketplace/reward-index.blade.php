@@ -54,7 +54,7 @@ new class extends Component
 ?>
 
 <div class="space-y-6">
-    <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-aulachain-orange to-aulachain-orange-hover p-8 shadow-xl text-white mb-8">
+    <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-orange-500 to-orange-600 p-8 shadow-xl text-white mb-8">
         <div class="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
             <div>
                 <h2 class="text-3xl font-bold">Marketplace AulaChain</h2>
@@ -85,14 +85,14 @@ new class extends Component
 
                 <div class="mt-6 pt-4 border-t border-neutral-light dark:border-neutral-800 flex items-center justify-between">
                     <div class="font-bold text-xl text-neutral-dark dark:text-white">
-                        <span class="text-aulachain-green text-sm">₳</span> {{ number_format($reward->cost, 0) }}
+                        <span class="text-green-500 text-sm">₳</span> {{ number_format($reward->cost, 0) }}
                     </div>
                     <button 
                         wire:click="buy({{ $reward->id }})"
                         @disabled($reward->stock <= 0 || $balance < $reward->cost)
                         @class([
                             'px-4 py-2 rounded-lg font-bold text-white transition-all',
-                            'bg-aulachain-orange hover:bg-aulachain-orange-hover active:bg-aulachain-orange-active shadow-sm' => $reward->stock > 0 && $balance >= $reward->cost,
+                            'bg-orange-500 hover:bg-orange-600 active:bg-orange-700 shadow-sm' => $reward->stock > 0 && $balance >= $reward->cost,
                             'bg-neutral-light cursor-not-allowed opacity-50' => $reward->stock <= 0 || $balance < $reward->cost,
                         ])
                     >

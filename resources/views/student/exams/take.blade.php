@@ -64,12 +64,12 @@
                         <div class="space-y-2">
                             @if($question->type === 'multiple_choice')
                                 @foreach($question->options as $key => $option)
-                                    <label class="flex items-center gap-3 p-3 rounded-lg border border-neutral-light dark:border-neutral-light/20 hover:border-aulachain-blue/50 group cursor-pointer transition-colors has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20 has-[:checked]:border-aulachain-blue">
+                                    <label class="flex items-center gap-3 p-3 rounded-lg border border-neutral-light dark:border-neutral-light/20 hover:border-blue-500/50 group cursor-pointer transition-colors has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20 has-[:checked]:border-blue-500">
                                         <input 
                                             type="radio" 
                                             name="answers[{{ $question->id }}]" 
                                             value="{{ $key }}"
-                                            class="text-aulachain-blue focus:ring-aulachain-blue"
+                                            class="text-blue-500 focus:ring-blue-500"
                                         />
                                         <span class="font-medium text-neutral-700 dark:text-neutral-300">{{ $key }})</span>
                                         <span class="flex-1 text-neutral-900 dark:text-white">{{ $option }}</span>
@@ -107,7 +107,7 @@
                 <flux:button type="button" variant="ghost" href="{{ route('exams') }}">
                     Cancelar
                 </flux:button>
-                <flux:button type="submit" variant="primary" size="lg" class="bg-aulachain-green hover:bg-aulachain-green-hover active:bg-aulachain-green-active border-none shadow-lg">
+                <flux:button type="submit" variant="primary" size="lg" class="bg-green-500 hover:bg-green-600 active:bg-green-700 border-none shadow-lg">
                     Finalizar Examen
                 </flux:button>
             </div>

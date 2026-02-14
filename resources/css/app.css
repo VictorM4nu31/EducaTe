@@ -10,76 +10,241 @@
 
 @theme {
     --font-heading:
-        "Outfit", ui-sans-serif, system-ui, sans-serif,
-        "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
-        "Noto Color Emoji";
+        "Outfit", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+        "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 
     --font-sans:
         "Instrument Sans", ui-sans-serif, system-ui, sans-serif,
         "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
         "Noto Color Emoji";
 
-    --color-zinc-50: #fafafa;
-    --color-zinc-100: #f5f5f5;
-    --color-zinc-200: #e5e5e5;
-    --color-zinc-300: #d4d4d4;
-    --color-zinc-400: #a3a3a3;
-    --color-zinc-500: #737373;
-    --color-zinc-600: #525252;
-    --color-zinc-700: #404040;
-    --color-zinc-800: #262626;
-    --color-zinc-900: #171717;
-    --color-zinc-950: #0a0a0a;
+    /* EducaTe 2026 Color System - Atmospheric Focus */
+    /* Semantic Color Mappings */
+    --color-educate-primary: #4a6fa5;
+    --color-educate-primary-hover: #3e5b89;
+    --color-educate-primary-active: #32496e;
+    --color-educate-secondary: #7fb069;
+    --color-educate-accent: #e38569;
+    --color-educate-lavender: #b59ec9;
 
-    --color-accent: var(--color-aulachain-blue);
+    /* Legacy Compatibility */
+    --color-accent: var(--color-educate-primary);
     --color-accent-content: var(--color-white);
     --color-accent-foreground: var(--color-white);
 
-    /* AulaChain Color System */
-    --color-aulachain-blue: #2563eb;
-    --color-aulachain-blue-hover: #1d4ed8;
-    --color-aulachain-blue-active: #1e40af;
+    /* Global Tailwind Overrides for 2026 Consistency (Atmospheric Focus) */
+    
+    /* PRIMARY: Blue Scale -> Atmospheric Blue */
+    --color-blue-50: #f4f6f9;
+    --color-blue-100: #e9edf3;
+    --color-blue-200: #c8d2e1;
+    --color-blue-300: #a7b7cf;
+    --color-blue-400: #6581ab;
+    --color-blue-500: #4a6fa5;
+    --color-blue-600: #436482;
+    --color-blue-700: #38537c;
+    --color-blue-800: #38536c;
+    --color-blue-900: #38535c;
+    --color-blue-950: #1a2538;
 
-    --color-aulachain-green: #10b981;
-    --color-aulachain-green-hover: #059669;
-    --color-aulachain-green-active: #047857;
+    /* SECONDARY: Emerald/Green/Teal -> Sage / Organic Green */
+    --color-emerald-50: #f6f9f4;
+    --color-emerald-100: #edf3e9;
+    --color-emerald-200: #d2e1c8;
+    --color-emerald-300: #b7cfa7;
+    --color-emerald-400: #81ab73;
+    --color-emerald-500: #7fb069;
+    --color-emerald-600: #6b9458;
+    --color-emerald-700: #577847;
+    --color-emerald-800: #425c36;
+    --color-emerald-900: #2e4026;
 
-    --color-aulachain-orange: #f59e0b;
-    --color-aulachain-orange-hover: #d97706;
-    --color-aulachain-orange-active: #b45309;
+    --color-green-50: var(--color-emerald-50);
+    --color-green-100: var(--color-emerald-100);
+    --color-green-200: var(--color-emerald-200);
+    --color-green-300: var(--color-emerald-300);
+    --color-green-400: var(--color-emerald-400);
+    --color-green-500: var(--color-emerald-500);
+    --color-green-600: var(--color-emerald-600);
+    --color-green-700: var(--color-emerald-700);
+    --color-green-800: var(--color-emerald-800);
+    --color-green-900: var(--color-emerald-900);
 
-    --color-academic-purple: #8b5cf6;
-    --color-academic-purple-hover: #7c3aed;
+    --color-teal-50: var(--color-emerald-50);
+    --color-teal-100: var(--color-emerald-100);
+    --color-teal-200: var(--color-emerald-200);
+    --color-teal-300: var(--color-emerald-300);
+    --color-teal-400: var(--color-emerald-400);
+    --color-teal-500: var(--color-emerald-500);
+    --color-teal-600: var(--color-emerald-600);
+    --color-teal-700: var(--color-emerald-700);
+    --color-teal-800: var(--color-emerald-800);
+    --color-teal-900: var(--color-emerald-900);
 
-    --color-warning-yellow: #eab308;
-    --color-alert-red: #ef4444;
-    --color-alert-red-hover: #dc2626;
-    --color-alert-red-active: #b91c1c;
+    /* ACCENT: Orange/Amber -> Persimmon */
+    --color-orange-50: #fdf6f4;
+    --color-orange-100: #fbf0e9;
+    --color-orange-200: #f6d2c8;
+    --color-orange-300: #f0b7a7;
+    --color-orange-400: #e88175;
+    --color-orange-500: #e38569;
+    --color-orange-600: #c57159;
+    --color-orange-700: #a7604b;
+    --color-orange-800: #894f3d;
+    --color-orange-900: #6b3e30;
 
-    /* Semantic Grays */
-    --color-neutral-dark: #1f2937;
-    --color-neutral-medium: #6b7280;
-    --color-neutral-light: #d1d5db;
-    --color-neutral-very-light: #f3f4f6;
+    --color-amber-50: var(--color-orange-50);
+    --color-amber-100: var(--color-orange-100);
+    --color-amber-200: var(--color-orange-200);
+    --color-amber-300: var(--color-orange-300);
+    --color-amber-400: var(--color-orange-400);
+    --color-amber-500: var(--color-orange-500);
+    --color-amber-600: var(--color-orange-600);
+    --color-amber-700: var(--color-orange-700);
+    --color-amber-800: var(--color-orange-800);
+    --color-amber-900: var(--color-orange-900);
+
+    /* PURPLE: Indigo/Violet/Purple -> Lavender */
+    --color-indigo-50: #f8f6fb;
+    --color-indigo-100: #f2edf7;
+    --color-indigo-200: #d9cde8;
+    --color-indigo-300: #c1afd9;
+    --color-indigo-400: #a991ca;
+    --color-indigo-500: #b59ec9;
+    --color-indigo-600: #9a84ad;
+    --color-indigo-700: #7e6b8e;
+    --color-indigo-800: #625270;
+    --color-indigo-900: #473a51;
+
+    --color-violet-50: var(--color-indigo-50);
+    --color-violet-100: var(--color-indigo-100);
+    --color-violet-200: var(--color-indigo-200);
+    --color-violet-300: var(--color-indigo-300);
+    --color-violet-400: var(--color-indigo-400);
+    --color-violet-500: var(--color-indigo-500);
+    --color-violet-600: var(--color-indigo-600);
+    --color-violet-700: var(--color-indigo-700);
+    --color-violet-800: var(--color-indigo-800);
+    --color-violet-900: var(--color-indigo-900);
+
+    --color-purple-50: var(--color-indigo-50);
+    --color-purple-100: var(--color-indigo-100);
+    --color-purple-200: var(--color-indigo-200);
+    --color-purple-300: var(--color-indigo-300);
+    --color-purple-400: var(--color-indigo-400);
+    --color-purple-500: var(--color-indigo-500);
+    --color-purple-600: var(--color-indigo-600);
+    --color-purple-700: var(--color-indigo-700);
+    --color-purple-800: var(--color-indigo-800);
+    --color-purple-900: var(--color-indigo-900);
+
+    /* NEUTRAL: Zinc/Slate/Gray/Neutral -> Stone (Warm Grey) */
+    --color-zinc-50: #fefefe;
+    --color-zinc-100: #f5f5f4;
+    --color-zinc-200: #e7e5e4;
+    --color-zinc-300: #d1cecc;
+    --color-zinc-400: #a8a29e;
+    --color-zinc-500: #78716c;
+    --color-zinc-600: #575352;
+    --color-zinc-700: #44403c;
+    --color-zinc-800: #292524;
+    --color-zinc-900: #1c1917;
+    --color-zinc-950: #0c0a09;
+
+    --color-slate-50: var(--color-zinc-50);
+    --color-slate-100: var(--color-zinc-100);
+    --color-slate-200: var(--color-zinc-200);
+    --color-slate-300: var(--color-zinc-300);
+    --color-slate-400: var(--color-zinc-400);
+    --color-slate-500: var(--color-zinc-500);
+    --color-slate-600: var(--color-zinc-600);
+    --color-slate-700: var(--color-zinc-700);
+    --color-slate-800: var(--color-zinc-800);
+    --color-slate-900: var(--color-zinc-900);
+    --color-slate-950: var(--color-zinc-950);
+
+    --color-gray-50: var(--color-zinc-50);
+    --color-gray-100: var(--color-zinc-100);
+    --color-gray-200: var(--color-zinc-200);
+    --color-gray-300: var(--color-zinc-300);
+    --color-gray-400: var(--color-zinc-400);
+    --color-gray-500: var(--color-zinc-500);
+    --color-gray-600: var(--color-zinc-600);
+    --color-gray-700: var(--color-zinc-700);
+    --color-gray-800: var(--color-zinc-800);
+    --color-gray-900: var(--color-zinc-900);
+    --color-gray-950: var(--color-zinc-950);
+
+    --color-neutral-50: var(--color-zinc-50);
+    --color-neutral-100: var(--color-zinc-100);
+    --color-neutral-200: var(--color-zinc-200);
+    --color-neutral-300: var(--color-zinc-300);
+    --color-neutral-400: var(--color-zinc-400);
+    --color-neutral-500: var(--color-zinc-500);
+    --color-neutral-600: var(--color-zinc-600);
+    --color-neutral-700: var(--color-zinc-700);
+    --color-neutral-800: var(--color-zinc-800);
+    --color-neutral-900: var(--color-zinc-900);
+    --color-neutral-950: var(--color-zinc-950);
+
+    /* Semantic Grays (Stone based for 2026) */
+    --color-neutral-dark: #1c1917;
+    --color-neutral-medium: #78716c;
+    --color-neutral-light: #d6d3d1;
+    --color-neutral-very-light: #f5f5f4;
+
+    /* Shadow Definitions (Warm Neutrals) */
+    --shadow-sm: 0 1px 2px 0 rgb(28 25 23 / 0.05);
+    --shadow: 0 1px 3px 0 rgb(28 25 23 / 0.1), 0 1px 2px -1px rgb(28 25 23 / 0.1);
+    --shadow-md: 0 4px 6px -1px rgb(28 25 23 / 0.1), 0 2px 4px -2px rgb(28 25 23 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(28 25 23 / 0.1), 0 4px 6px -4px rgb(28 25 23 / 0.1);
+    --shadow-xl: 0 20px 25px -5px rgb(28 25 23 / 0.1), 0 8px 10px -6px rgb(28 25 23 / 0.1);
+    --shadow-2xl: 0 25px 50px -12px rgb(28 25 23 / 0.25);
+    --shadow-inner: inset 0 2px 4px 0 rgb(28 25 23 / 0.05);
 }
 
 @layer theme {
     .dark {
-        --color-accent: var(--color-aulachain-blue);
+        --color-accent: var(--color-educate-primary);
         --color-accent-content: var(--color-white);
         --color-accent-foreground: var(--color-neutral-800);
 
-        /* Dark Mode Backgrounds & Text */
-        --color-neutral-dark: #F1F5F9;
-        --color-neutral-medium: #94A3B8;
-        --color-neutral-light: #334155;
-        --color-neutral-very-light: #1E293B;
-        --color-white: #0F172A; /* Overriding white for dark mode container backgrounds if needed, but safer to use semantic names */
+        /* Dark Mode Backgrounds & Text (Warm Dark) */
+        --color-neutral-dark: #fafaf9;
+        --color-neutral-medium: #a8a29e;
+        --color-neutral-light: #44403c;
+        --color-neutral-very-light: #292524;
+        --color-white: #1c1917;
 
-        /* Adjusted Accents for Dark Mode */
-        --color-aulachain-blue: #3B82F6;
-        --color-aulachain-orange: #FB923C;
-        --color-academic-purple: #A78BFA;
+        /* Neutral Tone Inversion (Warm Stone) - Maintains warm undertones */
+        --color-zinc-50: #0c0a09;
+        --color-zinc-100: #1c1917;
+        --color-zinc-200: #292524;
+        --color-zinc-300: #44403c;
+        --color-zinc-400: #575352;
+        --color-zinc-500: #78716c;
+        --color-zinc-600: #a8a29e;
+        --color-zinc-700: #d1cecc;
+        --color-zinc-800: #e7e5e4;
+        --color-zinc-900: #f5f5f4;
+        --color-zinc-950: #fefefe;
+
+        /* Adjusted Semantic Colors for Dark Mode (Brighter but desaturated) */
+        --color-educate-primary: #6581ab;
+        --color-educate-primary-hover: #5470a0;
+        --color-educate-primary-active: #436095;
+        --color-educate-secondary: #8fbd7a;
+        --color-educate-accent: #e99b84;
+        --color-educate-lavender: #c8b5d9;
+
+        /* Shadow Definitions for Dark Mode (Darker warm neutrals) */
+        --shadow-sm: 0 1px 2px 0 rgb(12 10 9 / 0.1);
+        --shadow: 0 1px 3px 0 rgb(12 10 9 / 0.2), 0 1px 2px -1px rgb(12 10 9 / 0.2);
+        --shadow-md: 0 4px 6px -1px rgb(12 10 9 / 0.2), 0 2px 4px -2px rgb(12 10 9 / 0.2);
+        --shadow-lg: 0 10px 15px -3px rgb(12 10 9 / 0.3), 0 4px 6px -4px rgb(12 10 9 / 0.3);
+        --shadow-xl: 0 20px 25px -5px rgb(12 10 9 / 0.3), 0 8px 10px -6px rgb(12 10 9 / 0.3);
+        --shadow-2xl: 0 25px 50px -12px rgb(12 10 9 / 0.4);
+        --shadow-inner: inset 0 2px 4px 0 rgb(12 10 9 / 0.1);
     }
 }
 
@@ -100,7 +265,12 @@
         @apply bg-white dark:bg-neutral-dark;
     }
 
-    h1, h2, h3, h4, h5, h6 {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
         color: var(--color-neutral-dark);
         font-family: var(--font-heading);
         font-weight: 700;
@@ -108,9 +278,15 @@
         line-height: 1.2;
     }
 
-    h1 { @apply text-4xl lg:text-5xl mb-6; }
-    h2 { @apply text-2xl lg:text-3xl mb-4; }
-    h3 { @apply text-xl lg:text-2xl mb-3; }
+    h1 {
+        @apply text-4xl lg:text-5xl mb-6;
+    }
+    h2 {
+        @apply text-2xl lg:text-3xl mb-4;
+    }
+    h3 {
+        @apply text-xl lg:text-2xl mb-3;
+    }
 
     p {
         color: var(--color-neutral-medium);
@@ -127,7 +303,7 @@
     }
 
     blockquote {
-        @apply border-l-4 border-aulachain-blue pl-4 italic text-neutral-medium my-6;
+        @apply border-l-4 border-blue-500 pl-4 italic text-neutral-medium my-6;
     }
 }
 
@@ -136,7 +312,7 @@
 }
 
 [data-flux-label] {
-    @apply !mb-0 !leading-tight text-neutral-medium;
+    @apply mb-0! leading-tight! text-neutral-medium;
 }
 
 [data-flux-heading] {
@@ -151,7 +327,7 @@
 input:focus[data-flux-control],
 textarea:focus[data-flux-control],
 select:focus[data-flux-control] {
-    @apply outline-hidden ring-2 ring-accent ring-offset-2 ring-offset-accent-foreground;
+    @apply outline-hidden ring-2 ring-blue-500 ring-offset-2;
 }
 
 /* \[:where(&)\]:size-4 {
