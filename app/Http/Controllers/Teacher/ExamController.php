@@ -58,9 +58,7 @@ class ExamController extends Controller
 
     public function show(Exam $exam)
     {
-        if ($exam->created_by !== auth()->id()) {
-            abort(403);
-        }
+        \Illuminate\Support\Facades\Gate::authorize('view', $exam);
 
         $exam->load(['questions' => function($query) {
             $query->orderBy('order');
@@ -71,9 +69,7 @@ class ExamController extends Controller
 
     public function edit(Exam $exam)
     {
-        if ($exam->created_by !== auth()->id()) {
-            abort(403);
-        }
+        \Illuminate\Support\Facades\Gate::authorize('update', $exam);
 
         $groups = auth()->user()->taughtGroups()->where('is_active', true)->get();
         return view('teacher.exams.edit', compact('exam', 'groups'));
@@ -81,9 +77,7 @@ class ExamController extends Controller
 
     public function update(Request $request, Exam $exam)
     {
-        if ($exam->created_by !== auth()->id()) {
-            abort(403);
-        }
+        \Illuminate\Support\Facades\Gate::authorize('update', $exam);
 
         $validated = $request->validate([
             'title' => 'required|string|max:255',
@@ -102,9 +96,7 @@ class ExamController extends Controller
 
     public function destroy(Exam $exam)
     {
-        if ($exam->created_by !== auth()->id()) {
-            abort(403);
-        }
+        \Illuminate\Support\Facades\Gate::authorize('delete', $exam);
 
         $exam->delete();
 

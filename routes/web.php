@@ -137,11 +137,6 @@ Route::middleware(['auth', 'verified'])->prefix('resources')->name('resources.')
 Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     // Registro de Auditoría
     Route::get('audit', [\App\Http\Controllers\Admin\AuditController::class, 'index'])->name('audit');
-    
-    // Soporte del Sistema
-    Route::get('support', function () {
-        return view('admin.support');
-    })->name('support');
 });
 
 // ========================================

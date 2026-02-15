@@ -60,10 +60,7 @@ class GroupController extends Controller
      */
     public function show(Group $group)
     {
-        // Verificar que el usuario es el profesor de esta clase
-        if ($group->teacher_id !== auth()->id()) {
-            abort(403);
-        }
+        \Illuminate\Support\Facades\Gate::authorize('view', $group);
 
         $group->load(['students' => function ($query) {
             $query->with('wallet')->orderBy('name');
@@ -77,9 +74,7 @@ class GroupController extends Controller
      */
     public function edit(Group $group)
     {
-        if ($group->teacher_id !== auth()->id()) {
-            abort(403);
-        }
+        \Illuminate\Support\Facades\Gate::authorize('update', $group);
 
         return view('teacher.groups.edit', compact('group'));
     }
@@ -89,9 +84,7 @@ class GroupController extends Controller
      */
     public function update(Request $request, Group $group)
     {
-        if ($group->teacher_id !== auth()->id()) {
-            abort(403);
-        }
+        \Illuminate\Support\Facades\Gate::authorize('update', $group);
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
@@ -113,9 +106,7 @@ class GroupController extends Controller
      */
     public function destroy(Group $group)
     {
-        if ($group->teacher_id !== auth()->id()) {
-            abort(403);
-        }
+        \Illuminate\Support\Facades\Gate::authorize('delete', $group);
 
         $group->delete();
 
@@ -129,9 +120,7 @@ class GroupController extends Controller
      */
     public function regenerateCode(Group $group)
     {
-        if ($group->teacher_id !== auth()->id()) {
-            abort(403);
-        }
+        \Illuminate\Support\Facades\Gate::authorize('regenerateCode', $group);
 
         $group->code = strtoupper(\Illuminate\Support\Str::random(8));
         $group->save();
@@ -144,9 +133,7 @@ class GroupController extends Controller
      */
     public function removeStudent(Group $group, \App\Models\User $student)
     {
-        if ($group->teacher_id !== auth()->id()) {
-            abort(403);
-        }
+        \Illuminate\Support\Facades\Gate::authorize('removeStudent', $group);
 
         $group->removeStudent($student);
 

@@ -159,47 +159,8 @@ class RolesAndPermissionsSeeder extends Seeder
             $admin->wallet()->create(['balance' => 10000]);
             
             echo "✅ Usuario Admin creado: admin@educate.com / admin123\n";
-        }
-        
-        // Crear algunos alumnos de ejemplo solo para desarrollo/testing
-        if (app()->environment('local')) {
-            $alumnos = [
-                [
-                    'name' => 'Juan Pérez',
-                    'email' => 'juan.perez@educate.com',
-                    'rfc' => 'PEXJ100520XYZ',
-                    'balance' => 150,
-                ],
-                [
-                    'name' => 'María López',
-                    'email' => 'maria.lopez@educate.com',
-                    'rfc' => 'LOMM110315ABC',
-                    'balance' => 220,
-                ],
-                [
-                    'name' => 'Carlos Rodríguez',
-                    'email' => 'carlos.rodriguez@educate.com',
-                    'rfc' => 'RODC090810DEF',
-                    'balance' => 85,
-                ],
-            ];
-            
-            foreach ($alumnos as $alumnoData) {
-                if (!User::where('email', $alumnoData['email'])->exists()) {
-                    $alumno = User::create([
-                        'name' => $alumnoData['name'],
-                        'email' => $alumnoData['email'],
-                        'password' => bcrypt('password'),
-                        'rfc' => $alumnoData['rfc'],
-                    ]);
-                    $alumno->assignRole('alumno');
-                    
-                    // Crear wallet con balance inicial
-                    $alumno->wallet()->create(['balance' => $alumnoData['balance']]);
-                }
-            }
-            
-            echo "✅ Alumnos de prueba creados (solo en ambiente local)\n";
+        } else {
+            echo "ℹ️  Usuario Admin ya existe\n";
         }
     }
 }

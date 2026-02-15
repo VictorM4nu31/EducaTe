@@ -11,9 +11,7 @@ class QuestionController extends Controller
 {
     public function store(Request $request, Exam $exam)
     {
-        if ($exam->created_by !== auth()->id()) {
-            abort(403);
-        }
+        \Illuminate\Support\Facades\Gate::authorize('update', $exam);
 
         $validated = $request->validate([
             'question_text' => 'required|string',
@@ -43,9 +41,7 @@ class QuestionController extends Controller
 
     public function update(Request $request, Exam $exam, Question $question)
     {
-        if ($exam->created_by !== auth()->id() || $question->exam_id !== $exam->id) {
-            abort(403);
-        }
+        \Illuminate\Support\Facades\Gate::authorize('update', $question);
 
         $validated = $request->validate([
             'question_text' => 'required|string',
@@ -63,9 +59,7 @@ class QuestionController extends Controller
 
     public function destroy(Exam $exam, Question $question)
     {
-        if ($exam->created_by !== auth()->id() || $question->exam_id !== $exam->id) {
-            abort(403);
-        }
+        \Illuminate\Support\Facades\Gate::authorize('delete', $question);
 
         $question->delete();
 

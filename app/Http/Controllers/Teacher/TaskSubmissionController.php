@@ -32,10 +32,7 @@ class TaskSubmissionController extends Controller
      */
     public function show(TaskSubmission $submission)
     {
-        // Verificar que el profesor es el creador de la tarea
-        if ($submission->task->created_by !== auth()->id()) {
-            abort(403);
-        }
+        \Illuminate\Support\Facades\Gate::authorize('view', $submission);
 
         return view('teacher.tasks.grade', compact('submission'));
     }
@@ -45,10 +42,7 @@ class TaskSubmissionController extends Controller
      */
     public function grade(Request $request, TaskSubmission $submission)
     {
-        // Verificar que el profesor es el creador de la tarea
-        if ($submission->task->created_by !== auth()->id()) {
-            abort(403);
-        }
+        \Illuminate\Support\Facades\Gate::authorize('grade', $submission);
 
         $validated = $request->validate([
             'grade' => 'required|numeric|min:0|max:10',
