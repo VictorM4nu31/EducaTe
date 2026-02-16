@@ -129,7 +129,9 @@
             </flux:sidebar.group>
         </flux:sidebar.nav>
 
-        <x-desktop-user-menu class="hidden lg:block" :name="auth()->user()->name" />
+        <div class="hidden lg:block">
+            <x-desktop-user-menu :name="auth()->user()->name" />
+        </div>
     </flux:sidebar>
 
 

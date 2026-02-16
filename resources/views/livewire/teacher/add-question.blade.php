@@ -4,8 +4,7 @@ use Livewire\Volt\Component;
 use App\Models\Question;
 use Livewire\Attributes\Validate;
 
-new class extends Component
-{
+new class extends Component {
     public $exam;
     public $showForm = false;
 
@@ -69,143 +68,130 @@ new class extends Component
         $this->reset(['question_text', 'type', 'points', 'options', 'correct_answer', 'explanation', 'showForm']);
         $this->options = ['A' => '', 'B' => '', 'C' => '', 'D' => ''];
         $this->dispatch('question-added');
+        $this->dispatch('close-modal', 'add-question-modal');
         $this->dispatch('notify', ['message' => 'Pregunta agregada exitosamente', 'type' => 'success']);
     }
 };
 ?>
 
 <div>
-    @if(!$showForm)
-        <flux:button wire:click="$set('showForm', true)" variant="primary" size="sm" icon="plus">
+    <flux:modal.trigger name="add-question-modal">
+        <flux:button variant="primary" icon="plus" class="w-full sm:w-auto">
             Agregar Pregunta
         </flux:button>
-    @else
-        <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm" wire:click="$set('showForm', false)">
-            <div class="bg-white dark:bg-neutral-900 rounded-xl shadow-xl max-w-2xl w-full p-6 space-y-4 max-h-[90vh] overflow-y-auto" wire:click.stop>
-                <div class="flex items-center justify-between mb-4">
-                    <h3 class="text-lg font-bold text-neutral-900 dark:text-white">Nueva Pregunta</h3>
-                    <button wire:click="$set('showForm', false)" class="text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-300">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-                        </svg>
-                    </button>
+    </flux:modal.trigger>
+
+    <flux:modal name="add-question-modal" class="md:w-2xl text-left">
+        <div class="space-y-6">
+            <div>
+                <flux:heading size="lg">Nueva Pregunta</flux:heading>
+                <flux:subheading>Agrega una nueva pregunta al examen.</flux:subheading>
+            </div>
+
+            <form wire:submit="save" class="space-y-6">
+                <!-- Tipo y Puntos -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="md:col-span-2">
+                        <flux:select label="Tipo de Pregunta" wire:model.live="type"
+                            placeholder="Selecciona el tipo...">
+                            <flux:select.option value="multiple_choice">Opción Múltiple</flux:select.option>
+                            <flux:select.option value="true_false">Verdadero/Falso</flux:select.option>
+                            <flux:select.option value="short_answer">Respuesta Corta</flux:select.option>
+                        </flux:select>
+                    </div>
+
+                    <div>
+                        <flux:input type="number" step="0.5" min="0" label="Puntos" wire:model="points" />
+                    </div>
                 </div>
 
-                <form wire:submit="save" class="space-y-4">
-                    <div>
-                        <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">Texto de la Pregunta *</label>
-                        <textarea 
-                            wire:model="question_text"
-                            rows="3"
-                            class="w-full rounded-lg border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                            placeholder="Escribe la pregunta aquí..."
-                            required
-                        ></textarea>
-                        @error('question_text') <span class="text-xs text-red-500">{{ $message }}</span> @enderror
-                    </div>
+                <!-- Texto de la Pregunta -->
+                <flux:textarea label="Pregunta" wire:model="question_text" placeholder="Escribe la pregunta aquí..."
+                    rows="3" />
 
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">Tipo *</label>
-                            <select 
-                                wire:model.live="type"
-                                class="w-full rounded-lg border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                                required
-                            >
-                                <option value="multiple_choice">Opción Múltiple</option>
-                                <option value="true_false">Verdadero/Falso</option>
-                                <option value="short_answer">Respuesta Corta</option>
-                            </select>
-                            @error('type') <span class="text-xs text-red-500">{{ $message }}</span> @enderror
-                        </div>
+                <flux:separator />
 
-                        <div>
-                            <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">Puntos *</label>
-                            <input 
-                                type="number" 
-                                wire:model="points"
-                                min="0"
-                                step="0.1"
-                                class="w-full rounded-lg border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                                required
-                            />
-                            @error('points') <span class="text-xs text-red-500">{{ $message }}</span> @enderror
-                        </div>
-                    </div>
+                <!-- Opciones / Respuesta Correcta -->
+                <div>
+                    <flux:heading size="md" class="mb-3">Respuesta</flux:heading>
 
                     @if($type === 'multiple_choice')
-                        <div class="space-y-2">
-                            <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300">Opciones de Respuesta *</label>
-                            @foreach(['A', 'B', 'C', 'D'] as $key)
-                                <div class="flex items-center gap-2">
-                                    <span class="w-8 text-sm font-bold text-neutral-600 dark:text-neutral-400">{{ $key }})</span>
-                                    <input 
-                                        type="text" 
-                                        wire:model="options.{{ $key }}"
-                                        class="flex-1 rounded-lg border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                                        placeholder="Opción {{ $key }}"
-                                        required
-                                    />
-                                </div>
-                            @endforeach
-                            <div class="mt-2">
-                                <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">Respuesta Correcta *</label>
-                                <select 
-                                    wire:model="correct_answer"
-                                    class="w-full rounded-lg border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                                    required
-                                >
-                                    <option value="">Selecciona la respuesta correcta</option>
-                                    <option value="A">A</option>
-                                    <option value="B">B</option>
-                                    <option value="C">C</option>
-                                    <option value="D">D</option>
-                                </select>
-                                @error('correct_answer') <span class="text-xs text-red-500">{{ $message }}</span> @enderror
+                        <div class="space-y-4">
+                            <div class="grid grid-cols-1 gap-3">
+                                @foreach(['A', 'B', 'C', 'D'] as $key)
+                                    <div class="flex items-center gap-2">
+                                        <flux:badge size="sm">{{ $key }}</flux:badge>
+                                        <div class="flex-1">
+                                            <flux:input wire:model="options.{{ $key }}" placeholder="Opción {{ $key }}" />
+                                        </div>
+                                    </div>
+                                @endforeach
                             </div>
+
+                            <flux:select label="Respuesta Correcta" wire:model="correct_answer"
+                                placeholder="Selecciona la correcta">
+                                <flux:select.option value="A">Opción A</flux:select.option>
+                                <flux:select.option value="B">Opción B</flux:select.option>
+                                <flux:select.option value="C">Opción C</flux:select.option>
+                                <flux:select.option value="D">Opción D</flux:select.option>
+                            </flux:select>
                         </div>
+                    @elseif($type === 'true_false')
+                        <flux:radio.group label="Respuesta Correcta" wire:model="correct_answer">
+                            <flux:radio value="Verdadero" label="Verdadero" />
+                            <flux:radio value="Falso" label="Falso" />
+                        </flux:radio.group>
                     @else
-                        <div>
-                            <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">Respuesta Correcta *</label>
-                            <input 
-                                type="text" 
-                                wire:model="correct_answer"
-                                class="w-full rounded-lg border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                                placeholder="Escribe la respuesta correcta"
-                                required
-                            />
-                            @error('correct_answer') <span class="text-xs text-red-500">{{ $message }}</span> @enderror
-                        </div>
+                        <flux:input label="Respuesta Correcta (Texto Exacto)" wire:model="correct_answer"
+                            placeholder="Escribe la respuesta correcta" />
+                        <flux:text size="sm" class="mt-1">El alumno deberá escribir exactamente esto.</flux:text>
                     @endif
+                </div>
 
-                    <div>
-                        <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">Explicación (opcional)</label>
-                        <textarea 
-                            wire:model="explanation"
-                            rows="2"
-                            class="w-full rounded-lg border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                            placeholder="Explicación de la respuesta correcta..."
-                        ></textarea>
-                        @error('explanation') <span class="text-xs text-red-500">{{ $message }}</span> @enderror
-                    </div>
+                <flux:separator />
 
-                    <div class="flex gap-3 pt-2">
-                        <button 
-                            type="button"
-                            wire:click="$set('showForm', false)"
-                            class="flex-1 px-4 py-2 border border-neutral-300 dark:border-neutral-700 rounded-lg text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors"
-                        >
-                            Cancelar
-                        </button>
-                        <button 
-                            type="submit"
-                            class="flex-1 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors font-medium"
-                        >
-                            Agregar Pregunta
-                        </button>
-                    </div>
-                </form>
-            </div>
+                <!-- Explicación -->
+                <flux:textarea label="Explicación / Retroalimentación (Opcional)" wire:model="explanation"
+                    placeholder="Explica por qué es la respuesta correcta..." rows="2" />
+
+                <div class="flex gap-2 justify-end">
+                    <flux:modal.close>
+                        <flux:button variant="ghost" type="button">Cancelar</flux:button>
+                    </flux:modal.close>
+                    <flux:button type="submit" variant="primary">Guardar Pregunta</flux:button>
+                </div>
+            </form>
         </div>
-    @endif
+    </flux:modal>
+
+
+    <script>
+        document.addEventListener('livewire:initialized', () => {
+            Livewire.on('close-modal', (params) => {
+                // Flux internal API or standard HTML dialog close
+                const modal = document.querySelector(`[data-flux-modal="${params[0]}"]`) || document.getElementById(params[0]);
+                if (modal && modal.close) {
+                    modal.close();
+                } else {
+                    // Fallback for Flux: find the close button or trigger
+                    // For now, let's assume Flux handles 'close' if we can access the component.
+                    // Actually, if using name="add-question-modal", we can often use Alpine data.
+                    // Let's try dispatching a custom event that Alpine can pick up if needed, 
+                    // but simpler: Flux modals often have a `close()` method on the element instance if it's a dialog.
+                }
+
+                // Try Flux helper if available globally
+                if (window.Flux && window.Flux.modals) {
+                    window.Flux.modals[params[0]]?.close();
+                }
+
+                // Simplest: trigger the close button click
+                document.querySelector(`[data-flux-modal="${params[0]}"] [data-flux-close]`)?.click();
+
+                // Another attempt: dispatch 'close' event to the modal element
+                const modalEl = document.querySelector(`flux-modal[name="${params[0]}"]`) || document.querySelector(`[name="${params[0]}"]`);
+                if (modalEl) modalEl.dispatchEvent(new CustomEvent('close'));
+            });
+        });
+    </script>
 </div>

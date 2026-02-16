@@ -4,8 +4,7 @@ use Livewire\Volt\Component;
 use App\Models\Reward;
 use App\Services\EconomyService;
 
-new class extends Component
-{
+new class extends Component {
     public $selectedReward = null;
     public $showInvoice = false;
     public $lastTransaction = null;
@@ -28,15 +27,15 @@ new class extends Component
         try {
             $economy = app(EconomyService::class);
             $this->lastTransaction = $economy->debit(
-                auth()->user(), 
-                (float)$reward->cost, 
-                "Canje: {$reward->name}", 
+                auth()->user(),
+                (float) $reward->cost,
+                "Canje: {$reward->name}",
                 'reward',
                 ['reward_id' => $reward->id]
             );
 
             $reward->decrement('stock');
-            
+
             $this->selectedReward = $reward;
             $this->showInvoice = true;
 
@@ -54,7 +53,8 @@ new class extends Component
 ?>
 
 <div class="space-y-6">
-    <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-orange-500 to-orange-600 p-8 shadow-xl text-white mb-8">
+    <div
+        class="relative overflow-hidden rounded-2xl bg-linear-to-br from-orange-500 to-orange-600 p-8 shadow-xl text-white mb-8">
         <div class="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
             <div>
                 <h2 class="text-3xl font-bold">Marketplace AulaChain</h2>
@@ -83,19 +83,17 @@ new class extends Component
                     </div>
                 </div>
 
-                <div class="mt-6 pt-4 border-t border-neutral-light dark:border-neutral-800 flex items-center justify-between">
+                <div
+                    class="mt-6 pt-4 border-t border-neutral-light dark:border-neutral-800 flex items-center justify-between">
                     <div class="font-bold text-xl text-neutral-dark dark:text-white">
                         <span class="text-green-500 text-sm">₳</span> {{ number_format($reward->cost, 0) }}
                     </div>
-                    <button 
-                        wire:click="buy({{ $reward->id }})"
-                        @disabled($reward->stock <= 0 || $balance < $reward->cost)
+                    <button wire:click="buy({{ $reward->id }})" @disabled($reward->stock <= 0 || $balance < $reward->cost)
                         @class([
                             'px-4 py-2 rounded-lg font-bold text-white transition-all',
                             'bg-orange-500 hover:bg-orange-600 active:bg-orange-700 shadow-sm' => $reward->stock > 0 && $balance >= $reward->cost,
                             'bg-neutral-light cursor-not-allowed opacity-50' => $reward->stock <= 0 || $balance < $reward->cost,
-                        ])
-                    >
+                        ])>
                         {{ $reward->stock <= 0 ? 'Agotado' : 'Canjear' }}
                     </button>
                 </div>
@@ -105,10 +103,11 @@ new class extends Component
 
     @if($showInvoice && $lastTransaction)
         <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-            <div class="bg-white dark:bg-neutral-900 rounded-2xl shadow-2xl max-w-md w-full overflow-hidden animate-in fade-in zoom-in-95">
+            <div
+                class="bg-white dark:bg-neutral-900 rounded-2xl shadow-2xl max-w-md w-full overflow-hidden animate-in fade-in zoom-in-95">
                 <div class="p-6">
                     <livewire:marketplace.invoice-view :transaction="$lastTransaction" :reward="$selectedReward" />
-                    
+
                     <div class="mt-8">
                         <flux:button variant="primary" class="w-full" wire:click="closeInvoice">Entendido</flux:button>
                     </div>

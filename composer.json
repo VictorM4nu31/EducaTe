@@ -56,7 +56,7 @@
         ],
         "dev": [
             "Composer\\Config::disableProcessTimeout",
-            "npx concurrently -c \"#93c5fd,#c4b5fd,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"npm run dev\" --names='server,queue,vite'"
+            "npx concurrently -c \"#93c5fd,#c4b5fd,#fdba74,#3b82f6\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"npm run dev\" \"sleep 2 && flatpak run com.microsoft.Edge http://localhost:8000\" --names='server,queue,vite,edge'"
         ],
         "lint": [
             "pint --parallel"
