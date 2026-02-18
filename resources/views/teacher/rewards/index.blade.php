@@ -63,11 +63,20 @@
                             <flux:table.cell>
                                 <div class="flex justify-end gap-2">
                                     <flux:button href="{{ route('teacher.rewards.edit', $reward) }}" variant="ghost" size="sm" icon="pencil-square" />
-                                    <form action="{{ route('teacher.rewards.destroy', $reward) }}" method="POST" class="inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <flux:button type="submit" variant="ghost" size="sm" icon="trash" wire:confirm="¿Estás seguro de eliminar esta recompensa?" />
-                                    </form>
+                                    <x-flux.confirm-delete-modal
+                                        :name="'delete-reward-'.$reward->id"
+                                        title="Eliminar recompensa"
+                                        message="¿Estás seguro de eliminar esta recompensa? Esta acción no se puede deshacer."
+                                    >
+                                        <x-slot:trigger>
+                                            <flux:button variant="ghost" size="sm" icon="trash" />
+                                        </x-slot:trigger>
+                                        <form action="{{ route('teacher.rewards.destroy', $reward) }}" method="POST" class="inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <flux:button type="submit" variant="danger">Eliminar</flux:button>
+                                        </form>
+                                    </x-flux.confirm-delete-modal>
                                 </div>
                             </flux:table.cell>
                         </flux:table.row>

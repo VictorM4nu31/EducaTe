@@ -191,9 +191,16 @@ new class extends Component {
             <div
                 class="flex gap-2 mt-4 justify-end lg:absolute lg:top-4 lg:right-4 lg:mt-0 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">
                 <flux:button wire:click="edit({{ $question->id }})" variant="ghost" size="sm" icon="pencil-square" />
-                <flux:button wire:click="delete({{ $question->id }})"
-                    wire:confirm="¿Estás seguro de eliminar esta pregunta?" variant="ghost" size="sm" icon="trash"
-                    class="text-red-500 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950" />
+                <x-flux.confirm-delete-modal
+                    :name="'delete-question-'.$question->id"
+                    title="Eliminar pregunta"
+                    message="¿Estás seguro de eliminar esta pregunta? Esta acción no se puede deshacer."
+                >
+                    <x-slot:trigger>
+                        <flux:button variant="ghost" size="sm" icon="trash" class="text-red-500 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950" />
+                    </x-slot:trigger>
+                    <flux:button variant="danger" wire:click="delete({{ $question->id }})">Eliminar</flux:button>
+                </x-flux.confirm-delete-modal>
             </div>
         </div>
     @empty

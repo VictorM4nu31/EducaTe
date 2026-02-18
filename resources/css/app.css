@@ -330,6 +330,23 @@ select:focus[data-flux-control] {
     @apply outline-hidden ring-2 ring-blue-500 ring-offset-2;
 }
 
-/* \[:where(&)\]:size-4 {
-    @apply size-4;
-} */
+/* Flux modal: usa la paleta EducaTe (fondos y bordes) */
+[data-flux-modal] dialog {
+    background-color: var(--color-white);
+    border-color: var(--color-neutral-light);
+    box-shadow: var(--shadow-2xl);
+}
+.dark [data-flux-modal] dialog {
+    background-color: var(--color-neutral-very-light);
+    border-color: var(--color-neutral-light);
+    --tw-ring-color: var(--color-neutral-light);
+}
+
+/* Sidebar item selection: evita el fondo blanco genérico y usa la paleta EducaTe */
+[data-flux-navlist-item][data-current] {
+    @apply bg-blue-500/10! text-blue-500! font-semibold;
+}
+
+.dark [data-flux-navlist-item][data-current] {
+    @apply bg-blue-500/20! text-blue-400!;
+}

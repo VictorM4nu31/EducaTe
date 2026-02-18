@@ -78,13 +78,20 @@
                                 <flux:button href="{{ route('admin.docentes.edit', $docente) }}" variant="ghost" size="sm" icon="pencil">
                                     Editar
                                 </flux:button>
-                                <form action="{{ route('admin.docentes.destroy', $docente) }}" method="POST" class="inline-block">
-                                    @csrf
-                                    @method('DELETE')
-                                    <flux:button type="submit" variant="danger" size="sm" icon="trash" onclick="return confirm('¿Estás seguro de eliminar este docente?')">
-                                        Eliminar
-                                    </flux:button>
-                                </form>
+                                <x-flux.confirm-delete-modal
+                                    :name="'delete-docente-'.$docente->id"
+                                    title="Eliminar docente"
+                                    message="¿Estás seguro de eliminar este docente? Esta acción no se puede deshacer."
+                                >
+                                    <x-slot:trigger>
+                                        <flux:button type="button" variant="danger" size="sm" icon="trash">Eliminar</flux:button>
+                                    </x-slot:trigger>
+                                    <form action="{{ route('admin.docentes.destroy', $docente) }}" method="POST" class="inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <flux:button type="submit" variant="danger" size="sm">Eliminar</flux:button>
+                                    </form>
+                                </x-flux.confirm-delete-modal>
                             </td>
                         </tr>
                     @empty

@@ -29,6 +29,8 @@ new class extends Component
 
     public $groups;
 
+    public bool $saving = false;
+
     public function mount()
     {
         $this->groups = auth()->user()->taughtGroups()->where('is_active', true)->get();
@@ -46,8 +48,13 @@ new class extends Component
         $this->ac_reward = $rewards[$value] ?? 15;
     }
 
-    public function save()
+    public function save(): mixed
     {
+        if ($this->saving) {
+            return null;
+        }
+
+        $this->saving = true;
         $this->validate();
 
         $task = Task::create([
@@ -130,9 +137,10 @@ new class extends Component
             @endif
 
             <div class="flex justify-end gap-3 pt-4">
-                <flux:button variant="ghost" href="{{ route('teacher.tasks') }}">Cancelar</flux:button>
-                <flux:button type="submit" variant="primary" :disabled="$this->groups->isEmpty()">
-                    Crear Tarea y Asignar
+                <flux:button variant="ghost" href="{{ route('teacher.tasks') }}" wire:loading.attr="disabled">Cancelar</flux:button>
+                <flux:button type="submit" variant="primary" wire:loading.attr="disabled" wire:target="save" :disabled="$this->groups->isEmpty()">
+                    <span wire:loading.remove wire:target="save">Crear Tarea y Asignar</span>
+                    <span wire:loading wire:target="save">Creando...</span>
                 </flux:button>
             </div>
         </form>

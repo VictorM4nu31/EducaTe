@@ -30,12 +30,21 @@
                 <flux:checkbox name="is_active" label="Publicación activa (visible para todos)" :checked="$regulation->is_active" />
 
                 <div class="flex justify-between gap-3 pt-4 border-t border-neutral-light dark:border-neutral-light/10">
-                    <form action="{{ route('resources.regulations.destroy', $regulation) }}" method="POST" id="delete-form-{{ $regulation->id }}">
-                        @csrf
-                        @method('DELETE')
-                        <flux:button variant="danger" type="submit" outline onclick="return confirm('¿Estás seguro de eliminar este reglamento?')">Eliminar</flux:button>
-                    </form>
-                    
+                    <x-flux.confirm-delete-modal
+                        :name="'delete-regulation-'.$regulation->id"
+                        title="Eliminar reglamento"
+                        message="¿Estás seguro de eliminar este reglamento? Esta acción no se puede deshacer."
+                    >
+                        <x-slot:trigger>
+                            <flux:button variant="danger" outline type="button">Eliminar</flux:button>
+                        </x-slot:trigger>
+                        <form action="{{ route('resources.regulations.destroy', $regulation) }}" method="POST" class="inline">
+                            @csrf
+                            @method('DELETE')
+                            <flux:button variant="danger" type="submit">Eliminar</flux:button>
+                        </form>
+                    </x-flux.confirm-delete-modal>
+
                     <div class="flex gap-3">
                         <flux:button href="{{ route('resources.regulations.index') }}" variant="ghost">Cancelar</flux:button>
                         <flux:button type="submit" variant="primary" class="bg-academic-purple hover:bg-academic-purple-hover border-none font-bold">

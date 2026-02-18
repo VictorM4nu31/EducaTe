@@ -101,7 +101,16 @@ new class extends Component
                             
                             <div class="flex items-center gap-1">
                                 <flux:button href="{{ route('teacher.tasks.edit', $task) }}" variant="ghost" icon="pencil-square" class="text-neutral-400 hover:text-neutral-600" />
-                                <flux:button variant="ghost" icon="trash" wire:click="deleteTask({{ $task->id }})" wire:confirm="¿Estás seguro de eliminar esta tarea?" class="text-neutral-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20" />
+                                <x-flux.confirm-delete-modal
+                                    :name="'delete-task-'.$task->id"
+                                    title="Eliminar tarea"
+                                    message="¿Estás seguro de eliminar esta tarea? Esta acción no se puede deshacer."
+                                >
+                                    <x-slot:trigger>
+                                        <flux:button variant="ghost" icon="trash" class="text-neutral-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20" />
+                                    </x-slot:trigger>
+                                    <flux:button variant="danger" wire:click="deleteTask({{ $task->id }})">Eliminar</flux:button>
+                                </x-flux.confirm-delete-modal>
                             </div>
                         </div>
                     </div>
@@ -176,7 +185,16 @@ new class extends Component
                          <!-- Actions -->
                          <div class="flex items-center gap-3 pt-4 md:pt-0 border-t md:border-t-0 border-neutral-100 dark:border-neutral-800">
                             <flux:button href="{{ route('teacher.tasks.edit', $task) }}" variant="ghost" icon="pencil-square" class="text-neutral-400 hover:text-neutral-600" />
-                            <flux:button variant="ghost" icon="trash" wire:click="deleteTask({{ $task->id }})" wire:confirm="¿Borrar?" class="text-neutral-400 hover:text-red-600 hover:bg-red-50 border-transparent hover:border-red-100" />
+                            <x-flux.confirm-delete-modal
+                                :name="'delete-task-unassigned-'.$task->id"
+                                title="Eliminar tarea"
+                                message="¿Estás seguro de eliminar esta tarea? Esta acción no se puede deshacer."
+                            >
+                                <x-slot:trigger>
+                                    <flux:button variant="ghost" icon="trash" class="text-neutral-400 hover:text-red-600 hover:bg-red-50 border-transparent hover:border-red-100" />
+                                </x-slot:trigger>
+                                <flux:button variant="danger" wire:click="deleteTask({{ $task->id }})">Eliminar</flux:button>
+                            </x-flux.confirm-delete-modal>
                         </div>
                     </div>
                 @endforeach
