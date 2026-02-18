@@ -87,7 +87,13 @@ class ExamController extends Controller
                 'user_id' => $user->id,
                 'started_at' => now(),
                 'metadata' => ['hints' => []],
+                'answers' => [],
             ]);
+        }
+
+        if ($attempt->is_annulled) {
+            return view('student.exams.take', compact('exam', 'attempt'))
+                ->with('annulled_message', 'Tu examen ha sido anulado por salir de la pestaña. Contacta a tu profesor para habilitarlo.');
         }
 
         $exam->load(['questions' => function($query) {
@@ -100,6 +106,48 @@ class ExamController extends Controller
         }
 
         return view('student.exams.take', compact('exam', 'attempt'));
+    }
+
+    /**
+     * Guardar respuestas en tiempo real
+     */
+    public function saveProgress(Request $request, Exam $exam, ExamAttempt $attempt)
+    {
+        if ($attempt->user_id !== Auth::id() || $attempt->is_completed || $attempt->is_annulled) {
+            return response()->json(['error' => 'No autorizado'], 403);
+        }
+
+        $answers = $request->input('answers', []);
+        $currentAnswers = $attempt->answers ?? [];
+        
+        // Combinar respuestas existentes con las nuevas
+        foreach ($answers as $questionId => $answer) {
+            $currentAnswers[$questionId] = $answer;
+        }
+
+        $attempt->update(['answers' => $currentAnswers]);
+
+        return response()->json(['success' => true]);
+    }
+
+    /**
+     * Anular examen por salir de la pestaña
+     */
+    public function annul(Request $request, Exam $exam, ExamAttempt $attempt)
+    {
+        if ($attempt->user_id !== Auth::id() || $attempt->is_completed || $attempt->is_annulled) {
+            return response()->json(['error' => 'No autorizado'], 403);
+        }
+
+        $attempt->update(['is_annulled' => true]);
+
+        // Notificar al docente
+        $teacher = User::find($exam->created_by);
+        if ($teacher) {
+            $teacher->notify(new \App\Notifications\ExamAnnulled($attempt));
+        }
+
+        return response()->json(['success' => true]);
     }
 
     /**
@@ -118,7 +166,11 @@ class ExamController extends Controller
             return back()->withErrors(['error' => 'Este examen ya fue completado']);
         }
 
-        $answers = $request->input('answers', []);
+        if ($attempt->is_annulled) {
+            return back()->withErrors(['error' => 'Este examen está anulado']);
+        }
+
+        $answers = $request->input('answers', $attempt->answers ?? []);
         $hintsUsed = (int)$request->input('hints_used', $attempt->hints_used);
 
         // Calcular calificación

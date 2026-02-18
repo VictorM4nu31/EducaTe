@@ -17,10 +17,12 @@ class ExamAttempt extends Model
         'started_at',
         'submitted_at',
         'is_completed',
+        'is_annulled',
         'ac_earned',
     ];
 
     protected $casts = [
+        'hints_used' => 'integer',
         'grade' => 'decimal:2',
         'final_grade' => 'decimal:2',
         'ac_earned' => 'decimal:2',
@@ -29,6 +31,7 @@ class ExamAttempt extends Model
         'started_at' => 'datetime',
         'submitted_at' => 'datetime',
         'is_completed' => 'boolean',
+        'is_annulled' => 'boolean',
     ];
 
     public function exam()

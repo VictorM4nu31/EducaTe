@@ -104,4 +104,20 @@ class ExamController extends Controller
             ->route('teacher.exams.index')
             ->with('success', 'Examen eliminado exitosamente');
     }
+
+    /**
+     * Re-habilitar un intento de examen anulado
+     */
+    public function reenableAttempt(Exam $exam, \App\Models\ExamAttempt $attempt)
+    {
+        \Illuminate\Support\Facades\Gate::authorize('update', $exam);
+
+        if ($attempt->exam_id !== $exam->id) {
+            abort(403);
+        }
+
+        $attempt->update(['is_annulled' => false]);
+
+        return back()->with('success', "Examen de {$attempt->user->name} habilitado nuevamente.");
+    }
 }

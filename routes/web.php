@@ -79,6 +79,7 @@ Route::middleware(['auth', 'verified', 'role:admin|docente'])->prefix('teacher')
     Route::post('exams/{exam}/questions', [\App\Http\Controllers\Teacher\QuestionController::class, 'store'])->name('exams.questions.store');
     Route::put('exams/{exam}/questions/{question}', [\App\Http\Controllers\Teacher\QuestionController::class, 'update'])->name('exams.questions.update');
     Route::delete('exams/{exam}/questions/{question}', [\App\Http\Controllers\Teacher\QuestionController::class, 'destroy'])->name('exams.questions.destroy');
+    Route::post('exams/{exam}/attempts/{attempt}/reenable', [\App\Http\Controllers\Teacher\ExamController::class, 'reenableAttempt'])->name('exams.attempts.reenable');
 
     // Gestión de Clases/Grupos
     Route::resource('groups', GroupController::class);
@@ -100,6 +101,8 @@ Route::middleware(['auth', 'verified', 'role:alumno'])->group(function () {
     Route::get('exams', [\App\Http\Controllers\Student\ExamController::class, 'index'])->name('exams');
     Route::get('exams/{exam}/start', [\App\Http\Controllers\Student\ExamController::class, 'start'])->name('exams.start');
     Route::post('exams/{exam}/attempts/{attempt}/submit', [\App\Http\Controllers\Student\ExamController::class, 'submit'])->name('exams.submit');
+    Route::post('exams/{exam}/attempts/{attempt}/save-progress', [\App\Http\Controllers\Student\ExamController::class, 'saveProgress'])->name('exams.save-progress');
+    Route::post('exams/{exam}/attempts/{attempt}/annul', [\App\Http\Controllers\Student\ExamController::class, 'annul'])->name('exams.annul');
 
     // Marketplace de recompensas
     Route::view('marketplace', 'student.marketplace.index')->name('marketplace');

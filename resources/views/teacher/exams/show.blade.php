@@ -81,6 +81,47 @@
                         <p class="text-sm text-neutral-500 dark:text-neutral-400">No hay clases asignadas</p>
                     @endif
                 </flux:card>
+
+                <flux:card>
+                    <h3 class="font-bold text-neutral-900 dark:text-white mb-4">Intentos Recientes</h3>
+                    @php
+                        $attempts = \App\Models\ExamAttempt::where('exam_id', $exam->id)->with('user')->latest()->take(10)->get();
+                    @endphp
+                    @if($attempts->count() > 0)
+                        <div class="space-y-4">
+                            @foreach($attempts as $attempt)
+                                <div class="flex items-center justify-between p-3 bg-neutral-50 dark:bg-neutral-800 rounded-lg border {{ $attempt->is_annulled ? 'border-red-200 dark:border-red-900' : 'border-neutral-200 dark:border-neutral-700' }}">
+                                    <div class="min-w-0 flex-1">
+                                        <p class="text-sm font-bold text-neutral-900 dark:text-white truncate">
+                                            {{ $attempt->user->name }}
+                                        </p>
+                                        <div class="flex items-center gap-2 mt-1">
+                                            @if($attempt->is_completed)
+                                                <span class="text-[10px] px-1.5 py-0.5 bg-green-100 text-green-700 rounded uppercase font-bold">Completado</span>
+                                                <span class="text-xs font-mono text-neutral-500">Nota: {{ number_format($attempt->final_grade, 1) }}</span>
+                                            @elseif($attempt->is_annulled)
+                                                <span class="text-[10px] px-1.5 py-0.5 bg-red-100 text-red-700 rounded uppercase font-bold">Anulado</span>
+                                            @else
+                                                <span class="text-[10px] px-1.5 py-0.5 bg-blue-100 text-blue-700 rounded uppercase font-bold">En progreso</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    
+                                    @if($attempt->is_annulled)
+                                        <form action="{{ route('teacher.exams.attempts.reenable', [$exam, $attempt]) }}" method="POST">
+                                            @csrf
+                                            <flux:button type="submit" size="xs" variant="primary" class="bg-emerald-600 hover:bg-emerald-700">
+                                                Habilitar
+                                            </flux:button>
+                                        </form>
+                                    @endif
+                                </div>
+                            @endforeach
+                        </div>
+                    @else
+                        <p class="text-sm text-neutral-500 dark:text-neutral-400">Sin intentos registrados</p>
+                    @endif
+                </flux:card>
             </div>
         </div>
     </div>

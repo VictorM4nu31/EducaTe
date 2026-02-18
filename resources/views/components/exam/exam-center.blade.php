@@ -4,8 +4,7 @@ use Livewire\Volt\Component;
 use App\Services\EconomyService;
 use App\Models\Exam;
 
-new class extends Component
-{
+new class extends Component {
     public $hintsUsed = 0;
     public $grade = 100;
     public $hintText = '';
@@ -18,7 +17,8 @@ new class extends Component
 
     public function useHint()
     {
-        if ($this->hintsUsed >= 3) return;
+        if ($this->hintsUsed >= 3)
+            return;
 
         $costs = [
             1 => 15,
@@ -31,12 +31,12 @@ new class extends Component
 
         try {
             $economy = app(EconomyService::class);
-            $economy->debit(auth()->user(), (float)$cost, "Pista de examen #".($this->hintsUsed + 1), 'expense');
-            
+            $economy->debit(auth()->user(), (float) $cost, "Pista de examen #" . ($this->hintsUsed + 1), 'expense');
+
             $this->hintsUsed++;
             $this->grade -= $penalty;
             $this->updateHintText();
-            
+
             $this->dispatch('hint-purchased');
         } catch (\Exception $e) {
             $this->dispatch('notify', ['message' => $e->getMessage(), 'type' => 'error']);
@@ -62,7 +62,7 @@ new class extends Component
             <flux:icon icon="" class="size-16 mx-auto mb-4 text-blue-500 opacity-50" />
             <h2 class="text-2xl font-bold mb-2">Examen: Civismo y Responsabilidad</h2>
             <p class="text-neutral-500 mb-6">Puntos extra: 30 ₳ por calificación perfecta sin pistas.</p>
-            <flux:button variant="primary" size="lg" wire:click="startExam">Comenzar Examen</flux:button>
+            <flux:button variant="primary" wire:click="startExam">Comenzar Examen</flux:button>
         </flux:card>
     @else
         <div class="flex items-center justify-between px-2">
@@ -83,10 +83,12 @@ new class extends Component
         <flux:card class="space-y-8">
             <div class="space-y-4">
                 <h3 class="text-lg font-bold">Pregunta 1 de 10</h3>
-                <p class="text-neutral-800 dark:text-neutral-200 text-lg">¿Cuál es el principio fundamental que establece que el poder reside en el pueblo?</p>
-                
+                <p class="text-neutral-800 dark:text-neutral-200 text-lg">¿Cuál es el principio fundamental que establece
+                    que el poder reside en el pueblo?</p>
+
                 <div class="space-y-2">
-                    <flux:button variant="ghost" class="w-full justify-start py-4">A) Democracia Representativa</flux:button>
+                    <flux:button variant="ghost" class="w-full justify-start py-4">A) Democracia Representativa
+                    </flux:button>
                     <flux:button variant="ghost" class="w-full justify-start py-4">B) Monarquía Absoluta</flux:button>
                     <flux:button variant="ghost" class="w-full justify-start py-4">C) Soberanía Nacional</flux:button>
                     <flux:button variant="ghost" class="w-full justify-start py-4">D) Dictadura Militar</flux:button>
@@ -97,23 +99,21 @@ new class extends Component
                 <div class="flex items-center justify-between mb-4">
                     <div class="flex flex-col">
                         <span class="text-sm font-bold">Sistema de Pistas de AulaChain</span>
-                        <span class="text-[11px] text-neutral-500">Pistas usadas: {{ $hintsUsed }} / 3 (Penalización: -{{ $hintsUsed * 2 }}%)</span>
+                        <span class="text-[11px] text-neutral-500">Pistas usadas: {{ $hintsUsed }} / 3 (Penalización:
+                            -{{ $hintsUsed * 2 }}%)</span>
                     </div>
-                    
+
                     @if($hintsUsed < 3)
-                        <flux:button 
-                            variant="primary" 
-                            size="sm" 
-                            wire:click="useHint"
-                            wire:confirm="¿Usar pista por {{ $hintsUsed == 0 ? 15 : ($hintsUsed == 1 ? 25 : 40) }} ₳? Esto restará 2% a tu calificación."
-                        >
+                        <flux:button variant="primary" size="sm" wire:click="useHint"
+                            wire:confirm="¿Usar pista por {{ $hintsUsed == 0 ? 15 : ($hintsUsed == 1 ? 25 : 40) }} ₳? Esto restará 2% a tu calificación.">
                             Comprar Pista ({{ $hintsUsed == 0 ? 15 : ($hintsUsed == 1 ? 25 : 40) }} ₳)
                         </flux:button>
                     @endif
                 </div>
 
                 @if($hintText)
-                    <div class="p-4 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-100 dark:border-emerald-800 rounded-lg animate-in fade-in slide-in-from-top-2">
+                    <div
+                        class="p-4 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-100 dark:border-emerald-800 rounded-lg animate-in fade-in slide-in-from-top-2">
                         <div class="flex gap-3">
                             <flux:icon icon="" class="size-5 text-emerald-600" />
                             <p class="text-sm text-emerald-800 dark:text-emerald-300 font-medium">{{ $hintText }}</p>
@@ -124,4 +124,3 @@ new class extends Component
         </flux:card>
     @endif
 </div>
-
