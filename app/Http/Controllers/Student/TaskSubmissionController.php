@@ -39,7 +39,7 @@ class TaskSubmissionController extends Controller
         // Verificar si ya tiene una entrega
         $submission = TaskSubmission::where('task_id', $task->id)
             ->where('user_id', $user->id)
-            ->whereIn('status', ['submitted', 'graded', 'rejected'])
+            ->whereIn('status', ['submitted', 'graded', 'rejected', 'returned'])
             ->latest()
             ->first();
 
@@ -82,22 +82,42 @@ class TaskSubmissionController extends Controller
         $isEarly = $task->due_date && now()->lt($task->due_date->subDays(1));
         $isLate = $task->due_date && now()->gt($task->due_date);
 
-        // Crear o actualizar entrega
-        $submission = TaskSubmission::updateOrCreate(
-            [
+        // Buscar si ya existe una entrega (cualquiera que sea su estado)
+        $submission = TaskSubmission::where('task_id', $task->id)
+            ->where('user_id', $user->id)
+            ->first();
+
+        if ($submission) {
+            // Eliminar archivo anterior si existe
+            if ($submission->file_path) {
+                Storage::disk('public')->delete($submission->file_path);
+            }
+
+            $submission->update([
+                'file_path' => $filePath,
+                'file_name' => $file->getClientOriginalName(),
+                'notes' => $validated['notes'] ?? null,
+                'status' => 'submitted', // Volver a estado enviado para revisión
+                'grade' => null,         // Limpiar nota previa para revisión
+                'graded_at' => null,     // Limpiar fecha de calificación
+                'is_early' => $isEarly,
+                'is_late' => $isLate,
+                'submitted_at' => now(),
+            ]);
+        } else {
+            // Crear nueva entrega
+            $submission = TaskSubmission::create([
                 'task_id' => $task->id,
                 'user_id' => $user->id,
                 'status' => 'submitted',
-            ],
-            [
                 'file_path' => $filePath,
                 'file_name' => $file->getClientOriginalName(),
                 'notes' => $validated['notes'] ?? null,
                 'is_early' => $isEarly,
                 'is_late' => $isLate,
                 'submitted_at' => now(),
-            ]
-        );
+            ]);
+        }
 
         return redirect()
             ->route('tasks')

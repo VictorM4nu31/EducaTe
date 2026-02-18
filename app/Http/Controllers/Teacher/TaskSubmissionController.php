@@ -55,15 +55,13 @@ class TaskSubmissionController extends Controller
 
         // Calcular AC ganados
         $baseReward = $submission->task->ac_reward;
-        $acEarned = $baseReward;
+        
+        // Recompensa proporcional a la calificación (Ej: 10 = 100%, 5 = 50%)
+        $acEarned = ($baseReward * ($grade / 10));
 
-        // Bonificación por calificación
+        // Bonificaciones extra fijas
         if ($grade >= 10) {
-            $acEarned += 50; // +50 AC por calificación 10
-        } elseif ($grade >= 9) {
-            $acEarned += 30; // +30 AC por calificación 9-9.9
-        } elseif ($grade >= 8) {
-            $acEarned += 15; // +15 AC por calificación 8-8.9
+            $acEarned += 50; // +50 AC por calificación perfecta
         }
 
         // Bonificación por calidad excepcional
@@ -89,11 +87,11 @@ class TaskSubmissionController extends Controller
             'feedback' => $validated['feedback'] ?? null,
             'is_excellent' => $isExcellent,
             'ac_earned' => $acEarned,
-            'status' => $grade >= 6 ? 'graded' : 'rejected',
+            'status' => 'graded',
             'graded_at' => now(),
         ]);
 
-        // Si está aprobada, otorgar AC
+        // Si la nota es aprobatoria (6+), otorgar AC
         if ($grade >= 6) {
             $economy = app(EconomyService::class);
             $economy->credit(
@@ -111,5 +109,29 @@ class TaskSubmissionController extends Controller
         return redirect()
             ->route('teacher.tasks.submissions')
             ->with('success', 'Tarea calificada exitosamente. Se otorgaron ' . number_format($acEarned, 2) . ' AC al estudiante.');
+    }
+
+    /**
+     * Devolver tarea para corrección
+     */
+    public function returnTask(Request $request, TaskSubmission $submission)
+    {
+        \Illuminate\Support\Facades\Gate::authorize('grade', $submission); // Usamos el mismo permiso que calificar
+
+        $validated = $request->validate([
+            'feedback' => 'required|string|max:2000',
+        ]);
+
+        $submission->update([
+            'status' => 'returned',
+            'feedback' => $validated['feedback'],
+            'grade' => null,
+            'graded_at' => null,
+            'ac_earned' => 0,
+        ]);
+
+        return redirect()
+            ->route('teacher.tasks.submissions')
+            ->with('info', 'Tarea devuelta al estudiante para corrección.');
     }
 }

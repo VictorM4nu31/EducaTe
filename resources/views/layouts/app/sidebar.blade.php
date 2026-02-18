@@ -74,8 +74,8 @@
                     wire:navigate>
                     Mis Tareas
                 </flux:sidebar.item>
-                <flux:sidebar.item icon="document-text" :href="route('exams')" :current="request()->routeIs('exams')"
-                    wire:navigate>
+                <flux:sidebar.item icon="document-text" :href="route('student.exams')"
+                    :current="request()->routeIs('student.exams*')" wire:navigate>
                     Exámenes
                 </flux:sidebar.item>
                 <flux:sidebar.item icon="user-group" :href="route('groups.join')"

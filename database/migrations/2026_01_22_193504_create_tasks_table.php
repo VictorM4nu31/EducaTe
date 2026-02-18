@@ -18,6 +18,9 @@ return new class extends Migration
             $table->enum('difficulty', ['basic', 'intermediate', 'advanced', 'excellence']);
             $table->decimal('ac_reward', 10, 2);
             $table->dateTime('due_date')->nullable();
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null');
+            $table->boolean('is_active')->default(true);
+            $table->text('instructions')->nullable();
             $table->timestamps();
         });
     }

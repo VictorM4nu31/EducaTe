@@ -14,9 +14,14 @@ return new class extends Migration
         Schema::create('sat_lessons', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->text('content'); // Contenido de la lección en HTML o markdown
-            $table->integer('order')->default(0); // Orden de visualización
-            $table->string('category')->default('general'); // Categoría: rfc, taxes, invoices, etc.
+            $table->string('slug')->unique();
+            $table->text('content');
+            $table->string('difficulty')->default('basic');
+            $table->integer('estimated_minutes')->nullable();
+            $table->integer('order')->default(0);
+            $table->integer('category_order')->default(0);
+            $table->integer('lesson_order')->default(0);
+            $table->string('category')->default('general');
             $table->boolean('is_active')->default(true);
             $table->timestamps();
         });

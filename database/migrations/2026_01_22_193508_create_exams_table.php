@@ -16,6 +16,9 @@ return new class extends Migration
             $table->string('title');
             $table->text('description')->nullable();
             $table->decimal('ac_reward_bonus', 10, 2)->default(30.00);
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null');
+            $table->boolean('is_active')->default(true);
+            $table->integer('time_limit')->nullable();
             $table->timestamps();
         });
     }

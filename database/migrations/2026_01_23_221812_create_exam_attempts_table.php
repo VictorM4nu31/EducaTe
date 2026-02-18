@@ -23,6 +23,7 @@ return new class extends Migration
             $table->timestamp('started_at')->useCurrent();
             $table->timestamp('submitted_at')->nullable();
             $table->boolean('is_completed')->default(false);
+            $table->boolean('is_annulled')->default(false);
             $table->decimal('ac_earned', 10, 2)->nullable(); // AC ganados
             $table->timestamps();
             

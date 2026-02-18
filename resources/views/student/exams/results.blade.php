@@ -87,7 +87,7 @@
         </flux:card>
 
         <div class="mt-6 flex justify-center">
-            <flux:button href="{{ route('exams') }}" variant="primary">
+            <flux:button href="{{ route('student.exams') }}" variant="primary">
                 Volver a Exámenes
             </flux:button>
         </div>

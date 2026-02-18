@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('file_path')->nullable(); // Ruta del archivo subido
             $table->string('file_name')->nullable(); // Nombre original del archivo
             $table->text('notes')->nullable(); // Notas del estudiante
-            $table->enum('status', ['pending', 'submitted', 'graded', 'rejected', 'resubmitted'])->default('submitted');
+            $table->enum('status', ['pending', 'submitted', 'graded', 'rejected', 'resubmitted', 'returned'])->default('submitted');
             $table->decimal('grade', 5, 2)->nullable(); // Calificación (0-10)
             $table->text('feedback')->nullable(); // Comentarios del profesor
             $table->boolean('is_early')->default(false); // Entrega anticipada

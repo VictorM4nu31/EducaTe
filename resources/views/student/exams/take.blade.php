@@ -34,13 +34,13 @@
         @endif
     </div>
 
-    <form action="{{ route('exams.submit', [$exam, $attempt]) }}" method="POST" id="exam-form"
+    <form action="{{ route('student.exams.submit', [$exam, $attempt]) }}" method="POST" id="exam-form"
         onsubmit="window.isSubmitting = true;">
         @csrf
         <input type="hidden" name="hints_used" value="{{ $attempt->hints_used }}" id="hints-used-input">
 
         @if(isset($annulled_message))
-            <div class="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md p-4">
+            <div class="fixed inset-0 z-100 flex items-center justify-center bg-black/80 backdrop-blur-md p-4">
                 <div
                     class="max-w-md w-full bg-white dark:bg-neutral-900 rounded-3xl p-8 shadow-2xl text-center border border-red-500/30">
                     <div
@@ -49,7 +49,7 @@
                     </div>
                     <h2 class="text-2xl font-bold text-neutral-900 dark:text-white mb-4">Examen Anulado</h2>
                     <p class="text-neutral-600 dark:text-neutral-400 mb-6">{{ $annulled_message }}</p>
-                    <flux:button href="{{ route('exams') }}" variant="primary"
+                    <flux:button href="{{ route('student.exams') }}" variant="primary"
                         class="w-full bg-red-600 hover:bg-red-700">
                         Volver a mis exámenes
                     </flux:button>
@@ -117,7 +117,7 @@
             </div>
 
             <div class="mt-6 flex justify-end gap-3">
-                <flux:button type="button" variant="ghost" href="{{ route('exams') }}">
+                <flux:button type="button" variant="ghost" href="{{ route('student.exams') }}">
                     Cancelar
                 </flux:button>
                 <flux:button type="submit" variant="primary"
@@ -153,7 +153,7 @@
 
             function annulExam() {
                 isAnnulled = true;
-                fetch('{{ route('exams.annul', [$exam, $attempt]) }}', {
+                fetch('{{ route('student.exams.annul', [$exam, $attempt]) }}', {
                     method: 'POST',
                     headers: {
                         'X-CSRF-TOKEN': '{{ csrf_token() }}',
@@ -179,7 +179,7 @@
                     }
                 });
 
-                fetch('{{ route('exams.save-progress', [$exam, $attempt]) }}', {
+                fetch('{{ route('student.exams.save-progress', [$exam, $attempt]) }}', {
                     method: 'POST',
                     headers: {
                         'X-CSRF-TOKEN': '{{ csrf_token() }}',

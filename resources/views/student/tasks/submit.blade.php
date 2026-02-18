@@ -47,11 +47,33 @@
             <div class="lg:col-span-2">
                 <flux:card>
                     @if($submission)
-                        <div class="mb-6 p-4 bg-blue-500/10 rounded-lg border border-blue-500/20">
-                            <p class="text-sm text-blue-500">
-                                Ya tienes una entrega para esta tarea. Puedes subir un nuevo archivo para reemplazarla.
-                            </p>
-                        </div>
+                        @if($submission->status === 'returned' && $submission->feedback)
+                            <div class="mb-6 p-4 bg-orange-500/10 rounded-lg border border-orange-500/20">
+                                <h4 class="text-sm font-bold text-orange-600 dark:text-orange-400 mb-2 flex items-center gap-2">
+                                    <flux:icon name="exclamation-circle" variant="solid" size="sm" />
+                                    Comentarios del Profesor para Corrección
+                                </h4>
+                                <p class="text-sm text-orange-700 dark:text-orange-300 italic">
+                                    "{{ $submission->feedback }}"
+                                </p>
+                            </div>
+                        @elseif($submission->status === 'graded' && $submission->feedback)
+                            <div class="mb-6 p-4 bg-blue-500/10 rounded-lg border border-blue-500/20">
+                                <h4 class="text-sm font-bold text-blue-600 dark:text-blue-400 mb-2 flex items-center gap-2">
+                                    <flux:icon name="chat-bubble-bottom-center-text" variant="solid" size="sm" />
+                                    Retroalimentación del Profesor
+                                </h4>
+                                <p class="text-sm text-blue-700 dark:text-blue-300 italic">
+                                    "{{ $submission->feedback }}"
+                                </p>
+                            </div>
+                        @else
+                            <div class="mb-6 p-4 bg-blue-500/10 rounded-lg border border-blue-500/20">
+                                <p class="text-sm text-blue-500">
+                                    Ya tienes una entrega para esta tarea. Puedes subir un nuevo archivo para reemplazarla.
+                                </p>
+                            </div>
+                        @endif
                     @endif
 
                     <form action="{{ route('tasks.submit.store', $task) }}" method="POST" enctype="multipart/form-data"
@@ -77,7 +99,8 @@
                             <flux:field>
                                 <flux:label>Notas Adicionales (opcional)</flux:label>
                                 <flux:textarea name="notes" rows="4"
-                                    placeholder="Agrega comentarios o notas sobre tu entrega...">{{ old('notes') }}
+                                    placeholder="Agrega comentarios o notas sobre tu entrega...">
+                                    {{ old('notes', $submission->notes ?? '') }}
                                 </flux:textarea>
                                 <flux:error name="notes" />
                             </flux:field>
@@ -100,7 +123,7 @@
                                 Cancelar
                             </flux:button>
                             <flux:button type="submit" variant="primary">
-                                Entregar Tarea
+                                {{ $submission ? 'Actualizar Entrega' : 'Entregar Tarea' }}
                             </flux:button>
                         </div>
                     </form>

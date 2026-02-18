@@ -7,6 +7,7 @@ use App\Models\Exam;
 use App\Models\ExamAttempt;
 use App\Models\ExamAssignment;
 use App\Models\User;
+use App\Notifications\ExamAnnulled;
 use App\Services\EconomyService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -144,7 +145,7 @@ class ExamController extends Controller
         // Notificar al docente
         $teacher = User::find($exam->created_by);
         if ($teacher) {
-            $teacher->notify(new \App\Notifications\ExamAnnulled($attempt));
+            $teacher->notify(new ExamAnnulled($attempt));
         }
 
         return response()->json(['success' => true]);

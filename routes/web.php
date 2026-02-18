@@ -67,6 +67,7 @@ Route::middleware(['auth', 'verified', 'role:admin|docente'])->prefix('teacher')
     Route::get('tasks/submissions', [\App\Http\Controllers\Teacher\TaskSubmissionController::class, 'index'])->name('tasks.submissions');
     Route::get('tasks/submissions/{submission}', [\App\Http\Controllers\Teacher\TaskSubmissionController::class, 'show'])->name('tasks.submissions.show');
     Route::post('tasks/submissions/{submission}/grade', [\App\Http\Controllers\Teacher\TaskSubmissionController::class, 'grade'])->name('tasks.submissions.grade');
+    Route::post('tasks/submissions/{submission}/return', [\App\Http\Controllers\Teacher\TaskSubmissionController::class, 'returnTask'])->name('tasks.submissions.return');
 
     // Gestión de Recompensas
     Route::resource('rewards', \App\Http\Controllers\Teacher\RewardController::class);
@@ -98,11 +99,13 @@ Route::middleware(['auth', 'verified', 'role:alumno'])->group(function () {
     Route::get('submissions/{submission}/download', [\App\Http\Controllers\Student\TaskSubmissionController::class, 'download'])->name('submissions.download');
 
     // Exámenes
-    Route::get('exams', [\App\Http\Controllers\Student\ExamController::class, 'index'])->name('exams');
-    Route::get('exams/{exam}/start', [\App\Http\Controllers\Student\ExamController::class, 'start'])->name('exams.start');
-    Route::post('exams/{exam}/attempts/{attempt}/submit', [\App\Http\Controllers\Student\ExamController::class, 'submit'])->name('exams.submit');
-    Route::post('exams/{exam}/attempts/{attempt}/save-progress', [\App\Http\Controllers\Student\ExamController::class, 'saveProgress'])->name('exams.save-progress');
-    Route::post('exams/{exam}/attempts/{attempt}/annul', [\App\Http\Controllers\Student\ExamController::class, 'annul'])->name('exams.annul');
+    Route::name('student.')->group(function () {
+        Route::get('exams', [\App\Http\Controllers\Student\ExamController::class, 'index'])->name('exams');
+        Route::get('exams/{exam}/start', [\App\Http\Controllers\Student\ExamController::class, 'start'])->name('exams.start');
+        Route::post('exams/{exam}/attempts/{attempt}/submit', [\App\Http\Controllers\Student\ExamController::class, 'submit'])->name('exams.submit');
+        Route::post('exams/{exam}/attempts/{attempt}/save-progress', [\App\Http\Controllers\Student\ExamController::class, 'saveProgress'])->name('exams.save-progress');
+        Route::post('exams/{exam}/attempts/{attempt}/annul', [\App\Http\Controllers\Student\ExamController::class, 'annul'])->name('exams.annul');
+    });
 
     // Marketplace de recompensas
     Route::view('marketplace', 'student.marketplace.index')->name('marketplace');
