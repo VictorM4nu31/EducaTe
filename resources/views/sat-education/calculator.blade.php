@@ -7,7 +7,7 @@
         </div>
 
         <div
-            class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-blue-600 to-blue-400 p-8 shadow-lg mb-8 text-white">
+            class="relative overflow-hidden rounded-2xl bg-linear-to-r from-blue-600 to-blue-400 p-8 shadow-lg mb-8 text-white">
             <div class="relative z-10 text-center">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="size-16 mx-auto mb-4 opacity-80">

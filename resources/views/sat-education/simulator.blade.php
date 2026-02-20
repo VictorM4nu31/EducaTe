@@ -7,7 +7,7 @@
         </div>
 
         <div
-            class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-green-600 to-green-400 p-8 shadow-lg mb-8 text-white">
+            class="relative overflow-hidden rounded-2xl bg-linear-to-r from-green-600 to-green-400 p-8 shadow-lg mb-8 text-white">
             <div class="relative z-10">
                 <div class="flex items-center gap-4 mb-2">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"

@@ -199,7 +199,7 @@
                             class="relative bg-linear-to-br from-blue-500 to-green-500 p-1 z-10 shadow-3xl rounded-3xl">
                             <div
                                 class="bg-neutral-dark rounded-[22px] overflow-hidden aspect-square flex items-center justify-center p-12">
-                                <x-app-logo-icon class="size-48 text-blue-500" />
+                                <x-app-logo-icon class="size-48" />
                             </div>
                         </div>
                         <div class="absolute -top-12 -right-12 size-64 bg-blue-500/20 blur-[100px] -z-10 rounded-full">
