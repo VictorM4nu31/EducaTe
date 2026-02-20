@@ -151,7 +151,12 @@ Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->name('ad
 Route::middleware(['auth', 'verified'])->prefix('sat-education')->name('sat-education.')->group(function () {
     Route::get('/', [SatEducationController::class, 'index'])->name('index');
     Route::get('rfc', [SatEducationController::class, 'rfc'])->name('rfc');
+    Route::get('calculator', [SatEducationController::class, 'calculator'])->name('calculator');
+    Route::get('simulator', [SatEducationController::class, 'simulator'])->name('simulator');
+    Route::post('simulator', [SatEducationController::class, 'submitSimulator'])->name('simulator.submit');
     Route::get('lessons/{lesson}', [SatEducationController::class, 'show'])->name('show');
+    Route::get('lessons/{lesson}/quiz', [SatEducationController::class, 'takeQuiz'])->name('lessons.quiz');
+    Route::post('lessons/{lesson}/quiz', [SatEducationController::class, 'submitQuiz'])->name('lessons.quiz.submit');
 });
 
 require __DIR__.'/settings.php';

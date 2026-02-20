@@ -25,6 +25,7 @@ class SatLesson extends Model
         'title',
         'slug',
         'content',
+        'quiz_data',
         'order',
         'category',
         'difficulty',
@@ -40,6 +41,7 @@ class SatLesson extends Model
         'estimated_minutes' => 'integer',
         'category_order' => 'integer',
         'lesson_order' => 'integer',
+        'quiz_data' => 'array',
     ];
 
     /**
