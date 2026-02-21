@@ -228,8 +228,8 @@
                                 href="{{ route('register') }}">
                                 Comenzar ahora
                             </flux:button>
-                            <flux:button variant="ghost"
-                                class="text-white border-white/30 hover:bg-white/10 w-full sm:w-auto h-12 px-8 text-base font-medium">
+                            <flux:button variant="outline"
+                                class="bg-white/10 text-white border-white/60 hover:bg-white/20 w-full sm:w-auto h-12 px-8 text-base font-medium">
                                 Contactar ventas
                             </flux:button>
                         </div>
