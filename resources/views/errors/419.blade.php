@@ -1,0 +1,29 @@
+@extends('errors.layout')
+
+@section('code', '419')
+@section('title', 'Sesión Expirada')
+@section('subtitle', 'Tu sesión ha caducado por inactividad')
+
+@section('badge')
+    <div class="error-badge badge-yellow">
+        <span class="badge-dot"></span>
+        Token Inválido
+    </div>
+@endsection
+
+@section('description')
+    Por seguridad, tu sesión expiró después de un período de inactividad.
+    Por favor recarga la página o regresa al formulario e inténtalo de nuevo.
+@endsection
+
+@section('extra_action')
+    <button onclick="window.location.reload()" class="btn btn-primary"
+        style="background: linear-gradient(135deg, var(--green) 0%, #16a34a 100%);">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+            stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+        </svg>
+        Recargar Página
+    </button>
+@endsection
