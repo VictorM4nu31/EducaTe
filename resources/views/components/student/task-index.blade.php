@@ -54,9 +54,14 @@ new class extends Component {
 <div class="space-y-12">
     {{-- Tareas Pendientes --}}
     <section class="space-y-6">
-        <div>
-            <h2 class="text-2xl font-bold text-neutral-900 dark:text-white">Tareas Pendientes</h2>
-            <p class="text-sm text-neutral-500">Completa tus actividades para ganar AulaChain.</p>
+        <div class="flex items-center gap-4">
+            <div class="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+                <flux:icon icon="clipboard-document-list" class="size-8 text-blue-600 dark:text-blue-400" />
+            </div>
+            <div>
+                <h2 class="text-2xl font-bold text-neutral-900 dark:text-white">Tareas Pendientes</h2>
+                <p class="text-sm text-neutral-500">Completa tus actividades para ganar AulaChain.</p>
+            </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -76,8 +81,11 @@ new class extends Component {
                             ]) size="sm">
                                 {{ ucfirst($task->difficulty) }}
                             </flux:badge>
-                            <span
-                                class="text-xs text-neutral-500">{{ $task->due_date ? 'Vence: ' . $task->due_date->diffForHumans() : 'Sin fecha limite' }}</span>
+                            <div class="flex items-center gap-1.5">
+                                <flux:icon icon="calendar" class="size-3 text-neutral-400" />
+                                <span
+                                    class="text-xs text-neutral-500">{{ $task->due_date ? 'Vence: ' . $task->due_date->diffForHumans() : 'Sin fecha limite' }}</span>
+                            </div>
                         </div>
 
                         <h3 class="text-lg font-bold text-neutral-800 dark:text-neutral-200">{{ $task->title }}</h3>
@@ -95,7 +103,8 @@ new class extends Component {
 
                     <div
                         class="mt-6 flex items-center justify-between pt-4 border-t border-neutral-light dark:border-neutral-800">
-                        <div class="flex items-center gap-1 font-bold text-aulachain-green">
+                        <div class="flex items-center gap-2 font-bold text-aulachain-green">
+                            <flux:icon icon="banknotes" class="size-5" />
                             <span>₳</span> {{ number_format($task->ac_reward, 0) }}
                         </div>
                         <flux:button variant="primary" size="sm" icon="cloud-arrow-up"
@@ -105,11 +114,7 @@ new class extends Component {
             @empty
                 <div
                     class="col-span-full py-12 text-center text-neutral-500 bg-white dark:bg-neutral-900 rounded-xl border border-neutral-200 dark:border-neutral-800">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="size-12 mx-auto mb-3 opacity-20">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
-                    </svg>
+                    <flux:icon icon="clipboard-document-check" class="size-12 mx-auto mb-3 opacity-20" />
                     <p class="font-medium">No tienes tareas pendientes</p>
                     <p class="text-xs mt-1">¡Buen trabajo! Estás al día con tus actividades.</p>
                 </div>
@@ -120,9 +125,14 @@ new class extends Component {
     {{-- Tareas Completadas --}}
     @if(count($completedTasks) > 0)
         <section class="space-y-6">
-            <div>
-                <h2 class="text-2xl font-bold text-neutral-900 dark:text-white">Tareas Completadas</h2>
-                <p class="text-sm text-neutral-500">Repasa tus entregas anteriores.</p>
+            <div class="flex items-center gap-4">
+                <div class="p-3 bg-emerald-100 dark:bg-emerald-900/30 rounded-lg">
+                    <flux:icon icon="check-badge" class="size-8 text-emerald-600 dark:text-emerald-400" />
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-neutral-900 dark:text-white">Tareas Completadas</h2>
+                    <p class="text-sm text-neutral-500">Repasa tus entregas anteriores.</p>
+                </div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

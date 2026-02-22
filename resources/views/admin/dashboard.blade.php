@@ -1,8 +1,11 @@
 <x-layouts::app title="Admin Dashboard">
     <div class="container mx-auto py-6">
         <div class="mb-8">
-            <h1 class="text-3xl font-bold text-neutral-dark dark:text-neutral-dark">Panel de Administración</h1>
-            <p class="text-neutral-medium dark:text-neutral-medium">Bienvenido, {{ auth()->user()->name }}</p>
+            <h1 class="text-3xl font-bold text-neutral-dark dark:text-neutral-dark flex items-center gap-3">
+                <flux:icon icon="layout-grid" class="size-8 text-blue-500" />
+                Panel de Administración
+            </h1>
+            <p class="text-neutral-medium dark:text-neutral-medium ml-11">Bienvenido, {{ auth()->user()->name }}</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

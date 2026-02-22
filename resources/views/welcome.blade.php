@@ -81,13 +81,170 @@
 
                 <div class="mt-20 relative animate-fade-in-up" style="animation-delay: 400ms">
                     <div
-                        class="absolute inset-0 bg-linear-to-t from-zinc-50 dark:from-zinc-950 to-transparent z-10 h-24 bottom-0">
-                    </div>
-                    <div
-                        class="rounded-2xl border border-neutral-light dark:border-neutral-light/20 bg-neutral-very-light dark:bg-neutral-dark/50 overflow-hidden shadow-2xl mx-auto max-w-5xl aspect-video relative">
-                        <!-- Placeholder for a dashboard screenshot or video -->
-                        <div class="absolute inset-0 flex items-center justify-center bg-neutral-light/10">
-                            <x-app-logo-icon class="size-24 opacity-20" />
+                        class="rounded-2xl border border-neutral-light dark:border-neutral-light/20 bg-white dark:bg-neutral-dark/80 overflow-hidden shadow-2xl mx-auto max-w-5xl aspect-16/10 relative flex">
+
+                        <!-- Sidebar Falso -->
+                        <div
+                            class="w-16 md:w-56 border-r border-neutral-light dark:border-neutral-light/20 bg-neutral-very-light dark:bg-neutral-dark flex flex-col items-center md:items-start py-6 shrink-0 z-10">
+                            <!-- Logo Area -->
+                            <div class="px-0 md:px-6 w-full flex justify-center md:justify-start mb-8">
+                                <x-app-logo-icon class="size-8 text-blue-500" />
+                                <span
+                                    class="hidden md:block ml-2 font-bold text-lg text-neutral-dark dark:text-white">EducaTe</span>
+                            </div>
+
+                            <!-- Nav Items Dummies -->
+                            <div class="w-full space-y-2 px-3">
+                                <div
+                                    class="w-full h-10 rounded-lg text-neutral-medium flex items-center px-2 md:px-3 text-sm font-medium">
+                                    <flux:icon icon="squares-2x2" variant="outline" class="size-5 shrink-0" />
+                                    <span class="hidden md:block ml-3">Panel Principal</span>
+                                </div>
+                                <div
+                                    class="w-full h-10 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center px-2 md:px-3 text-sm font-medium transition-colors">
+                                    <flux:icon icon="building-library" variant="solid" class="size-5 shrink-0" />
+                                    <span class="hidden md:block ml-3">Banco Virtual</span>
+                                </div>
+                                <div
+                                    class="w-full h-10 rounded-lg text-neutral-medium hover:bg-neutral-200 dark:hover:bg-white/5 flex items-center px-2 md:px-3 text-sm font-medium transition-colors">
+                                    <flux:icon icon="academic-cap" variant="outline" class="size-5 shrink-0" />
+                                    <span class="hidden md:block ml-3">Mis Clases</span>
+                                </div>
+                                <div
+                                    class="w-full h-10 rounded-lg text-neutral-medium hover:bg-neutral-200 dark:hover:bg-white/5 flex items-center px-2 md:px-3 text-sm font-medium transition-colors">
+                                    <flux:icon icon="clipboard-document-list" variant="outline"
+                                        class="size-5 shrink-0" />
+                                    <span class="hidden md:block ml-3">Tareas</span>
+                                </div>
+                            </div>
+
+                            <!-- User Profile Dummy -->
+                            <div class="mt-auto px-0 md:px-5 w-full flex justify-center md:justify-start items-center">
+                                <div
+                                    class="size-8 rounded-full bg-linear-to-tr from-emerald-500 to-emerald-400 shrink-0">
+                                </div>
+                                <div class="hidden md:block ml-3 text-left">
+                                    <div
+                                        class="text-[10px] font-semibold text-neutral-dark dark:text-white leading-tight">
+                                        Victor Manuel</div>
+                                    <div class="text-[8px] text-neutral-medium font-mono leading-tight">ID: EDUC-2024
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Main Content Falso (Banco Virtual) -->
+                        <div class="flex-1 flex flex-col h-full bg-zinc-50 dark:bg-zinc-900/50 overflow-hidden">
+                            <!-- Topbar Dummy -->
+                            <div
+                                class="h-14 border-b border-neutral-light dark:border-neutral-light/20 flex items-center justify-between px-6 bg-white/50 dark:bg-neutral-dark/50 backdrop-blur-sm z-10 shrink-0">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-xs font-bold font-mono text-emerald-600">BANCO VIRTUAL</span>
+                                    <span
+                                        class="text-[10px] px-2 py-0.5 rounded bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 font-bold uppercase tracking-tighter">ACTIVO</span>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <div
+                                        class="size-8 rounded-full bg-neutral-200 dark:bg-white/10 flex items-center justify-center">
+                                        <flux:icon icon="bell" variant="outline" class="size-4 text-neutral-medium" />
+                                    </div>
+                                    <div
+                                        class="size-8 rounded-full bg-neutral-200 dark:bg-white/10 flex items-center justify-center">
+                                        <flux:icon icon="magnifying-glass" variant="outline"
+                                            class="size-4 text-neutral-medium" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Content Area Dummy -->
+                            <div class="p-6 flex-1 overflow-y-auto flex flex-col gap-6 hide-scrollbar text-left">
+
+                                <!-- Header de Balance -->
+                                <div
+                                    class="relative overflow-hidden rounded-2xl bg-linear-to-br from-emerald-500 to-emerald-700 p-6 shadow-xl text-white shrink-0">
+                                    <div class="relative z-10">
+                                        <p
+                                            class="text-[10px] font-medium text-emerald-100 uppercase tracking-widest mb-1 opacity-80">
+                                            Saldo disponible</p>
+                                        <h2 class="text-4xl font-bold font-mono tracking-tighter text-white">₳ 1,250.00
+                                        </h2>
+
+                                        <div class="mt-4 flex gap-2 overflow-x-auto pb-1 no-scrollbar text-white">
+                                            <div
+                                                class="px-2 py-1 rounded-md bg-white/20 backdrop-blur-sm text-[9px] font-medium flex items-center gap-1 shrink-0 text-white">
+                                                <flux:icon icon="sparkles" variant="solid" class="size-3 text-white" />
+                                                +₳ 2.50 Interés
+                                            </div>
+                                            <div
+                                                class="px-2 py-1 rounded-md bg-white/20 backdrop-blur-sm text-[9px] font-medium flex items-center gap-1 shrink-0 text-white">
+                                                <flux:icon icon="fire" variant="solid" class="size-3 text-white" />
+                                                3 días invicto
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-white/10 blur-2xl">
+                                    </div>
+                                    <div
+                                        class="absolute -left-10 -bottom-10 h-24 w-24 rounded-full bg-blue-400/20 blur-2xl">
+                                    </div>
+                                </div>
+
+                                <!-- Estadísticas -->
+                                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 shrink-0">
+                                    <div
+                                        class="bg-white dark:bg-neutral-dark border border-neutral-light dark:border-neutral-light/20 rounded-xl p-3 shadow-sm">
+                                        <p class="text-[9px] text-neutral-500 mb-0.5">Ingresos</p>
+                                        <p class="text-sm font-bold text-emerald-600">₳ 2.4k</p>
+                                    </div>
+                                    <div
+                                        class="bg-white dark:bg-neutral-dark border border-neutral-light dark:border-neutral-light/20 rounded-xl p-3 shadow-sm">
+                                        <p class="text-[9px] text-neutral-500 mb-0.5">Gastos</p>
+                                        <p class="text-sm font-bold text-red-500">₳ 850</p>
+                                    </div>
+                                    <div
+                                        class="bg-white dark:bg-neutral-dark border border-neutral-light dark:border-neutral-light/20 rounded-xl p-3 shadow-sm">
+                                        <p class="text-[9px] text-neutral-500 mb-0.5">Fisco</p>
+                                        <p class="text-sm font-bold text-orange-500">5%</p>
+                                    </div>
+                                    <div
+                                        class="bg-white dark:bg-neutral-dark border border-neutral-light dark:border-neutral-light/20 rounded-xl p-3 shadow-sm">
+                                        <p class="text-[9px] text-neutral-500 mb-0.5">Puntos</p>
+                                        <p class="text-sm font-bold text-blue-500">850</p>
+                                    </div>
+                                </div>
+
+                                <!-- Historial -->
+                                <div
+                                    class="bg-white dark:bg-neutral-dark border border-neutral-light dark:border-neutral-light/20 rounded-xl overflow-hidden shadow-sm shrink-0">
+                                    <div
+                                        class="px-4 py-3 border-b border-neutral-light dark:border-neutral-light/20 flex items-center justify-between">
+                                        <h3 class="text-xs font-bold px-2">Actividad Reciente</h3>
+                                        <flux:icon icon="chevron-right" class="size-3 text-neutral-medium" />
+                                    </div>
+                                    <div class="divide-y divide-neutral-light dark:divide-neutral-light/10">
+                                        <div class="p-4 flex items-center justify-between">
+                                            <div class="flex items-center gap-3">
+                                                <div
+                                                    class="size-8 rounded bg-emerald-500/10 text-emerald-500 flex items-center justify-center">
+                                                    <flux:icon icon="gift" variant="solid" class="size-4" />
+                                                </div>
+                                                <div class="text-[11px] font-bold">Tarea: Geografía #4</div>
+                                            </div>
+                                            <div class="text-xs font-bold text-emerald-600">+50.00 ₳</div>
+                                        </div>
+                                        <div class="p-4 flex items-center justify-between">
+                                            <div class="flex items-center gap-3">
+                                                <div
+                                                    class="size-8 rounded bg-red-500/10 text-red-500 flex items-center justify-center">
+                                                    <flux:icon icon="shopping-cart" variant="solid" class="size-4" />
+                                                </div>
+                                                <div class="text-[11px] font-bold">Tienda: Kit de Limpieza</div>
+                                            </div>
+                                            <div class="text-xs font-bold text-red-500">-120.00 ₳</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -97,7 +254,7 @@
         <!-- Features Section -->
         <section id="features"
             class="py-24 bg-neutral-very-light dark:bg-neutral-dark/30 border-y border-neutral-light dark:border-neutral-light/10">
-            <div class="container mx-auto px-6">
+            <div class="container mx-auto px-6 text-center">
                 <div class="text-center mb-16">
                     <h2 class="text-3xl lg:text-4xl font-bold mb-4">Todo lo que necesitas para tu institución</h2>
                     <p class="text-neutral-medium">Herramientas diseñadas para cada actor del proceso educativo.</p>
@@ -106,7 +263,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <!-- Feature 1 -->
                     <div
-                        class="p-8 rounded-2xl bg-white dark:bg-neutral-dark border border-neutral-light dark:border-neutral-light/20 hover:border-blue-500/50 transition-colors group">
+                        class="p-8 rounded-2xl bg-white dark:bg-neutral-dark border border-neutral-light dark:border-neutral-light/20 hover:border-blue-500/50 transition-colors group text-left">
                         <div
                             class="size-12 rounded-xl bg-blue-500/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                             <flux:icon icon="academic-cap" class="text-blue-500" />
@@ -118,7 +275,7 @@
 
                     <!-- Feature 2 -->
                     <div
-                        class="p-8 rounded-2xl bg-white dark:bg-neutral-dark border border-neutral-light dark:border-neutral-light/20 hover:border-green-500/50 transition-colors group">
+                        class="p-8 rounded-2xl bg-white dark:bg-neutral-dark border border-neutral-light dark:border-neutral-light/20 hover:border-green-500/50 transition-colors group text-left">
                         <div
                             class="size-12 rounded-xl bg-green-500/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                             <flux:icon icon="bolt" class="text-green-500" />
@@ -130,7 +287,7 @@
 
                     <!-- Feature 3 -->
                     <div
-                        class="p-8 rounded-2xl bg-white dark:bg-neutral-dark border border-neutral-light dark:border-neutral-light/20 hover:border-orange-500/50 transition-colors group">
+                        class="p-8 rounded-2xl bg-white dark:bg-neutral-dark border border-neutral-light dark:border-neutral-light/20 hover:border-orange-500/50 transition-colors group text-left">
                         <div
                             class="size-12 rounded-xl bg-orange-500/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                             <flux:icon icon="chart-bar-square" class="text-orange-500" />

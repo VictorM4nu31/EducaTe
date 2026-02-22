@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\DocenteController;
+use App\Http\Controllers\Admin\AlumnoController;
 use App\Http\Controllers\Teacher\GroupController;
 use App\Http\Controllers\Student\JoinGroupController;
 use App\Http\Controllers\SatEducationController;
@@ -10,9 +11,6 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-Route::middleware(['auth'])->get('style-guide', function () {
-    return view('style-guide');
-})->name('style-guide');
 
 Route::get('dashboard', function () {
     $user = auth()->user();
@@ -39,14 +37,7 @@ Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->name('ad
     Route::view('/', 'admin.dashboard')->name('dashboard');
 
     // Gestión de Alumnos (ver todos los alumnos)
-    Route::get('alumnos', function () {
-        $alumnos = \App\Models\User::role('alumno')
-            ->with('wallet')
-            ->latest()
-            ->paginate(15);
-
-        return view('admin.alumnos.index', compact('alumnos'));
-    })->name('alumnos.index');
+    Route::get('alumnos', [AlumnoController::class, 'index'])->name('alumnos.index');
 
     // Configuración del sistema
     Route::view('settings', 'admin.settings')->name('settings');

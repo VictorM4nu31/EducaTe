@@ -1,15 +1,22 @@
 <x-layouts::app title="Configuración del Sistema">
     <div class="container mx-auto py-6 max-w-4xl">
-        <div class="mb-8">
-            <h1 class="text-3xl font-bold text-neutral-dark dark:text-neutral-dark">Configuración del Sistema</h1>
-            <p class="text-neutral-medium dark:text-neutral-medium">Ajustes generales de EducaTe</p>
+        <div class="mb-8 flex items-center gap-4">
+            <div class="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
+                <flux:icon icon="cog-6-tooth" class="size-8 text-purple-600 dark:text-purple-400" />
+            </div>
+            <div>
+                <h1 class="text-3xl font-bold text-neutral-dark dark:text-neutral-dark">Configuración del Sistema</h1>
+                <p class="text-neutral-medium dark:text-neutral-medium">Ajustes generales de EducaTe</p>
+            </div>
         </div>
 
         <div class="space-y-6">
             <!-- Sección General -->
             <div
                 class="bg-white dark:bg-neutral-dark rounded-xl border border-neutral-light dark:border-neutral-light p-6">
-                <h3 class="font-bold text-lg mb-4 text-neutral-dark dark:text-neutral-dark">Información de la Escuela
+                <h3 class="font-bold text-lg mb-4 text-neutral-dark dark:text-neutral-dark flex items-center gap-2">
+                    <flux:icon icon="building-library" class="size-5 text-neutral-500" />
+                    Información de la Escuela
                 </h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <flux:input label="Nombre de la Institución" value="Escuela Primaria Benito Juárez" readonly />
@@ -20,8 +27,10 @@
             <!-- Sección SAT -->
             <div
                 class="bg-white dark:bg-neutral-dark rounded-xl border border-neutral-light dark:border-neutral-light p-6">
-                <h3 class="font-bold text-lg mb-4 text-neutral-dark dark:text-neutral-dark">Configuración Fiscal (SAT
-                    Educativo)</h3>
+                <h3 class="font-bold text-lg mb-4 text-neutral-dark dark:text-neutral-dark flex items-center gap-2">
+                    <flux:icon icon="banknotes" class="size-5 text-neutral-500" />
+                    Configuración Fiscal (SAT Educativo)
+                </h3>
                 <div class="space-y-4">
                     <div class="flex items-center justify-between">
                         <div>
