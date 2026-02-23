@@ -33,8 +33,10 @@
             @auth
                 <flux:button href="{{ route('dashboard') }}" variant="primary" wire:navigate>Dashboard</flux:button>
             @else
+                <livewire:components.demo-users-modal />
                 <flux:button href="{{ route('login') }}" variant="ghost" wire:navigate>Entrar</flux:button>
-                <flux:button href="{{ route('register') }}" variant="primary" wire:navigate>Empezar</flux:button>
+                <!-- Registro deshabilitado en demo - solo acceso mediante demo -->
+                {{-- <flux:button href="{{ route('register') }}" variant="primary" wire:navigate>Empezar</flux:button> --}}
             @endauth
         </div>
     </flux:header>
