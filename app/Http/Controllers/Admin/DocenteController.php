@@ -74,7 +74,9 @@ class DocenteController extends Controller
         abort_unless(auth()->user()->hasRole('admin'), 403);
         abort_unless($docente->hasRole('docente'), 404);
         
-        $docente->load('wallet');
+        $docente->load(['wallet', 'taughtGroups' => function($query) {
+            $query->withCount('students');
+        }]);
         
         return view('admin.docentes.show', compact('docente'));
     }

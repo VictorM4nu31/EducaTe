@@ -9,11 +9,17 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Spatie\Permission\Traits\HasRoles;
+use App\Traits\HasSlug;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, TwoFactorAuthenticatable, HasRoles;
+    use HasFactory, Notifiable, TwoFactorAuthenticatable, HasRoles, HasSlug;
+
+    /**
+     * Field to use for slug generation
+     */
+    protected string $slugSourceField = 'name';
 
     /**
      * The attributes that are mass assignable.
@@ -27,6 +33,7 @@ class User extends Authenticatable
         'rfc',
         'level',
         'experience',
+        'slug',
     ];
 
     /**

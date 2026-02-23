@@ -31,7 +31,7 @@ Route::get('dashboard', function () {
 // ========================================
 Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     // Gestión de Docentes
-    Route::resource('teachers', DocenteController::class);
+    Route::resource('teachers', DocenteController::class)->parameters(['teachers' => 'docente:slug']);
 
     // Panel de administración
     Route::view('/', 'admin.dashboard')->name('dashboard');

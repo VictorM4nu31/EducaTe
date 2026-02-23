@@ -85,7 +85,7 @@
                             </div>
 
                             <div class="mt-4 pt-4 border-t border-neutral-200 dark:border-neutral-700">
-                                <form action="{{ route('groups.leave', $group) }}" method="POST" class="inline">
+                                <form action="{{ route('student.groups.leave', $group) }}" method="POST" class="inline">
                                     @csrf
                                     @method('DELETE')
                                     <flux:button type="submit" variant="ghost" size="sm" class="w-full" wire:confirm="¿Estás seguro de salir de esta clase?">
