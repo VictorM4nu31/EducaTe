@@ -10,7 +10,7 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <!-- Gestión de Docentes -->
-            <a href="{{ route('admin.docentes.index') }}"
+            <a href="{{ route('admin.teachers.index') }}"
                 class="group block p-6 bg-white dark:bg-neutral-dark rounded-xl border border-neutral-light dark:border-neutral-light hover:border-blue-500/50 hover:shadow-lg hover:shadow-blue-500/10 transition-all">
                 <div class="flex items-center gap-4 mb-4">
                     <div

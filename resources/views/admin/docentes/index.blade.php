@@ -10,7 +10,7 @@
                     <p class="text-neutral-500 dark:text-neutral-400">Administra los profesores del sistema</p>
                 </div>
             </div>
-            <flux:button href="{{ route('admin.docentes.create') }}" icon="plus">
+            <flux:button href="{{ route('admin.teachers.create') }}" icon="plus">
                 Crear Docente
             </flux:button>
         </div>
@@ -106,7 +106,7 @@
                                 {{ $docente->created_at->format('d/m/Y') }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
-                                <flux:button href="{{ route('admin.docentes.edit', $docente) }}" variant="ghost" size="sm"
+                                <flux:button href="{{ route('admin.teachers.edit', $docente) }}" variant="ghost" size="sm"
                                     icon="pencil">
                                     Editar
                                 </flux:button>
@@ -117,7 +117,7 @@
                                         <flux:button type="button" variant="danger" size="sm" icon="trash">Eliminar
                                         </flux:button>
                                     </x-slot:trigger>
-                                    <form action="{{ route('admin.docentes.destroy', $docente) }}" method="POST"
+                                    <form action="{{ route('admin.teachers.destroy', $docente) }}" method="POST"
                                         class="inline">
                                         @csrf
                                         @method('DELETE')
@@ -131,7 +131,7 @@
                             <td colspan="6" class="px-6 py-12 text-center text-neutral-500">
                                 <flux:icon icon="users" class="size-12 mx-auto mb-3 opacity-20" />
                                 <p>No hay docentes registrados aún.</p>
-                                <flux:button href="{{ route('admin.docentes.create') }}" variant="ghost" size="sm"
+                                <flux:button href="{{ route('admin.teachers.create') }}" variant="ghost" size="sm"
                                     class="mt-4">
                                     Crear el primer docente
                                 </flux:button>

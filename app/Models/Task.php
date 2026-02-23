@@ -2,12 +2,16 @@
 
 namespace App\Models;
 
+use App\Traits\HasSlug;
 use Illuminate\Database\Eloquent\Model;
 
 class Task extends Model
 {
+    use HasSlug;
+
     protected $fillable = [
         'title',
+        'slug',
         'description',
         'difficulty',
         'ac_reward',

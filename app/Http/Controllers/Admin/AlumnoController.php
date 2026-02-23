@@ -48,7 +48,7 @@ class AlumnoController extends Controller
         $alumno->delete();
 
         return redirect()
-            ->route('admin.alumnos.index')
+            ->route('admin.students.index')
             ->with('success', 'Alumno eliminado exitosamente.');
     }
 }

@@ -2,15 +2,19 @@
 
 namespace App\Models;
 
+use App\Traits\HasSlug;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 class Group extends Model
 {
+    use HasSlug;
+
     protected $fillable = [
         'teacher_id',
         'name',
         'code',
+        'slug',
         'description',
         'subject',
         'grade',
@@ -20,6 +24,8 @@ class Group extends Model
     protected $casts = [
         'is_active' => 'boolean',
     ];
+
+    protected $slugSourceField = 'name';
 
     protected static function booted()
     {

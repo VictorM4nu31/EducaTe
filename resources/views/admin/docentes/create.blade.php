@@ -6,7 +6,7 @@
         </div>
 
         <div class="bg-white dark:bg-neutral-900 rounded-xl border border-neutral-200 dark:border-neutral-800 p-6 shadow-sm">
-            <form action="{{ route('admin.docentes.store') }}" method="POST" class="space-y-6">
+            <form action="{{ route('admin.teachers.store') }}" method="POST" class="space-y-6">
                 @csrf
 
                 <!-- Nombre -->
@@ -24,7 +24,7 @@
                 <p class="text-xs text-neutral-500 mt-1">Si se deja vacío, se generará uno automáticamente basado en el nombre.</p>
 
                 <div class="flex items-center justify-end gap-3 pt-4 border-t border-neutral-100 dark:border-neutral-800">
-                    <flux:button href="{{ route('admin.docentes.index') }}" variant="ghost">
+                    <flux:button href="{{ route('admin.teachers.index') }}" variant="ghost">
                         Cancelar
                     </flux:button>
                     <flux:button type="submit" variant="primary">

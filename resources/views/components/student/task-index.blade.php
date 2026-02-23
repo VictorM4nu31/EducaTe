@@ -108,7 +108,7 @@ new class extends Component {
                             <span>₳</span> {{ number_format($task->ac_reward, 0) }}
                         </div>
                         <flux:button variant="primary" size="sm" icon="cloud-arrow-up"
-                            href="{{ route('tasks.submit', $task) }}">Subir Tarea</flux:button>
+                            href="{{ route('student.tasks.submit', $task) }}">Subir Tarea</flux:button>
                     </div>
                 </flux:card>
             @empty
@@ -175,7 +175,7 @@ new class extends Component {
                                 @endif
                             </div>
                             <flux:button variant="ghost" size="sm" icon="pencil-square"
-                                href="{{ route('tasks.submit', $task) }}">Editar</flux:button>
+                                href="{{ route('student.tasks.submit', $task) }}">Editar</flux:button>
                         </div>
                     </flux:card>
                 @endforeach

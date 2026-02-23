@@ -6,7 +6,7 @@
         </div>
 
         <div class="bg-white dark:bg-neutral-900 rounded-xl border border-neutral-200 dark:border-neutral-800 p-6 shadow-sm">
-            <form action="{{ route('admin.docentes.update', $docente) }}" method="POST" class="space-y-6">
+            <form action="{{ route('admin.teachers.update', $docente) }}" method="POST" class="space-y-6">
                 @csrf
                 @method('PUT')
 
@@ -31,7 +31,7 @@
                     </div>
                     
                     <div class="flex gap-3">
-                        <flux:button href="{{ route('admin.docentes.index') }}" variant="ghost">
+                        <flux:button href="{{ route('admin.teachers.index') }}" variant="ghost">
                             Cancelar
                         </flux:button>
                         <flux:button type="submit" variant="primary">

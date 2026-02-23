@@ -62,7 +62,7 @@ class DocenteController extends Controller
         $docente->assignRole('docente');
 
         return redirect()
-            ->route('admin.docentes.index')
+            ->route('admin.teachers.index')
             ->with('success', 'Docente creado exitosamente.');
     }
 
@@ -119,7 +119,7 @@ class DocenteController extends Controller
         }
 
         return redirect()
-            ->route('admin.docentes.index')
+            ->route('admin.teachers.index')
             ->with('success', 'Docente actualizado exitosamente.');
     }
 
@@ -134,7 +134,7 @@ class DocenteController extends Controller
         $docente->delete();
 
         return redirect()
-            ->route('admin.docentes.index')
+            ->route('admin.teachers.index')
             ->with('success', 'Docente eliminado exitosamente.');
     }
 }

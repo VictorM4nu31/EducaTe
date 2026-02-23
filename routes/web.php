@@ -31,13 +31,13 @@ Route::get('dashboard', function () {
 // ========================================
 Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     // Gestión de Docentes
-    Route::resource('docentes', DocenteController::class);
+    Route::resource('teachers', DocenteController::class);
 
     // Panel de administración
     Route::view('/', 'admin.dashboard')->name('dashboard');
 
     // Gestión de Alumnos (ver todos los alumnos)
-    Route::get('alumnos', [AlumnoController::class, 'index'])->name('alumnos.index');
+    Route::get('students', [AlumnoController::class, 'index'])->name('students.index');
 
     // Configuración del sistema
     Route::view('settings', 'admin.settings')->name('settings');
@@ -50,7 +50,7 @@ Route::middleware(['auth', 'verified', 'role:admin|docente'])->prefix('teacher')
     // Gestión de Tareas
     Route::view('tasks', 'teacher.tasks.index')->name('tasks');
     Route::view('tasks/create', 'teacher.tasks.create')->name('tasks.create');
-    Route::get('tasks/{task}/edit', function (\App\Models\Task $task) {
+    Route::get('tasks/{task:slug}/edit', function (\App\Models\Task $task) {
         return view('teacher.tasks.edit', compact('task'));
     })->name('tasks.edit');
     
@@ -67,36 +67,34 @@ Route::middleware(['auth', 'verified', 'role:admin|docente'])->prefix('teacher')
     Route::view('reports', 'teacher.reports')->name('reports');
 
     // Gestión de Exámenes
-    Route::resource('exams', \App\Http\Controllers\Teacher\ExamController::class);
-    Route::post('exams/{exam}/questions', [\App\Http\Controllers\Teacher\QuestionController::class, 'store'])->name('exams.questions.store');
-    Route::put('exams/{exam}/questions/{question}', [\App\Http\Controllers\Teacher\QuestionController::class, 'update'])->name('exams.questions.update');
-    Route::delete('exams/{exam}/questions/{question}', [\App\Http\Controllers\Teacher\QuestionController::class, 'destroy'])->name('exams.questions.destroy');
-    Route::post('exams/{exam}/attempts/{attempt}/reenable', [\App\Http\Controllers\Teacher\ExamController::class, 'reenableAttempt'])->name('exams.attempts.reenable');
+    Route::resource('exams', \App\Http\Controllers\Teacher\ExamController::class)->parameters(['exams' => 'exam:slug']);
+    Route::post('exams/{exam:slug}/questions', [\App\Http\Controllers\Teacher\QuestionController::class, 'store'])->name('exams.questions.store');
+    Route::put('exams/{exam:slug}/questions/{question}', [\App\Http\Controllers\Teacher\QuestionController::class, 'update'])->name('exams.questions.update');
+    Route::delete('exams/{exam:slug}/questions/{question}', [\App\Http\Controllers\Teacher\QuestionController::class, 'destroy'])->name('exams.questions.destroy');
+    Route::post('exams/{exam:slug}/attempts/{attempt}/reenable', [\App\Http\Controllers\Teacher\ExamController::class, 'reenableAttempt'])->name('exams.attempts.reenable');
 
     // Gestión de Clases/Grupos
-    Route::resource('groups', GroupController::class);
-    Route::post('groups/{group}/regenerate-code', [GroupController::class, 'regenerateCode'])->name('groups.regenerate-code');
-    Route::delete('groups/{group}/students/{student}', [GroupController::class, 'removeStudent'])->name('groups.remove-student');
+    Route::resource('groups', GroupController::class)->parameters(['groups' => 'group:slug']);
+    Route::post('groups/{group:slug}/regenerate-code', [GroupController::class, 'regenerateCode'])->name('groups.regenerate-code');
+    Route::delete('groups/{group:slug}/students/{student}', [GroupController::class, 'removeStudent'])->name('groups.remove-student');
 });
 
 // ========================================
 // RUTAS DE ALUMNO (Solo Alumnos)
 // ========================================
-Route::middleware(['auth', 'verified', 'role:alumno'])->group(function () {
+Route::middleware(['auth', 'verified', 'role:alumno'])->prefix('student')->name('student.')->group(function () {
     // Tareas del alumno
     Route::view('tasks', 'student.tasks.index')->name('tasks');
-    Route::get('tasks/{task}/submit', [\App\Http\Controllers\Student\TaskSubmissionController::class, 'create'])->name('tasks.submit');
-    Route::post('tasks/{task}/submit', [\App\Http\Controllers\Student\TaskSubmissionController::class, 'store'])->name('tasks.submit.store');
+    Route::get('tasks/{task:slug}/submit', [\App\Http\Controllers\Student\TaskSubmissionController::class, 'create'])->name('tasks.submit');
+    Route::post('tasks/{task:slug}/submit', [\App\Http\Controllers\Student\TaskSubmissionController::class, 'store'])->name('tasks.submit.store');
     Route::get('submissions/{submission}/download', [\App\Http\Controllers\Student\TaskSubmissionController::class, 'download'])->name('submissions.download');
 
     // Exámenes
-    Route::name('student.')->group(function () {
-        Route::get('exams', [\App\Http\Controllers\Student\ExamController::class, 'index'])->name('exams');
-        Route::get('exams/{exam}/start', [\App\Http\Controllers\Student\ExamController::class, 'start'])->name('exams.start');
-        Route::post('exams/{exam}/attempts/{attempt}/submit', [\App\Http\Controllers\Student\ExamController::class, 'submit'])->name('exams.submit');
-        Route::post('exams/{exam}/attempts/{attempt}/save-progress', [\App\Http\Controllers\Student\ExamController::class, 'saveProgress'])->name('exams.save-progress');
-        Route::post('exams/{exam}/attempts/{attempt}/annul', [\App\Http\Controllers\Student\ExamController::class, 'annul'])->name('exams.annul');
-    });
+    Route::get('exams', [\App\Http\Controllers\Student\ExamController::class, 'index'])->name('exams');
+    Route::get('exams/{exam:slug}/start', [\App\Http\Controllers\Student\ExamController::class, 'start'])->name('exams.start');
+    Route::post('exams/{exam:slug}/attempts/{attempt}/submit', [\App\Http\Controllers\Student\ExamController::class, 'submit'])->name('exams.submit');
+    Route::post('exams/{exam:slug}/attempts/{attempt}/save-progress', [\App\Http\Controllers\Student\ExamController::class, 'saveProgress'])->name('exams.save-progress');
+    Route::post('exams/{exam:slug}/attempts/{attempt}/annul', [\App\Http\Controllers\Student\ExamController::class, 'annul'])->name('exams.annul');
 
     // Marketplace de recompensas
     Route::view('marketplace', 'student.marketplace.index')->name('marketplace');
@@ -104,7 +102,7 @@ Route::middleware(['auth', 'verified', 'role:alumno'])->group(function () {
     // Unirse a Clases
     Route::get('groups/join', [JoinGroupController::class, 'show'])->name('groups.join');
     Route::post('groups/join', [JoinGroupController::class, 'join'])->name('groups.join.store');
-    Route::delete('groups/{group}/leave', [JoinGroupController::class, 'leave'])->name('groups.leave');
+    Route::delete('groups/{group:slug}/leave', [JoinGroupController::class, 'leave'])->name('groups.leave');
 });
 
 // ========================================

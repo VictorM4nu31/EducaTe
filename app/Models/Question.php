@@ -2,13 +2,17 @@
 
 namespace App\Models;
 
+use App\Traits\HasSlug;
 use Illuminate\Database\Eloquent\Model;
 
 class Question extends Model
 {
+    use HasSlug;
+
     protected $fillable = [
         'exam_id',
         'question_text',
+        'slug',
         'type',
         'points',
         'order',
@@ -21,6 +25,8 @@ class Question extends Model
         'options' => 'array',
         'points' => 'decimal:2',
     ];
+
+    protected $slugSourceField = 'question_text';
 
     public function exam()
     {

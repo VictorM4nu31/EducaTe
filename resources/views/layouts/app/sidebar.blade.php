@@ -27,11 +27,11 @@
                     :current="request()->routeIs('admin.dashboard')" wire:navigate>
                     Dashboard Admin
                 </flux:sidebar.item>
-                <flux:sidebar.item icon="user-group" :href="route('admin.docentes.index')"
+                <flux:sidebar.item icon="user-group" :href="route('admin.teachers.index')"
                     :current="request()->routeIs('admin.docentes.*')" wire:navigate>
                     Docentes
                 </flux:sidebar.item>
-                <flux:sidebar.item icon="users" :href="route('admin.alumnos.index')"
+                <flux:sidebar.item icon="users" :href="route('admin.students.index')"
                     :current="request()->routeIs('admin.alumnos.index')" wire:navigate>
                     Alumnos
                 </flux:sidebar.item>
@@ -70,7 +70,7 @@
             @role('alumno')
             @unlessrole('admin|docente')
             <flux:sidebar.group heading="Mi Aula" class="grid">
-                <flux:sidebar.item icon="pencil-square" :href="route('tasks')" :current="request()->routeIs('tasks')"
+                <flux:sidebar.item icon="pencil-square" :href="route('student.tasks')" :current="request()->routeIs('student.tasks')"
                     wire:navigate>
                     Mis Tareas
                 </flux:sidebar.item>
@@ -78,11 +78,11 @@
                     :current="request()->routeIs('student.exams*')" wire:navigate>
                     Exámenes
                 </flux:sidebar.item>
-                <flux:sidebar.item icon="user-group" :href="route('groups.join')"
+                <flux:sidebar.item icon="user-group" :href="route('student.groups.join')"
                     :current="request()->routeIs('groups.*')" wire:navigate>
                     Mis Clases
                 </flux:sidebar.item>
-                <flux:sidebar.item icon="shopping-bag" :href="route('marketplace')"
+                <flux:sidebar.item icon="shopping-bag" :href="route('student.marketplace')"
                     :current="request()->routeIs('marketplace')" wire:navigate>
                     Marketplace
                 </flux:sidebar.item>

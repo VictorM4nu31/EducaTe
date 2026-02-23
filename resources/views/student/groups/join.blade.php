@@ -26,7 +26,7 @@
                 <p class="text-sm text-neutral-500 dark:text-neutral-400">Ingresa el código de 8 caracteres que te proporcionó tu profesor</p>
             </div>
 
-            <form action="{{ route('groups.join.store') }}" method="POST" class="space-y-4">
+            <form action="{{ route('student.groups.join.store') }}" method="POST" class="space-y-4">
                 @csrf
 
                 <div class="space-y-2">

@@ -76,7 +76,7 @@
                         @endif
                     @endif
 
-                    <form action="{{ route('tasks.submit.store', $task) }}" method="POST" enctype="multipart/form-data"
+                    <form action="{{ route('student.tasks.submit.store', $task) }}" method="POST" enctype="multipart/form-data"
                         class="space-y-6">
                         @csrf
 
@@ -119,7 +119,7 @@
                         </div>
 
                         <div class="flex gap-3 justify-end">
-                            <flux:button href="{{ route('tasks') }}" variant="ghost">
+                            <flux:button href="{{ route('student.tasks') }}" variant="ghost">
                                 Cancelar
                             </flux:button>
                             <flux:button type="submit" variant="primary">
