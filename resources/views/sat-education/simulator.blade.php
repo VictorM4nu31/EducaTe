@@ -67,7 +67,7 @@
                         Declaro bajo protesta de decir verdad que los datos de esta simulación educativa reflejan mis
                         ingresos.
                     </p>
-                    <flux:button type="submit" variant="primary" size="lg"
+                    <flux:button type="submit" variant="primary"
                         class="w-full bg-green-500 hover:bg-green-600 text-white font-bold text-lg border-none shadow-lg">
                         Firmar y Enviar Declaración
                     </flux:button>

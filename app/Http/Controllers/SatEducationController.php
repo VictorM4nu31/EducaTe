@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\TransactionType;
 use App\Models\SatLesson;
 use App\Models\SatLessonCompletion;
+use App\Services\EconomyService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class SatEducationController extends Controller
 {
@@ -24,7 +26,7 @@ class SatEducationController extends Controller
      */
     public function show(SatLesson $lesson)
     {
-        if (!$lesson->is_active) {
+        if (! $lesson->is_active) {
             abort(404);
         }
 
@@ -44,7 +46,7 @@ class SatEducationController extends Controller
     public function rfc()
     {
         $user = auth()->user();
-        
+
         return view('sat-education.rfc', [
             'userRfc' => $user->rfc,
             'rfcExplanation' => $this->explainRfc($user->rfc),
@@ -58,7 +60,7 @@ class SatEducationController extends Controller
     {
         // Formato RFC: 4 letras + 6 dígitos + 3 caracteres
         // Ejemplo: JUAN260123ABC
-        
+
         if (strlen($rfc) !== 13) {
             return [
                 'parts' => [],
@@ -70,7 +72,7 @@ class SatEducationController extends Controller
         $date = substr($rfc, 4, 6);
         $homoclave = substr($rfc, 10, 3);
 
-        $year = '20' . substr($date, 0, 2);
+        $year = '20'.substr($date, 0, 2);
         $month = substr($date, 2, 2);
         $day = substr($date, 4, 2);
 
@@ -110,10 +112,14 @@ class SatEducationController extends Controller
     public function simulator()
     {
         $user = auth()->user();
-        
+
         // Simular algunos datos de ingresos y deducciones del mes actual
-        $ingresosMes = $user->wallet ? $user->wallet->transactions()->where('type', 'deposit')->whereMonth('created_at', now()->month)->sum('amount') : 0;
-        $gastosMes = $user->wallet ? $user->wallet->transactions()->where('type', 'withdraw')->whereMonth('created_at', now()->month)->sum('amount') : 0;
+        $ingresosMes = $user->wallet
+            ? $user->wallet->transactions()->where('type', TransactionType::Income->value)->where('amount', '>', 0)->whereMonth('created_at', now()->month)->sum('amount')
+            : 0;
+        $gastosMes = $user->wallet
+            ? abs($user->wallet->transactions()->whereIn('type', [TransactionType::Expense->value, TransactionType::Tax->value])->where('amount', '<', 0)->whereMonth('created_at', now()->month)->sum('amount'))
+            : 0;
 
         return view('sat-education.simulator', compact('user', 'ingresosMes', 'gastosMes'));
     }
@@ -121,32 +127,40 @@ class SatEducationController extends Controller
     /**
      * Procesar el Simulador de Declaración
      */
-    public function submitSimulator(Request $request)
+    public function submitSimulator(Request $request): RedirectResponse
     {
+        $request->validate([
+            'period' => 'nullable|string|max:50',
+        ]);
+
         $user = auth()->user();
-        
+
         // Simular que obtienen un "Saldo a Favor" por hacer su declaración escolar a tiempo
         $recompensaAC = 10;
 
-        // Si no tiene billetera, no podemos darle AC, pero simulamos el éxito
-        if ($user->wallet) {
-            DB::transaction(function () use ($user, $recompensaAC) {
-                $user->wallet->increment('balance', $recompensaAC);
-                
-                $user->wallet->transactions()->create([
-                    'type' => 'deposit',
-                    'amount' => $recompensaAC,
-                    'description' => 'Saldo a favor del SAT por Declaración Escolar',
-                    'metadata' => ['source' => 'sat_simulator']
-                ]);
-            });
+        // Guard: una única declaración por día para evitar la generación ilimitada de AC.
+        $already = $user->wallet?->transactions()
+            ->where('type', TransactionType::Income->value)
+            ->whereDate('created_at', today())
+            ->where('description', 'like', '%Declaración Escolar%')
+            ->exists();
 
+        if ($already) {
             return redirect()->route('sat-education.index')
-                ->with('success', '¡Declaración presentada con éxito! El SAT te devolvió ' . $recompensaAC . ' AC por saldo a favor.');
+                ->with('error', 'Ya presentaste tu declaración hoy. Vuelve mañana para obtener tu saldo a favor.');
         }
 
+        app(EconomyService::class)->credit(
+            $user,
+            $recompensaAC,
+            'Saldo a favor del SAT por Declaración Escolar',
+            ['source' => 'sat_simulator'],
+            TransactionType::Income,
+            false,
+        );
+
         return redirect()->route('sat-education.index')
-            ->with('success', '¡Declaración presentada con éxito! (Nota: no tienes billetera para recibir saldo a favor)');
+            ->with('success', '¡Declaración presentada con éxito! El SAT te devolvió '.$recompensaAC.' AC por saldo a favor.');
     }
 
     /**
@@ -154,7 +168,7 @@ class SatEducationController extends Controller
      */
     public function takeQuiz(SatLesson $lesson)
     {
-        if (empty($lesson->quiz_data) || !isset($lesson->quiz_data['questions'])) {
+        if (empty($lesson->quiz_data) || ! isset($lesson->quiz_data['questions'])) {
             return redirect()->route('sat-education.show', $lesson)->with('error', 'Esta lección no tiene quiz disponible.');
         }
 
@@ -183,7 +197,7 @@ class SatEducationController extends Controller
                 ->with('error', 'Ya completaste este quiz anterioremente.');
         }
 
-        if (empty($lesson->quiz_data) || !isset($lesson->quiz_data['questions'])) {
+        if (empty($lesson->quiz_data) || ! isset($lesson->quiz_data['questions'])) {
             return redirect()->back()->with('error', 'El quiz no tiene preguntas válidas.');
         }
 
@@ -194,29 +208,26 @@ class SatEducationController extends Controller
         $answers = $request->input('answers', []);
 
         foreach ($questions as $index => $q) {
-            if (isset($answers[$index]) && (int)$answers[$index] === $q['correct_answer']) {
+            if (isset($answers[$index]) && (int) $answers[$index] === $q['correct_answer']) {
                 $score++;
             }
         }
 
         // Si tuvo todas bien, darle 5 AC
         $earnedAC = 0;
-        if ($score === $totalQuestions && $user->wallet) {
-            $earnedAC = 5;
-            DB::transaction(function () use ($user, $earnedAC) {
-                $user->wallet->increment('balance', $earnedAC);
-                
-                $user->wallet->transactions()->create([
-                    'type' => 'deposit',
-                    'amount' => $earnedAC,
-                    'description' => 'Bono por aprobar el Quiz de: ' . request()->route('lesson')->title,
-                    'metadata' => ['source' => 'sat_quiz']
-                ]);
-            });
-        }
-
-        // Registrar intento (solo si pasa)
         if ($score === $totalQuestions) {
+            $earnedAC = 5;
+
+            app(EconomyService::class)->credit(
+                $user,
+                $earnedAC,
+                'Bono por aprobar el Quiz de: '.$lesson->title,
+                ['source' => 'sat_quiz'],
+                TransactionType::Income,
+                false,
+            );
+
+            // Registrar intento (solo si pasa)
             SatLessonCompletion::create([
                 'user_id' => $user->id,
                 'sat_lesson_id' => $lesson->id,
