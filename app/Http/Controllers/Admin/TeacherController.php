@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 
-class DocenteController extends Controller
+class TeacherController extends Controller
 {
     use LogsActivity;
 
@@ -19,12 +19,12 @@ class DocenteController extends Controller
     public function index()
     {
         // El acceso admin está garantizado por la ruta (middleware role:admin).
-        $docentes = User::role('docente')
+        $teachers = User::role('docente')
             ->with('wallet')
             ->latest()
             ->paginate(15);
 
-        return view('admin.docentes.index', compact('docentes'));
+        return view('admin.teachers.index', compact('teachers'));
     }
 
     /**
@@ -32,7 +32,7 @@ class DocenteController extends Controller
      */
     public function create()
     {
-        return view('admin.docentes.create');
+        return view('admin.teachers.create');
     }
 
     /**
@@ -51,7 +51,7 @@ class DocenteController extends Controller
         ]);
 
         // Crear el usuario docente
-        $docente = User::create([
+        $teacher = User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
@@ -59,9 +59,9 @@ class DocenteController extends Controller
         ]);
 
         // Asignar rol de docente (esto evitará que se asigne 'alumno' automáticamente)
-        $docente->assignRole('docente');
+        $teacher->assignRole('docente');
 
-        $this->logActivity('user.docente_created', "Docente creado: {$docente->email}", ['user_id' => $docente->id]);
+        $this->logActivity('user.docente_created', "Docente creado: {$teacher->email}", ['user_id' => $teacher->id]);
 
         return redirect()
             ->route('admin.teachers.index')
@@ -71,55 +71,55 @@ class DocenteController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(User $docente)
+    public function show(User $teacher)
     {
-        abort_unless($docente->hasRole('docente'), 404);
+        abort_unless($teacher->hasRole('docente'), 404);
 
-        $docente->load(['wallet', 'taughtGroups' => function ($query) {
+        $teacher->load(['wallet', 'taughtGroups' => function ($query) {
             $query->withCount('students');
         }]);
 
-        return view('admin.docentes.show', compact('docente'));
+        return view('admin.teachers.show', compact('teacher'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(User $docente)
+    public function edit(User $teacher)
     {
-        abort_unless($docente->hasRole('docente'), 404);
+        abort_unless($teacher->hasRole('docente'), 404);
 
-        return view('admin.docentes.edit', compact('docente'));
+        return view('admin.teachers.edit', compact('teacher'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $docente)
+    public function update(Request $request, User $teacher)
     {
-        abort_unless($docente->hasRole('docente'), 404);
+        abort_unless($teacher->hasRole('docente'), 404);
 
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,'.$docente->id],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,'.$teacher->id],
             'password' => ['nullable', Password::defaults()],
-            'rfc' => ['nullable', 'string', 'max:13', 'unique:users,rfc,'.$docente->id],
+            'rfc' => ['nullable', 'string', 'max:13', 'unique:users,rfc,'.$teacher->id],
         ]);
 
-        $docente->update([
+        $teacher->update([
             'name' => $validated['name'],
             'email' => $validated['email'],
-            'rfc' => $validated['rfc'] ?? $docente->rfc,
+            'rfc' => $validated['rfc'] ?? $teacher->rfc,
         ]);
 
         // Actualizar contraseña solo si se proporciona
         if (! empty($validated['password'])) {
-            $docente->update([
+            $teacher->update([
                 'password' => Hash::make($validated['password']),
             ]);
         }
 
-        $this->logActivity('user.docente_updated', "Docente actualizado: {$docente->email}", ['user_id' => $docente->id]);
+        $this->logActivity('user.docente_updated', "Docente actualizado: {$teacher->email}", ['user_id' => $teacher->id]);
 
         return redirect()
             ->route('admin.teachers.index')
@@ -129,13 +129,13 @@ class DocenteController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $docente)
+    public function destroy(User $teacher)
     {
-        abort_unless($docente->hasRole('docente'), 404);
+        abort_unless($teacher->hasRole('docente'), 404);
 
-        $docente->delete();
+        $teacher->delete();
 
-        $this->logActivity('user.docente_deleted', "Docente eliminado: {$docente->email}", ['user_id' => $docente->id]);
+        $this->logActivity('user.docente_deleted', "Docente eliminado: {$teacher->email}", ['user_id' => $teacher->id]);
 
         return redirect()
             ->route('admin.teachers.index')

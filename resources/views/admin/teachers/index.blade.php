@@ -69,19 +69,19 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-neutral-200 dark:divide-neutral-800">
-                    @forelse($docentes as $docente)
+                    @forelse($teachers as $teacher)
                         <tr class="hover:bg-neutral-50 dark:hover:bg-neutral-800/50 transition-colors">
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
                                     <div
                                         class="h-10 w-10 shrink-0 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
                                         <span class="text-sm font-bold text-blue-600 dark:text-blue-400">
-                                            {{ $docente->initials() }}
+                                            {{ $teacher->initials() }}
                                         </span>
                                     </div>
                                     <div class="ml-4">
                                         <div class="text-sm font-medium text-neutral-900 dark:text-white">
-                                            {{ $docente->name }}
+                                            {{ $teacher->name }}
                                         </div>
                                         <div class="text-xs text-neutral-500">
                                             {!! user_role_badge('docente') !!}
@@ -90,38 +90,38 @@
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-neutral-500 dark:text-neutral-400">
-                                {{ $docente->email }}
+                                {{ $teacher->email }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <span
                                     class="px-2 py-1 text-xs font-mono rounded bg-neutral-100 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-300">
-                                    {{ $docente->rfc }}
+                                    {{ $teacher->rfc }}
                                 </span>
                             </td>
                             <td
                                 class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-emerald-600 dark:text-emerald-400">
-                                ₳ {{ number_format($docente->wallet->balance ?? 0, 2) }}
+                                ₳ {{ number_format($teacher->wallet->balance ?? 0, 2) }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-neutral-500 dark:text-neutral-400">
-                                {{ $docente->created_at->format('d/m/Y') }}
+                                {{ $teacher->created_at->format('d/m/Y') }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
-                                <flux:button href="{{ route('admin.teachers.show', $docente) }}" variant="ghost" size="sm"
+                                <flux:button href="{{ route('admin.teachers.show', $teacher) }}" variant="ghost" size="sm"
                                     icon="eye">
                                     Ver
                                 </flux:button>
-                                <flux:button href="{{ route('admin.teachers.edit', $docente) }}" variant="ghost" size="sm"
+                                <flux:button href="{{ route('admin.teachers.edit', $teacher) }}" variant="ghost" size="sm"
                                     icon="pencil">
                                     Editar
                                 </flux:button>
-                                <x-flux.confirm-delete-modal :name="'delete-docente-' . $docente->id"
+                                <x-flux.confirm-delete-modal :name="'delete-docente-' . $teacher->id"
                                     title="Eliminar docente"
                                     message="¿Estás seguro de eliminar este docente? Esta acción no se puede deshacer.">
                                     <x-slot:trigger>
                                         <flux:button type="button" variant="danger" size="sm" icon="trash">Eliminar
                                         </flux:button>
                                     </x-slot:trigger>
-                                    <form action="{{ route('admin.teachers.destroy', $docente) }}" method="POST"
+                                    <form action="{{ route('admin.teachers.destroy', $teacher) }}" method="POST"
                                         class="inline">
                                         @csrf
                                         @method('DELETE')
@@ -146,9 +146,9 @@
             </table>
         </div>
 
-        @if($docentes->hasPages())
+        @if($teachers->hasPages())
             <div class="mt-6">
-                {{ $docentes->links() }}
+                {{ $teachers->links() }}
             </div>
         @endif
     </div>

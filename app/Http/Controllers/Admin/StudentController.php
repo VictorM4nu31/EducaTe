@@ -6,15 +6,15 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-class AlumnoController extends Controller
+class StudentController extends Controller
 {
     public function index()
     {
-        $alumnos = User::role('alumno')
+        $students = User::role('alumno')
             ->with('wallet')
             ->latest()
             ->paginate(15);
         
-        return view('admin.alumnos.index', compact('alumnos'));
+        return view('admin.students.index', compact('students'));
     }
 }

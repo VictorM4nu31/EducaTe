@@ -10,7 +10,7 @@
                 </div>
             </div>
             <div class="flex gap-2">
-                <flux:button href="{{ route('admin.teachers.edit', $docente) }}" variant="ghost" icon="pencil">
+                <flux:button href="{{ route('admin.teachers.edit', $teacher) }}" variant="ghost" icon="pencil">
                     Editar
                 </flux:button>
             </div>
@@ -24,11 +24,11 @@
                     <div
                         class="mx-auto h-24 w-24 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center mb-4">
                         <span class="text-3xl font-bold text-blue-600 dark:text-blue-400">
-                            {{ $docente->initials() }}
+                            {{ $teacher->initials() }}
                         </span>
                     </div>
-                    <h2 class="text-xl font-bold text-neutral-900 dark:text-white">{{ $docente->name }}</h2>
-                    <p class="text-sm text-neutral-500 mb-4">{{ $docente->email }}</p>
+                    <h2 class="text-xl font-bold text-neutral-900 dark:text-white">{{ $teacher->name }}</h2>
+                    <p class="text-sm text-neutral-500 mb-4">{{ $teacher->email }}</p>
                     <div class="flex justify-center">
                         {!! user_role_badge('docente') !!}
                     </div>
@@ -37,13 +37,13 @@
                         <div>
                             <p class="text-xs text-neutral-500 uppercase tracking-wider mb-1">Balance</p>
                             <p class="text-lg font-bold text-emerald-600 dark:text-emerald-400">
-                                ₳ {{ number_format($docente->wallet->balance ?? 0, 2) }}
+                                ₳ {{ number_format($teacher->wallet->balance ?? 0, 2) }}
                             </p>
                         </div>
                         <div>
                             <p class="text-xs text-neutral-500 uppercase tracking-wider mb-1">Miembro desde</p>
                             <p class="text-sm font-medium text-neutral-900 dark:text-white">
-                                {{ $docente->created_at->format('M Y') }}
+                                {{ $teacher->created_at->format('M Y') }}
                             </p>
                         </div>
                     </div>
@@ -55,7 +55,7 @@
                     <div class="space-y-3">
                         <div>
                             <p class="text-xs text-neutral-500 uppercase tracking-wider">RFC</p>
-                            <p class="text-sm font-mono text-neutral-900 dark:text-white">{{ $docente->rfc }}</p>
+                            <p class="text-sm font-mono text-neutral-900 dark:text-white">{{ $teacher->rfc }}</p>
                         </div>
                     </div>
                 </div>
@@ -71,11 +71,11 @@
                         <h3 class="font-bold text-neutral-900 dark:text-white">Clases Asignadas</h3>
                         <span
                             class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400">
-                            {{ $docente->taughtGroups->count() }} Grupos
+                            {{ $teacher->taughtGroups->count() }} Grupos
                         </span>
                     </div>
                     <div class="divide-y divide-neutral-100 dark:divide-neutral-800">
-                        @forelse($docente->taughtGroups as $group)
+                        @forelse($teacher->taughtGroups as $group)
                             <div
                                 class="px-6 py-4 flex items-center justify-between hover:bg-neutral-50 dark:hover:bg-neutral-800/50 transition-colors">
                                 <div class="flex items-center gap-4">

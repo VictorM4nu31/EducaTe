@@ -33,18 +33,18 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-neutral-200 dark:divide-neutral-800">
-                    @forelse($alumnos as $alumno)
+                    @forelse($students as $student)
                         <tr class="hover:bg-neutral-50 dark:hover:bg-neutral-800/50 transition-colors">
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
                                     <div class="h-10 w-10 flex-shrink-0 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center">
                                         <span class="text-sm font-bold text-emerald-600 dark:text-emerald-400">
-                                            {{ $alumno->initials() }}
+                                            {{ $student->initials() }}
                                         </span>
                                     </div>
                                     <div class="ml-4">
                                         <div class="text-sm font-medium text-neutral-900 dark:text-white">
-                                            {{ $alumno->name }}
+                                            {{ $student->name }}
                                         </div>
                                         <div class="text-xs text-neutral-500">
                                             {!! user_role_badge('alumno') !!}
@@ -53,21 +53,21 @@
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-neutral-500 dark:text-neutral-400">
-                                {{ $alumno->email }}
+                                {{ $student->email }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <span class="px-2 py-1 text-xs font-mono rounded bg-neutral-100 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-300">
-                                    {{ $alumno->rfc }}
+                                    {{ $student->rfc }}
                                 </span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-emerald-600 dark:text-emerald-400">
-                                ₳ {{ number_format($alumno->wallet->balance ?? 0, 2) }}
+                                ₳ {{ number_format($student->wallet->balance ?? 0, 2) }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-neutral-500 dark:text-neutral-400">
-                                Lvl {{ $alumno->level ?? 1 }}
+                                Lvl {{ $student->level ?? 1 }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-neutral-500 dark:text-neutral-400">
-                                {{ $alumno->created_at->format('d/m/Y') }}
+                                {{ $student->created_at->format('d/m/Y') }}
                             </td>
                         </tr>
                     @empty
@@ -82,9 +82,9 @@
             </table>
         </div>
 
-        @if($alumnos->hasPages())
+        @if($students->hasPages())
             <div class="mt-6">
-                {{ $alumnos->links() }}
+                {{ $students->links() }}
             </div>
         @endif
     </div>
