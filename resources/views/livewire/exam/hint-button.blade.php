@@ -1,6 +1,7 @@
 <?php
 
 use Livewire\Volt\Component;
+use App\Enums\TransactionType;
 use App\Services\EconomyService;
 use App\Models\ExamAttempt;
 
@@ -36,7 +37,7 @@ new class extends Component {
                 auth()->user(),
                 (float) $cost,
                 "Pista de examen - Pregunta #{$this->question->order}",
-                'expense'
+                TransactionType::Expense
             );
 
             $this->attempt->increment('hints_used');

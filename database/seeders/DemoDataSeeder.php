@@ -98,7 +98,12 @@ class DemoDataSeeder extends Seeder
         $user->assignRole($roleName);
 
         if (! $user->wallet) {
-            $user->wallet()->create(['balance' => 100]);
+            $user->wallet()->create(['balance' => 0]);
+        }
+
+        // Saldo inicial de demostración (la wallet se autocrea en 0 al registrar).
+        if ((float) $user->wallet->balance < 100) {
+            $user->wallet()->update(['balance' => 100]);
         }
 
         return $user;

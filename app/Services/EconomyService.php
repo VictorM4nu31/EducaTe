@@ -2,106 +2,162 @@
 
 namespace App\Services;
 
-use App\Models\Wallet;
+use App\Enums\TransactionType;
 use App\Models\Transaction;
 use App\Models\User;
+use App\Support\Money;
 use Illuminate\Support\Facades\DB;
-use Exception;
+use InvalidArgumentException;
 
 class EconomyService
 {
-    const TAX_RATE = 0.05; // 5% SAT tax
+    /**
+     * Retención de impuestos (SAT) en puntos base: 500 = 5%.
+     */
+    public const TAX_RATE_BASIS_POINTS = 500;
 
     /**
-     * Credit AC to a user (e.g. for task completion) with automatic tax deduction.
+     * Acreditar AC a un usuario (p. ej. por completar una tarea) con retención
+     * de impuestos automática. Es la única vía de ingreso al sistema.
      */
-    public function credit(User $user, float $amount, string $description, array $metadata = [])
-    {
-        return DB::transaction(function () use ($user, $amount, $description, $metadata) {
+    public function credit(
+        User $user,
+        float $amount,
+        string $description,
+        array $metadata = [],
+        TransactionType $type = TransactionType::Income,
+        bool $taxed = true,
+    ): Transaction {
+        return DB::transaction(function () use ($user, $amount, $description, $metadata, $type, $taxed) {
             $wallet = $user->wallet ?: $user->wallet()->create(['balance' => 0]);
-            
-            $taxAmount = $amount * self::TAX_RATE;
-            $netAmount = $amount - $taxAmount;
 
-            // 1. Transaction for the gross income (for record)
+            $amountCents = Money::toCents($amount);
+            $taxCents = $taxed
+                ? (int) round($amountCents * self::TAX_RATE_BASIS_POINTS / 10000)
+                : 0;
+            $netCents = $amountCents - $taxCents;
+
             $transaction = $wallet->transactions()->create([
-                'amount' => $amount,
-                'type' => 'income',
+                'amount' => Money::fromCents($amountCents),
+                'type' => $type->value,
                 'description' => $description,
-                'metadata' => array_merge($metadata, ['tax_deducted' => $taxAmount]),
+                'metadata' => array_merge($metadata, [
+                    'tax_deducted' => Money::fromCents($taxCents),
+                ]),
             ]);
 
-            // 2. Transaction for the tax deduction
-            $wallet->transactions()->create([
-                'amount' => -$taxAmount,
-                'type' => 'tax',
-                'description' => "Retención SAT (5%) - $description",
-                'rfc_receiver' => 'SAT-FONDO-COMUN', // Common fund identifier
-            ]);
+            if ($taxCents > 0) {
+                $wallet->transactions()->create([
+                    'amount' => Money::fromCents(-$taxCents),
+                    'type' => TransactionType::Tax->value,
+                    'description' => "Retención SAT (5%) - {$description}",
+                    'rfc_receiver' => 'SAT-FONDO-COMUN',
+                ]);
+            }
 
-            // 3. Update wallet balance with net amount
-            $wallet->increment('balance', $netAmount);
+            $wallet->increment('balance', Money::fromCents($netCents));
 
             return $transaction;
         });
     }
 
     /**
-     * Debit AC from a user (e.g. for marketplace or hints).
+     * Debitar AC de un usuario (marketplace, pistas, etc.).
      */
-    public function debit(User $user, float $amount, string $description, string $type = 'expense', array $metadata = [])
-    {
+    public function debit(
+        User $user,
+        float $amount,
+        string $description,
+        TransactionType $type = TransactionType::Expense,
+        array $metadata = [],
+    ): Transaction {
         return DB::transaction(function () use ($user, $amount, $description, $type, $metadata) {
             $wallet = $user->wallet;
 
-            if (!$wallet || $wallet->balance < $amount) {
-                throw new Exception("Saldo insuficiente de AulaChain.");
+            if (! $wallet) {
+                throw new InvalidArgumentException('Aún no tienes una cuenta AulaChain.');
+            }
+
+            $amountCents = Money::toCents($amount);
+
+            if ($amountCents <= 0) {
+                throw new InvalidArgumentException('El monto a debitar debe ser mayor a cero.');
+            }
+
+            if (Money::toCents($wallet->balance) < $amountCents) {
+                throw new InvalidArgumentException('Saldo insuficiente de AulaChain.');
             }
 
             $transaction = $wallet->transactions()->create([
-                'amount' => -$amount,
-                'type' => $type,
+                'amount' => Money::fromCents(-$amountCents),
+                'type' => $type->value,
                 'description' => $description,
                 'metadata' => $metadata,
             ]);
 
-            $wallet->decrement('balance', $amount);
+            $wallet->decrement('balance', Money::fromCents($amountCents));
 
             return $transaction;
         });
     }
 
     /**
-     * Transfer AC between students (P2P).
+     * Transferir AC entre estudiantes (P2P). La transferencia no aplica retención.
      */
-    public function transfer(User $sender, User $receiver, float $amount, string $description = 'Transferencia P2P')
-    {
+    public function transfer(
+        User $sender,
+        User $receiver,
+        float $amount,
+        string $description = 'Transferencia P2P',
+    ): Transaction {
         return DB::transaction(function () use ($sender, $receiver, $amount, $description) {
             if ($sender->id === $receiver->id) {
-                throw new Exception("No puedes transferirte a ti mismo.");
+                throw new InvalidArgumentException('No puedes transferirte a ti mismo.');
             }
 
-            // Debit sender
-            $this->debit($sender, $amount, "Transferencia enviada a {$receiver->name}", 'p2p', [
-                'receiver_id' => $receiver->id,
-                'receiver_name' => $receiver->name,
-            ]);
+            $amountCents = Money::toCents($amount);
 
-            // Credit receiver (P2P transfers might not be taxed per requirement, or maybe they are? 
-            // Conceptually P2P is already net money. I'll credit without extra tax for now).
+            if ($amountCents <= 0) {
+                throw new InvalidArgumentException('El monto a transferir debe ser mayor a cero.');
+            }
+
+            $senderWallet = $sender->wallet;
+
+            if (! $senderWallet || Money::toCents($senderWallet->balance) < $amountCents) {
+                throw new InvalidArgumentException('Saldo insuficiente de AulaChain.');
+            }
+
+            $senderWallet->transactions()->create([
+                'amount' => Money::fromCents(-$amountCents),
+                'type' => TransactionType::P2p->value,
+                'description' => "Transferencia enviada a {$receiver->name}: {$description}",
+                'rfc_receiver' => $receiver->rfc,
+                'metadata' => ['receiver_id' => $receiver->id],
+            ]);
+            $senderWallet->decrement('balance', Money::fromCents($amountCents));
+
             $receiverWallet = $receiver->wallet ?: $receiver->wallet()->create(['balance' => 0]);
-            
+
             $transaction = $receiverWallet->transactions()->create([
-                'amount' => $amount,
-                'type' => 'p2p',
-                'description' => "Transferencia recibida de {$sender->name}: $description",
+                'amount' => Money::fromCents($amountCents),
+                'type' => TransactionType::P2p->value,
+                'description' => "Transferencia recibida de {$sender->name}: {$description}",
                 'rfc_sender' => $sender->rfc,
                 'metadata' => ['sender_id' => $sender->id],
             ]);
-
-            $receiverWallet->increment('balance', $amount);
+            $receiverWallet->increment('balance', Money::fromCents($amountCents));
 
             return $transaction;
         });
+    }
+
+    /**
+     * Retención esperada para una cantidad (util para resúmenes en la UI).
+     */
+    public function taxFor(float $amount): float
+    {
+        $amountCents = Money::toCents($amount);
+
+        return Money::fromCents((int) round($amountCents * self::TAX_RATE_BASIS_POINTS / 10000));
     }
 }

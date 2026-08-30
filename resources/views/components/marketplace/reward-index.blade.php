@@ -1,6 +1,7 @@
 <?php
 
 use Livewire\Volt\Component;
+use App\Enums\TransactionType;
 use App\Models\Reward;
 use App\Services\EconomyService;
 
@@ -30,7 +31,7 @@ new class extends Component {
                 auth()->user(),
                 (float) $reward->cost,
                 "Canje: {$reward->name}",
-                'reward',
+                TransactionType::Reward,
                 ['reward_id' => $reward->id]
             );
 

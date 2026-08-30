@@ -1,6 +1,7 @@
 <?php
 
 use Livewire\Volt\Component;
+use App\Enums\TransactionType;
 use App\Services\EconomyService;
 use App\Models\Exam;
 
@@ -31,7 +32,7 @@ new class extends Component {
 
         try {
             $economy = app(EconomyService::class);
-            $economy->debit(auth()->user(), (float) $cost, "Pista de examen #" . ($this->hintsUsed + 1), 'expense');
+            $economy->debit(auth()->user(), (float) $cost, "Pista de examen #" . ($this->hintsUsed + 1), TransactionType::Expense);
 
             $this->hintsUsed++;
             $this->grade -= $penalty;
