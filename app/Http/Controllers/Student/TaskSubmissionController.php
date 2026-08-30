@@ -17,22 +17,8 @@ class TaskSubmissionController extends Controller
     {
         // Verificar que el estudiante tiene acceso a esta tarea
         $user = auth()->user();
-        $hasAccess = false;
 
-        // Verificar si está asignada a algún grupo del estudiante
-        foreach ($user->groups as $group) {
-            if ($task->assignments()->where('group_id', $group->id)->exists()) {
-                $hasAccess = true;
-                break;
-            }
-        }
-
-        // O si está asignada directamente al estudiante
-        if ($task->assignments()->where('user_id', $user->id)->exists()) {
-            $hasAccess = true;
-        }
-
-        if (! $hasAccess) {
+        if (! $task->isAvailableTo($user)) {
             abort(403, 'No tienes acceso a esta tarea');
         }
 
@@ -58,18 +44,8 @@ class TaskSubmissionController extends Controller
 
         $user = auth()->user();
 
-        // Verificar acceso (mismo código que en create)
-        $hasAccess = false;
-        foreach ($user->groups as $group) {
-            if ($task->assignments()->where('group_id', $group->id)->exists()) {
-                $hasAccess = true;
-                break;
-            }
-        }
-        if ($task->assignments()->where('user_id', $user->id)->exists()) {
-            $hasAccess = true;
-        }
-        if (! $hasAccess) {
+        // Verificar acceso (mismo criterio que en create)
+        if (! $task->isAvailableTo($user)) {
             abort(403);
         }
 

@@ -4,8 +4,9 @@ namespace App\Http\Controllers\Student;
 
 use App\Http\Controllers\Controller;
 use App\Models\Exam;
-use App\Models\ExamAssignment;
 use App\Models\ExamAttempt;
+use App\Models\ExamGroupAssignment;
+use App\Models\ExamUserAssignment;
 use App\Models\User;
 use App\Notifications\ExamAnnulled;
 use App\Services\EconomyService;
@@ -28,17 +29,19 @@ class ExamController extends Controller
 
         $groupIds = $user->groups()->pluck('groups.id');
 
-        // Obtener exámenes asignados a los grupos del estudiante
-        $examIds = ExamAssignment::whereIn('group_id', $groupIds)
-            ->where(function ($query) {
-                $query->whereNull('available_from')
-                    ->orWhere('available_from', '<=', now());
-            })
-            ->where(function ($query) {
-                $query->whereNull('available_until')
-                    ->orWhere('available_until', '>=', now());
-            })
+        // Exámenes asignados a los grupos del estudiante.
+        $groupExamIds = ExamGroupAssignment::whereIn('group_id', $groupIds)
+            ->where(fn ($q) => $q->whereNull('available_from')->orWhere('available_from', '<=', now()))
+            ->where(fn ($q) => $q->whereNull('available_until')->orWhere('available_until', '>=', now()))
             ->pluck('exam_id');
+
+        // Exámenes asignados de forma individual al estudiante.
+        $userExamIds = ExamUserAssignment::where('user_id', $user->id)
+            ->where(fn ($q) => $q->whereNull('available_from')->orWhere('available_from', '<=', now()))
+            ->where(fn ($q) => $q->whereNull('available_until')->orWhere('available_until', '>=', now()))
+            ->pluck('exam_id');
+
+        $examIds = $groupExamIds->merge($userExamIds)->unique();
 
         $exams = Exam::whereIn('id', $examIds)
             ->where('is_active', true)
@@ -62,16 +65,8 @@ class ExamController extends Controller
             abort(403);
         }
 
-        // Verificar acceso
-        $hasAccess = false;
-        foreach ($user->groups as $group) {
-            if ($exam->assignments()->where('group_id', $group->id)->exists()) {
-                $hasAccess = true;
-                break;
-            }
-        }
-
-        if (! $hasAccess) {
+        // Verificar acceso (por clase o asignación directa)
+        if (! $exam->isAvailableTo($user)) {
             abort(403);
         }
 

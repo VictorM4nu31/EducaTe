@@ -90,7 +90,7 @@ class Group extends Model
      */
     public function tasks()
     {
-        return $this->belongsToMany(Task::class, 'task_assignments')->withTimestamps();
+        return $this->belongsToMany(Task::class, 'task_group_assignments')->withTimestamps();
     }
 
     public function getStudentCountAttribute(): int

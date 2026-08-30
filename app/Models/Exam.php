@@ -39,18 +39,53 @@ class Exam extends Model
         return $this->hasMany(ExamAttempt::class);
     }
 
-    public function assignments()
-    {
-        return $this->hasMany(ExamAssignment::class);
-    }
-
+    /**
+     * Clases a las que está asignado el examen.
+     */
     public function groups()
     {
-        return $this->belongsToMany(Group::class, 'exam_assignments');
+        return $this->belongsToMany(Group::class, 'exam_group_assignments')
+            ->withPivot(['available_from', 'available_until', 'time_limit'])
+            ->withTimestamps();
     }
 
+    /**
+     * Estudiantes a los que se les asigna el examen de forma individual.
+     */
     public function assignedUsers()
     {
-        return $this->belongsToMany(User::class, 'exam_assignments');
+        return $this->belongsToMany(User::class, 'exam_user_assignments')
+            ->withPivot(['available_from', 'available_until', 'time_limit'])
+            ->withTimestamps();
+    }
+
+    /**
+     * ¿El examen está asignado a una clase concreta?
+     */
+    public function isAssignedToGroup(Group $group): bool
+    {
+        return $this->groups()->whereKey($group->id)->exists();
+    }
+
+    /**
+     * ¿El examen está asignado de forma individual a un estudiante?
+     */
+    public function isAssignedToUser(User $user): bool
+    {
+        return $this->assignedUsers()->whereKey($user->id)->exists();
+    }
+
+    /**
+     * ¿El examen está disponible para un estudiante (por clase o de forma directa)?
+     */
+    public function isAvailableTo(User $user): bool
+    {
+        foreach ($user->groups as $group) {
+            if ($this->isAssignedToGroup($group)) {
+                return true;
+            }
+        }
+
+        return $this->isAssignedToUser($user);
     }
 }

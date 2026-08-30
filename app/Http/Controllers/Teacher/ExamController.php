@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Teacher;
 
 use App\Http\Controllers\Controller;
 use App\Models\Exam;
-use App\Models\ExamAssignment;
 use Illuminate\Http\Request;
 
 class ExamController extends Controller
@@ -44,14 +43,7 @@ class ExamController extends Controller
         ]);
 
         // Asignar a grupos
-        if ($request->has('groups')) {
-            foreach ($request->groups as $groupId) {
-                ExamAssignment::create([
-                    'exam_id' => $exam->id,
-                    'group_id' => $groupId,
-                ]);
-            }
-        }
+        $exam->groups()->sync($request->input('groups', []));
 
         return redirect()
             ->route('teacher.exams.show', $exam)
@@ -64,7 +56,7 @@ class ExamController extends Controller
 
         $exam->load(['questions' => function ($query) {
             $query->orderBy('order');
-        }, 'assignments.group']);
+        }, 'groups']);
 
         return view('teacher.exams.show', compact('exam'));
     }
