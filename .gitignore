@@ -33,3 +33,6 @@ AGENTS.md
 .agent/
 
 
+
+# Playwright MCP artifacts
+.playwright-mcp/
