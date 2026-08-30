@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\SatLesson;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
@@ -54,30 +53,30 @@ class SatLessonsSeeder extends Seeder
                             'options' => [
                                 'Servicio de Administración de Tareas',
                                 'Servicio de Administración Tributaria',
-                                'Sistema de Apoyo a Trabajadores'
+                                'Sistema de Apoyo a Trabajadores',
                             ],
-                            'correct_answer' => 1 // índice de la respuesta correcta (0-based)
+                            'correct_answer' => 1, // índice de la respuesta correcta (0-based)
                         ],
                         [
                             'question' => '¿Para qué recolecta impuestos el gobierno?',
                             'options' => [
                                 'Para construir carreteras, escuelas y hospitales',
                                 'Para guardarlos en un banco gigante',
-                                'Para pagar viajes espaciales'
+                                'Para pagar viajes espaciales',
                             ],
-                            'correct_answer' => 0
+                            'correct_answer' => 0,
                         ],
                         [
                             'question' => 'Es una obligación del SAT:',
                             'options' => [
                                 'Repartir dulces en la escuela',
                                 'Emitir y administrar el RFC',
-                                'Vender automóviles'
+                                'Vender automóviles',
                             ],
-                            'correct_answer' => 1
-                        ]
-                    ]
-                ]
+                            'correct_answer' => 1,
+                        ],
+                    ],
+                ],
             ],
             [
                 'title' => 'Cultura de Legalidad Fiscal',
@@ -114,20 +113,20 @@ class SatLessonsSeeder extends Seeder
                         [
                             'question' => '¿Qué principio significa "Declarar correctamente tus ingresos"?',
                             'options' => ['Puntualidad', 'Honestidad', 'Creatividad'],
-                            'correct_answer' => 1
+                            'correct_answer' => 1,
                         ],
                         [
                             'question' => '¿Cumplir con los impuestos beneficia solo a los demás o a ti también?',
                             'options' => ['Solo a los demás', 'Solo a mí', 'A todos, incluyendo a mí'],
-                            'correct_answer' => 2
+                            'correct_answer' => 2,
                         ],
                         [
                             'question' => 'Si eres responsable en AulaChain, ¿qué obtienes?',
                             'options' => ['Castigos sorpresa', 'Reconocimientos y beneficios', 'Nada'],
-                            'correct_answer' => 1
-                        ]
-                    ]
-                ]
+                            'correct_answer' => 1,
+                        ],
+                    ],
+                ],
             ],
             [
                 'title' => '¿Qué es el Ahorro vs el Pago de Impuestos?',
@@ -161,20 +160,20 @@ class SatLessonsSeeder extends Seeder
                         [
                             'question' => '¿Cómo se le llama al dinero total que ganas antes de cualquier descuento?',
                             'options' => ['Sueldo Neto', 'Sueldo Bruto', 'Ahorro'],
-                            'correct_answer' => 1
+                            'correct_answer' => 1,
                         ],
                         [
                             'question' => '¿Para qué sirve la segunda alcancía, el Impuesto?',
                             'options' => ['Para gastarlo todo hoy en dulces', 'Para el beneficio de toda la comunidad', 'Para esconderlo debajo del colchón'],
-                            'correct_answer' => 1
+                            'correct_answer' => 1,
                         ],
                         [
                             'question' => '¿Qué significa el "Sueldo Neto"?',
                             'options' => ['Lo que te queda después de pagar el impuesto', 'Todo el dinero que ganaste en el mes', 'El dinero que donas al salón'],
-                            'correct_answer' => 0
-                        ]
-                    ]
-                ]
+                            'correct_answer' => 0,
+                        ],
+                    ],
+                ],
             ],
             [
                 'title' => 'El Presupuesto Personal',
@@ -208,20 +207,20 @@ class SatLessonsSeeder extends Seeder
                         [
                             'question' => '¿Para qué sirve hacer un presupuesto?',
                             'options' => ['Para hacer un plan con tu dinero y que te alcance', 'Para que te cobren más impuestos', 'Para regalárselo al maestro'],
-                            'correct_answer' => 0
+                            'correct_answer' => 0,
                         ],
                         [
                             'question' => 'Según la regla 50/30/20, ¿cuánto debes intentar ahorrar?',
                             'options' => ['0%', '50%', '20%'],
-                            'correct_answer' => 2
+                            'correct_answer' => 2,
                         ],
                         [
                             'question' => 'Comprar dulces o cosas divertidas entra en la categoría de:',
                             'options' => ['Ahorros', 'Deseos', 'Necesidades forzosas'],
-                            'correct_answer' => 1
-                        ]
-                    ]
-                ]
+                            'correct_answer' => 1,
+                        ],
+                    ],
+                ],
             ],
 
             // ============================================
@@ -263,20 +262,20 @@ class SatLessonsSeeder extends Seeder
                         [
                             'question' => '¿Cuántos caracteres tiene normalmente el RFC de una persona moral o física (máximo)?',
                             'options' => ['10 caracteres', '13 caracteres', '20 caracteres'],
-                            'correct_answer' => 1
+                            'correct_answer' => 1,
                         ],
                         [
                             'question' => '¿Qué son los últimos 3 caracteres del RFC?',
                             'options' => ['La homoclave', 'Las iniciales secretas', 'El año de nacimiento'],
-                            'correct_answer' => 0
+                            'correct_answer' => 0,
                         ],
                         [
                             'question' => 'El RFC te sirve para:',
                             'options' => ['Entrar al cine', 'Identificarte en todas tus actividades económicas', 'Jugar videojuegos online'],
-                            'correct_answer' => 1
-                        ]
-                    ]
-                ]
+                            'correct_answer' => 1,
+                        ],
+                    ],
+                ],
             ],
 
             // ============================================
@@ -309,20 +308,20 @@ class SatLessonsSeeder extends Seeder
                         [
                             'question' => 'Una persona física es:',
                             'options' => ['Una empresa gigante', 'Tú como individuo', 'Una corporación internacional'],
-                            'correct_answer' => 1
+                            'correct_answer' => 1,
                         ],
                         [
                             'question' => 'Si trabajas para alguien más y te pagan por nómina, estás en el régimen de:',
                             'options' => ['Actividad Empresarial', 'Sueldos y Salarios', 'RESICO'],
-                            'correct_answer' => 1
+                            'correct_answer' => 1,
                         ],
                         [
                             'question' => 'Una empresa o corporación está considerada como:',
                             'options' => ['Persona moral', 'Persona mágica', 'Persona física'],
-                            'correct_answer' => 0
-                        ]
-                    ]
-                ]
+                            'correct_answer' => 0,
+                        ],
+                    ],
+                ],
             ],
 
             // ============================================
@@ -357,20 +356,20 @@ class SatLessonsSeeder extends Seeder
                         [
                             'question' => '¿Los impuestos ayudan a construir qué cosas?',
                             'options' => ['Casas privadas', 'Escuelas, hospitales y carreteras', 'Carros de lujo'],
-                            'correct_answer' => 1
+                            'correct_answer' => 1,
                         ],
                         [
                             'question' => 'Si nadie pagara impuestos, ¿qué sucedería con los servicios públicos?',
                             'options' => ['Aumentarían su calidad', 'Se mantendrían igual', 'No habría dinero para mantenerlos y desaparecerían'],
-                            'correct_answer' => 2
+                            'correct_answer' => 2,
                         ],
                         [
                             'question' => 'En el sistema de tu escuela, ¿cuál es el equivalente de los "impuestos"?',
                             'options' => ['El ahorro', 'El Fondo Común de la Clase', 'Los dulces de la tiendita'],
-                            'correct_answer' => 1
-                        ]
-                    ]
-                ]
+                            'correct_answer' => 1,
+                        ],
+                    ],
+                ],
             ],
             [
                 'title' => 'Principales Impuestos en México',
@@ -397,20 +396,20 @@ class SatLessonsSeeder extends Seeder
                         [
                             'question' => '¿Cuál de estos impuestos se cobra al CONSUMO, es decir, cuando compras algo?',
                             'options' => ['ISR', 'IVA', 'Ambos'],
-                            'correct_answer' => 1
+                            'correct_answer' => 1,
                         ],
                         [
                             'question' => '¿Cuál impuesto grava directamente el dinero que GANAS a través de tu sueldo o ingresos libres?',
                             'options' => ['ISR', 'IVA', 'IEPS'],
-                            'correct_answer' => 0
+                            'correct_answer' => 0,
                         ],
                         [
                             'question' => 'Si compras un refresco o gasolina, además del IVA podrías estar pagando:',
                             'options' => ['Tenencia', 'IEPS', 'ISR'],
-                            'correct_answer' => 1
-                        ]
-                    ]
-                ]
+                            'correct_answer' => 1,
+                        ],
+                    ],
+                ],
             ],
 
             // ============================================
@@ -446,20 +445,20 @@ class SatLessonsSeeder extends Seeder
                         [
                             'question' => '¿Qué es una declaración fiscal?',
                             'options' => ['Un poema para el SAT', 'Un reporte donde informas tus ingresos, gastos e impuestos', 'Una carta para conseguir trabajo'],
-                            'correct_answer' => 1
+                            'correct_answer' => 1,
                         ],
                         [
                             'question' => 'Si pagaste más impuestos de los que debías durante el año, obtienes un:',
                             'options' => ['Saldo Nulo', 'Saldo en contra', 'Saldo a favor'],
-                            'correct_answer' => 2
+                            'correct_answer' => 2,
                         ],
                         [
                             'question' => '¿Existen declaraciones mensuales y también anuales?',
                             'options' => ['Solo existen mensuales', 'Sí, existen mensuales y anuales', 'Solo existen anuales'],
-                            'correct_answer' => 1
-                        ]
-                    ]
-                ]
+                            'correct_answer' => 1,
+                        ],
+                    ],
+                ],
             ],
             [
                 'title' => 'El lado bueno: Las Deducciones (Cómo recuperar dinero)',
@@ -491,20 +490,20 @@ class SatLessonsSeeder extends Seeder
                         [
                             'question' => '¿Qué es una "deducción"?',
                             'options' => ['Un impuesto sorpresa', 'Un gasto permitido que ayuda a reducir los impuestos que debes pagar', 'Un castigo del gobierno'],
-                            'correct_answer' => 1
+                            'correct_answer' => 1,
                         ],
                         [
                             'question' => '¿Cuál de estos gastos ES DEDUCIBLE (te ayuda con el SAT)?',
                             'options' => ['Ir al cine', 'Comprar una cámara fotográfica', 'Ir al dentista y pedir factura'],
-                            'correct_answer' => 2
+                            'correct_answer' => 2,
                         ],
                         [
                             'question' => '¿Qué debes hacer obligatoriamente para deducir un gasto médico?',
                             'options' => ['Pagar en eféctivo y no pedir recibo', 'Pagar con tarjeta/transferencia y pedir Factura', 'Decirle al doctor que es un secreto'],
-                            'correct_answer' => 1
-                        ]
-                    ]
-                ]
+                            'correct_answer' => 1,
+                        ],
+                    ],
+                ],
             ],
 
             // ============================================
@@ -545,20 +544,20 @@ class SatLessonsSeeder extends Seeder
                         [
                             'question' => 'Una empresa de economía Formal paga impuestos. ¿Es esto cierto?',
                             'options' => ['Falso', 'Solo los domingos', 'Cierto, porque están dados de alta en el SAT y tienen RFC'],
-                            'correct_answer' => 2
+                            'correct_answer' => 2,
                         ],
                         [
                             'question' => '¿Qué problema tiene la economía informal?',
                             'options' => ['Ayuda mucho al país', 'Utilizan los beneficios del país o salón sin ayudar a pagarlos', 'Pagan demasiados impuestos juntos'],
-                            'correct_answer' => 1
+                            'correct_answer' => 1,
                         ],
                         [
                             'question' => 'Hacer "trueques a escondidas" en la escuela con AulaChains es perjudicial porque:',
                             'options' => ['Reducen el fondo de grupo para premios colectivos', 'Hacen que la maestra esté feliz', 'Aumentan las vacaciones'],
-                            'correct_answer' => 0
-                        ]
-                    ]
-                ]
+                            'correct_answer' => 0,
+                        ],
+                    ],
+                ],
             ],
 
             // ============================================
@@ -599,20 +598,20 @@ class SatLessonsSeeder extends Seeder
                         [
                             'question' => '¿Qué valor legal tiene tu e.firma?',
                             'options' => ['Tiene la misma validez que firmar algo con tu puño y letra', 'No sirve para nada', 'Sirve como un sticker decorativo'],
-                            'correct_answer' => 0
+                            'correct_answer' => 0,
                         ],
                         [
                             'question' => '¿A quién deberías entregarle tu archivo Llave Privada (.key) y contraseña?',
                             'options' => ['A todos mis amigos', 'A nadie, son completamente confidenciales y solo tuyos', 'A cualquier persona que me lo pida en Internet'],
-                            'correct_answer' => 1
+                            'correct_answer' => 1,
                         ],
                         [
                             'question' => '¿Para qué utilizas principalmente la e.firma?',
                             'options' => ['Para abrir puertas automáticas', 'Para firmar facturas electrónicas y declaraciones fiscales en línea', 'Para registrarte en Netflix'],
-                            'correct_answer' => 1
-                        ]
-                    ]
-                ]
+                            'correct_answer' => 1,
+                        ],
+                    ],
+                ],
             ],
 
             // ============================================
@@ -647,20 +646,20 @@ class SatLessonsSeeder extends Seeder
                         [
                             'question' => '¿Qué son las siglas CFDI?',
                             'options' => ['Comprobante Fiscal Digital por Internet', 'Códigos Falsos De Investigación', 'Caja Fuerte Dinero Ilimitado'],
-                            'correct_answer' => 0
+                            'correct_answer' => 0,
                         ],
                         [
                             'question' => '¿Un CFDI o Factura debe incluir el RFC de quién compra y también de quién vende?',
                             'options' => ['No, solo importa la cantidad de dinero', 'Sí, siempre incluye los RFC de ambas partes', 'Los tickets del súper mercados los tienen'],
-                            'correct_answer' => 1
+                            'correct_answer' => 1,
                         ],
                         [
                             'question' => '¿Qué es el UUID?',
                             'options' => ['Un tipo de sándwich', 'El Folio Fiscal único e irrepetible para identificar la factura', 'La foto del vendedor'],
-                            'correct_answer' => 1
-                        ]
-                    ]
-                ]
+                            'correct_answer' => 1,
+                        ],
+                    ],
+                ],
             ],
         ];
 

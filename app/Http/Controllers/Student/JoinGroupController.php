@@ -14,7 +14,7 @@ class JoinGroupController extends Controller
     public function show()
     {
         $userGroups = auth()->user()->groups()->pluck('groups.id');
-        
+
         return view('student.groups.join', [
             'myGroups' => auth()->user()->groups()->with('teacher')->get(),
         ]);
@@ -31,11 +31,11 @@ class JoinGroupController extends Controller
 
         $group = Group::where('code', strtoupper($validated['code']))->first();
 
-        if (!$group) {
+        if (! $group) {
             return back()->withErrors(['code' => 'Código de clase no válido']);
         }
 
-        if (!$group->is_active) {
+        if (! $group->is_active) {
             return back()->withErrors(['code' => 'Esta clase no está activa']);
         }
 
@@ -55,7 +55,7 @@ class JoinGroupController extends Controller
      */
     public function leave(Group $group)
     {
-        if (!auth()->user()->isInGroup($group)) {
+        if (! auth()->user()->isInGroup($group)) {
             return back()->withErrors(['error' => 'No estás en esta clase']);
         }
 

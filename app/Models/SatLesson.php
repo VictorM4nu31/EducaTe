@@ -9,16 +9,24 @@ class SatLesson extends Model
 {
     // Category constants
     public const CATEGORY_GENERAL = 'general';
+
     public const CATEGORY_RFC = 'rfc';
+
     public const CATEGORY_TAXES = 'taxes';
+
     public const CATEGORY_INVOICES = 'invoices';
+
     public const CATEGORY_REGIMES = 'regimes';
+
     public const CATEGORY_DECLARATIONS = 'declarations';
+
     public const CATEGORY_EFIRMA = 'efirma';
 
     // Difficulty constants
     public const DIFFICULTY_BASIC = 'basic';
+
     public const DIFFICULTY_INTERMEDIATE = 'intermediate';
+
     public const DIFFICULTY_ADVANCED = 'advanced';
 
     protected $fillable = [
