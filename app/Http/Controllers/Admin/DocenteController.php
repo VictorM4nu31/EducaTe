@@ -17,12 +17,12 @@ class DocenteController extends Controller
     {
         // Solo admins pueden acceder
         abort_unless(auth()->user()->hasRole('admin'), 403);
-        
+
         $docentes = User::role('docente')
             ->with('wallet')
             ->latest()
             ->paginate(15);
-        
+
         return view('admin.docentes.index', compact('docentes'));
     }
 
@@ -32,17 +32,20 @@ class DocenteController extends Controller
     public function create()
     {
         abort_unless(auth()->user()->hasRole('admin'), 403);
-        
+
         return view('admin.docentes.create');
     }
 
     /**
      * Store a newly created resource in storage.
+     *
+     * El rol se asigna aquí de forma explícita (el modelo ya no auto-asigna
+     * ningún rol al crear), evitando que un docente herede el rol 'alumno'.
      */
     public function store(Request $request)
     {
         abort_unless(auth()->user()->hasRole('admin'), 403);
-        
+
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
@@ -73,11 +76,11 @@ class DocenteController extends Controller
     {
         abort_unless(auth()->user()->hasRole('admin'), 403);
         abort_unless($docente->hasRole('docente'), 404);
-        
-        $docente->load(['wallet', 'taughtGroups' => function($query) {
+
+        $docente->load(['wallet', 'taughtGroups' => function ($query) {
             $query->withCount('students');
         }]);
-        
+
         return view('admin.docentes.show', compact('docente'));
     }
 
@@ -88,7 +91,7 @@ class DocenteController extends Controller
     {
         abort_unless(auth()->user()->hasRole('admin'), 403);
         abort_unless($docente->hasRole('docente'), 404);
-        
+
         return view('admin.docentes.edit', compact('docente'));
     }
 
@@ -99,12 +102,12 @@ class DocenteController extends Controller
     {
         abort_unless(auth()->user()->hasRole('admin'), 403);
         abort_unless($docente->hasRole('docente'), 404);
-        
+
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $docente->id],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,'.$docente->id],
             'password' => ['nullable', Password::defaults()],
-            'rfc' => ['nullable', 'string', 'max:13', 'unique:users,rfc,' . $docente->id],
+            'rfc' => ['nullable', 'string', 'max:13', 'unique:users,rfc,'.$docente->id],
         ]);
 
         $docente->update([
@@ -114,7 +117,7 @@ class DocenteController extends Controller
         ]);
 
         // Actualizar contraseña solo si se proporciona
-        if (!empty($validated['password'])) {
+        if (! empty($validated['password'])) {
             $docente->update([
                 'password' => Hash::make($validated['password']),
             ]);
@@ -132,7 +135,7 @@ class DocenteController extends Controller
     {
         abort_unless(auth()->user()->hasRole('admin'), 403);
         abort_unless($docente->hasRole('docente'), 404);
-        
+
         $docente->delete();
 
         return redirect()
