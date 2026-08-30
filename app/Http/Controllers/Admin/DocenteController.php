@@ -15,9 +15,7 @@ class DocenteController extends Controller
      */
     public function index()
     {
-        // Solo admins pueden acceder
-        abort_unless(auth()->user()->hasRole('admin'), 403);
-
+        // El acceso admin está garantizado por la ruta (middleware role:admin).
         $docentes = User::role('docente')
             ->with('wallet')
             ->latest()
@@ -31,8 +29,6 @@ class DocenteController extends Controller
      */
     public function create()
     {
-        abort_unless(auth()->user()->hasRole('admin'), 403);
-
         return view('admin.docentes.create');
     }
 
@@ -44,8 +40,6 @@ class DocenteController extends Controller
      */
     public function store(Request $request)
     {
-        abort_unless(auth()->user()->hasRole('admin'), 403);
-
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
@@ -74,7 +68,6 @@ class DocenteController extends Controller
      */
     public function show(User $docente)
     {
-        abort_unless(auth()->user()->hasRole('admin'), 403);
         abort_unless($docente->hasRole('docente'), 404);
 
         $docente->load(['wallet', 'taughtGroups' => function ($query) {
@@ -89,7 +82,6 @@ class DocenteController extends Controller
      */
     public function edit(User $docente)
     {
-        abort_unless(auth()->user()->hasRole('admin'), 403);
         abort_unless($docente->hasRole('docente'), 404);
 
         return view('admin.docentes.edit', compact('docente'));
@@ -100,7 +92,6 @@ class DocenteController extends Controller
      */
     public function update(Request $request, User $docente)
     {
-        abort_unless(auth()->user()->hasRole('admin'), 403);
         abort_unless($docente->hasRole('docente'), 404);
 
         $validated = $request->validate([
@@ -133,7 +124,6 @@ class DocenteController extends Controller
      */
     public function destroy(User $docente)
     {
-        abort_unless(auth()->user()->hasRole('admin'), 403);
         abort_unless($docente->hasRole('docente'), 404);
 
         $docente->delete();
