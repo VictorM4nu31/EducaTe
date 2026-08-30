@@ -2,7 +2,6 @@
 
 use App\Enums\TransactionType;
 use App\Models\Exam;
-use App\Models\ExamAssignment;
 use App\Models\ExamAttempt;
 use App\Models\Group;
 use App\Models\Question;
@@ -19,7 +18,7 @@ test('un alumno puede iniciar un examen asignado a su clase', function () {
     $group = examGroupFor($teacher);
     $group->addStudent($student);
     $exam = Exam::factory()->create(['created_by' => $teacher->id]);
-    ExamAssignment::create(['exam_id' => $exam->id, 'group_id' => $group->id]);
+    $exam->groups()->attach($group->id);
 
     $this->actingAs($student)
         ->get(route('student.exams.start', $exam))
@@ -44,7 +43,7 @@ test('al entregar, se calcula la calificacion y se acredita AC', function () {
     $group = examGroupFor($teacher);
     $group->addStudent($student);
     $exam = Exam::factory()->create(['created_by' => $teacher->id]);
-    ExamAssignment::create(['exam_id' => $exam->id, 'group_id' => $group->id]);
+    $exam->groups()->attach($group->id);
 
     $question = Question::factory()->create(['exam_id' => $exam->id, 'correct_answer' => 'A', 'points' => 1]);
     $exam->load('questions');
@@ -108,6 +107,37 @@ test('solo puede guardar progreso el dueno del intento', function () {
         ->assertOk();
 
     expect($attempt->fresh()->answers)->toHaveKey('3');
+});
+
+test('un examen asignado directamente al alumno aparece en su listado', function () {
+    $teacher = User::factory()->docente()->create();
+    $student = User::factory()->alumno()->create();
+    $exam = Exam::factory()->create(['created_by' => $teacher->id, 'title' => 'Examen Directo']);
+    $exam->assignedUsers()->attach($student->id);
+
+    $this->actingAs($student)
+        ->get(route('student.exams'))
+        ->assertOk()
+        ->assertSee('Examen Directo')
+        ->assertDontSee('No tienes exámenes');
+});
+
+test('el modelo sabe si un examen esta disponible para un alumno', function () {
+    $teacher = User::factory()->docente()->create();
+    $student = User::factory()->alumno()->create();
+    $other = User::factory()->alumno()->create();
+    $group = examGroupFor($teacher);
+    $group->addStudent($student);
+
+    $byGroup = Exam::factory()->create(['created_by' => $teacher->id]);
+    $byGroup->groups()->attach($group->id);
+
+    $direct = Exam::factory()->create(['created_by' => $teacher->id]);
+    $direct->assignedUsers()->attach($student->id);
+
+    expect($byGroup->isAvailableTo($student))->toBeTrue();
+    expect($direct->isAvailableTo($student))->toBeTrue();
+    expect($byGroup->isAvailableTo($other))->toBeFalse();
 });
 
 test('el docente solo ve sus propios examenes', function () {

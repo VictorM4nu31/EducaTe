@@ -66,15 +66,13 @@
 
                 <flux:card>
                     <h3 class="font-bold text-neutral-900 dark:text-white mb-4">Clases Asignadas</h3>
-                    @if($exam->assignments->count() > 0)
+                    @if($exam->groups->count() > 0)
                         <div class="space-y-2">
-                            @foreach($exam->assignments as $assignment)
-                                @if($assignment->group)
-                                    <div class="p-2 bg-neutral-50 dark:bg-neutral-800 rounded">
-                                        <p class="text-sm font-medium text-neutral-900 dark:text-white">
-                                            {{ $assignment->group->name }}</p>
-                                    </div>
-                                @endif
+                            @foreach($exam->groups as $group)
+                                <div class="p-2 bg-neutral-50 dark:bg-neutral-800 rounded">
+                                    <p class="text-sm font-medium text-neutral-900 dark:text-white">
+                                        {{ $group->name }}</p>
+                                </div>
                             @endforeach
                         </div>
                     @else

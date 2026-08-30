@@ -37,18 +37,49 @@ class Task extends Model
         return $this->hasMany(TaskSubmission::class);
     }
 
-    public function assignments()
-    {
-        return $this->hasMany(TaskAssignment::class);
-    }
-
+    /**
+     * Clases a las que está asignada la tarea.
+     */
     public function groups()
     {
-        return $this->belongsToMany(Group::class, 'task_assignments');
+        return $this->belongsToMany(Group::class, 'task_group_assignments')->withTimestamps();
     }
 
+    /**
+     * Estudiantes a los que se les asigna la tarea de forma individual.
+     */
     public function assignedUsers()
     {
-        return $this->belongsToMany(User::class, 'task_assignments');
+        return $this->belongsToMany(User::class, 'task_user_assignments')->withTimestamps();
+    }
+
+    /**
+     * ¿La tarea está asignada a una clase concreta?
+     */
+    public function isAssignedToGroup(Group $group): bool
+    {
+        return $this->groups()->whereKey($group->id)->exists();
+    }
+
+    /**
+     * ¿La tarea está asignada de forma individual a un estudiante?
+     */
+    public function isAssignedToUser(User $user): bool
+    {
+        return $this->assignedUsers()->whereKey($user->id)->exists();
+    }
+
+    /**
+     * ¿La tarea está disponible para un estudiante (por clase o de forma directa)?
+     */
+    public function isAvailableTo(User $user): bool
+    {
+        foreach ($user->groups as $group) {
+            if ($this->isAssignedToGroup($group)) {
+                return true;
+            }
+        }
+
+        return $this->isAssignedToUser($user);
     }
 }

@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Exam;
-use App\Models\ExamAssignment;
 use App\Models\ExamAttempt;
 use App\Models\Group;
 use App\Models\Question;
@@ -13,7 +12,7 @@ test('un examen con tiempo limite expirado no puede ser entregado', function () 
     $group = Group::factory()->create(['teacher_id' => $teacher->id]);
     $group->addStudent($student);
     $exam = Exam::factory()->create(['created_by' => $teacher->id, 'time_limit' => 5]);
-    ExamAssignment::create(['exam_id' => $exam->id, 'group_id' => $group->id]);
+    $exam->groups()->attach($group->id);
     $question = Question::factory()->create(['exam_id' => $exam->id, 'correct_answer' => 'A']);
 
     $attempt = ExamAttempt::create([
