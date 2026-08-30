@@ -171,6 +171,16 @@ class ExamController extends Controller
             return back()->withErrors(['error' => 'Este examen está anulado']);
         }
 
+        // Validar el tiempo límite en el servidor (con un margen de 30s de tolerancia).
+        if ($exam->time_limit && $attempt->started_at) {
+            $elapsed = abs(now()->diffInSeconds($attempt->started_at));
+            $limitWithGrace = ($exam->time_limit * 60) + 30;
+
+            if ($elapsed > $limitWithGrace) {
+                return back()->withErrors(['error' => 'El tiempo del examen ha expirado.']);
+            }
+        }
+
         $answers = $request->input('answers', $attempt->answers ?? []);
         $hintsUsed = (int) $request->input('hints_used', $attempt->hints_used);
 
