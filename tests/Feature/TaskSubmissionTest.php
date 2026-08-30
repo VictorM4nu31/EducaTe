@@ -2,7 +2,6 @@
 
 use App\Models\Group;
 use App\Models\Task;
-use App\Models\TaskAssignment;
 use App\Models\TaskSubmission;
 use App\Models\User;
 use Illuminate\Http\UploadedFile;
@@ -19,7 +18,7 @@ test('un alumno puede presentar una tarea de su grupo', function () {
     $group = taskGroupFor($teacher);
     $group->addStudent($student);
     $task = Task::factory()->create(['created_by' => $teacher->id]);
-    TaskAssignment::create(['task_id' => $task->id, 'group_id' => $group->id]);
+    $task->groups()->attach($group->id);
 
     UploadedFile::fake()->create('tarea.pdf', 10, 'application/pdf');
 
@@ -52,7 +51,7 @@ test('al re-presentar se reemplaza el archivo y se limpia la nota previa', funct
     $teacher = User::factory()->docente()->create();
     $student = User::factory()->alumno()->create();
     $task = Task::factory()->create(['created_by' => $teacher->id]);
-    TaskAssignment::create(['task_id' => $task->id, 'user_id' => $student->id]);
+    $task->assignedUsers()->attach($student->id);
     $submission = TaskSubmission::factory()->create([
         'task_id' => $task->id,
         'user_id' => $student->id,

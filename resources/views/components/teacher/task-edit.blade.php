@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Task;
-use App\Models\TaskAssignment;
 use Livewire\Attributes\Validate;
 use Livewire\Volt\Component;
 
@@ -40,7 +39,7 @@ new class extends Component
         $this->due_date = $task->due_date ? $task->due_date->format('Y-m-d\TH:i') : '';
         $this->instructions = $task->instructions;
         
-        $this->selectedGroups = $task->assignments()->pluck('group_id')->toArray();
+        $this->selectedGroups = $task->groups()->pluck('groups.id')->toArray();
         $this->groups = auth()->user()->taughtGroups()->where('is_active', true)->get();
     }
 
@@ -75,14 +74,8 @@ new class extends Component
 
         $this->task->update($data);
 
-        // Actualizar asignaciones
-        $this->task->assignments()->delete();
-        foreach ($this->selectedGroups as $groupId) {
-            TaskAssignment::create([
-                'task_id' => $this->task->id,
-                'group_id' => $groupId,
-            ]);
-        }
+        // Actualizar asignaciones a clases
+        $this->task->groups()->sync($this->selectedGroups);
 
         return redirect()->route('teacher.tasks')->with('success', 'Tarea actualizada exitosamente');
     }

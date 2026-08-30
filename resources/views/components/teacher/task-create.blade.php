@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Task;
-use App\Models\TaskAssignment;
 use Livewire\Attributes\Validate;
 use Livewire\Volt\Component;
 
@@ -68,12 +67,7 @@ new class extends Component
         ]);
 
         // Asignar a grupos seleccionados
-        foreach ($this->selectedGroups as $groupId) {
-            TaskAssignment::create([
-                'task_id' => $task->id,
-                'group_id' => $groupId,
-            ]);
-        }
+        $task->groups()->sync($this->selectedGroups);
 
         $this->dispatch('task-created');
 

@@ -2,7 +2,8 @@
 
 use Livewire\Volt\Component;
 use App\Models\Task;
-use App\Models\TaskAssignment;
+use App\Models\TaskGroupAssignment;
+use App\Models\TaskUserAssignment;
 use App\Models\TaskSubmission;
 
 new class extends Component {
@@ -14,10 +15,10 @@ new class extends Component {
         $groupIds = $user->groups()->pluck('groups.id');
 
         // Obtener tareas asignadas a los grupos del estudiante o directamente al estudiante
-        $taskIds = TaskAssignment::where(function ($query) use ($groupIds, $user) {
-            $query->whereIn('group_id', $groupIds)
-                ->orWhere('user_id', $user->id);
-        })->pluck('task_id');
+        $taskIds = TaskGroupAssignment::whereIn('group_id', $groupIds)
+            ->pluck('task_id')
+            ->merge(TaskUserAssignment::where('user_id', $user->id)->pluck('task_id'))
+            ->unique();
 
         // Obtener todas las tareas activas asignadas
         $allTasks = Task::whereIn('id', $taskIds)
