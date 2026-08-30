@@ -2,18 +2,22 @@
 
 namespace App\Http\Controllers\Resources;
 
+use App\Concerns\LogsActivity;
 use App\Http\Controllers\Controller;
 use App\Models\Regulation;
 use Illuminate\Http\Request;
 
 class RegulationController extends Controller
 {
+    use LogsActivity;
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         $regulations = Regulation::where('is_active', true)->latest()->get();
+
         return view('resources.regulations.index', compact('regulations'));
     }
 
@@ -40,6 +44,8 @@ class RegulationController extends Controller
             'content' => $request->content,
             'user_id' => auth()->id(),
         ]);
+
+        $this->logActivity('regulation.created', "Reglamento publicado: {$request->title}");
 
         return redirect()->route('resources.regulations.index')->with('success', 'Reglamento publicado exitosamente.');
     }
@@ -76,6 +82,8 @@ class RegulationController extends Controller
             'is_active' => $request->has('is_active'),
         ]);
 
+        $this->logActivity('regulation.updated', "Reglamento actualizado: {$regulation->title}");
+
         return redirect()->route('resources.regulations.index')->with('success', 'Reglamento actualizado exitosamente.');
     }
 
@@ -85,6 +93,9 @@ class RegulationController extends Controller
     public function destroy(Regulation $regulation)
     {
         $regulation->delete();
+
+        $this->logActivity('regulation.deleted', "Reglamento eliminado: {$regulation->title}");
+
         return redirect()->route('resources.regulations.index')->with('success', 'Reglamento eliminado.');
     }
 }

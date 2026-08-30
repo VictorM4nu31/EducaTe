@@ -28,7 +28,7 @@ return new class extends Migration
             $table->timestamp('submitted_at')->useCurrent();
             $table->timestamp('graded_at')->nullable();
             $table->timestamps();
-            
+
             // Un estudiante solo puede tener una entrega activa por tarea
             $table->unique(['task_id', 'user_id', 'status']);
         });

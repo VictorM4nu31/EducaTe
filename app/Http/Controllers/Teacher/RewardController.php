@@ -2,18 +2,22 @@
 
 namespace App\Http\Controllers\Teacher;
 
+use App\Concerns\LogsActivity;
 use App\Http\Controllers\Controller;
 use App\Models\Reward;
 use Illuminate\Http\Request;
 
 class RewardController extends Controller
 {
+    use LogsActivity;
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         $rewards = Reward::latest()->paginate(15);
+
         return view('teacher.rewards.index', compact('rewards'));
     }
 
@@ -39,6 +43,8 @@ class RewardController extends Controller
         ]);
 
         Reward::create($validated);
+
+        $this->logActivity('reward.created', "Recompensa creada: {$validated['name']}");
 
         return redirect()
             ->route('teacher.rewards.index')
@@ -76,6 +82,8 @@ class RewardController extends Controller
 
         $reward->update($validated);
 
+        $this->logActivity('reward.updated', "Recompensa actualizada: {$reward->name}");
+
         return redirect()
             ->route('teacher.rewards.index')
             ->with('success', 'Recompensa actualizada exitosamente');
@@ -87,6 +95,8 @@ class RewardController extends Controller
     public function destroy(Reward $reward)
     {
         $reward->delete();
+
+        $this->logActivity('reward.deleted', "Recompensa eliminada: {$reward->name}");
 
         return redirect()
             ->route('teacher.rewards.index')

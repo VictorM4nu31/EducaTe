@@ -24,10 +24,15 @@ class CreateNewUser implements CreatesNewUsers
             'password' => $this->passwordRules(),
         ])->validate();
 
-        return User::create([
+        $user = User::create([
             'name' => $input['name'],
             'email' => $input['email'],
             'password' => $input['password'],
         ]);
+
+        // Los nuevos registros públicos siempre son estudiantes.
+        $user->assignRole('alumno');
+
+        return $user;
     }
 }

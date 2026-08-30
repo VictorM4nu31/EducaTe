@@ -1,6 +1,8 @@
 <?php
 
 use Livewire\Volt\Component;
+use App\Enums\TransactionType;
+use App\Models\ActivityLog;
 use App\Models\Reward;
 use App\Services\EconomyService;
 
@@ -30,11 +32,17 @@ new class extends Component {
                 auth()->user(),
                 (float) $reward->cost,
                 "Canje: {$reward->name}",
-                'reward',
+                TransactionType::Reward,
                 ['reward_id' => $reward->id]
             );
 
             $reward->decrement('stock');
+
+            ActivityLog::record(auth()->user(), 'reward.redeemed', "Canje de recompensa: {$reward->name}", [
+                'reward_id' => $reward->id,
+                'cost' => $reward->cost,
+                'transaction_id' => $this->lastTransaction->id,
+            ]);
 
             $this->selectedReward = $reward;
             $this->showInvoice = true;

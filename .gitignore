@@ -26,4 +26,13 @@ yarn-error.log
 .mcp.json
 boost.json
 CLAUDE.md
+opencode.json
+opencode.jsonc
+.agents/
+AGENTS.md
+.agent/
 
+
+
+# Playwright MCP artifacts
+.playwright-mcp/

@@ -37,10 +37,10 @@ class ExamAnnulled extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->subject('Examen Anulado: ' . $this->attempt->user->name)
-                    ->line('El alumno ' . $this->attempt->user->name . ' ha salido de la pestaña durante el examen: ' . $this->attempt->exam->title)
-                    ->action('Ver Examen', route('teacher.exams.show', $this->attempt->exam_id))
-                    ->line('El examen ha sido anulado automáticamente.');
+            ->subject('Examen Anulado: '.$this->attempt->user->name)
+            ->line('El alumno '.$this->attempt->user->name.' ha salido de la pestaña durante el examen: '.$this->attempt->exam->title)
+            ->action('Ver Examen', route('teacher.exams.show', $this->attempt->exam_id))
+            ->line('El examen ha sido anulado automáticamente.');
     }
 
     /**

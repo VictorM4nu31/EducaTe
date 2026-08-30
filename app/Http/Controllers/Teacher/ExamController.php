@@ -15,12 +15,14 @@ class ExamController extends Controller
             ->withCount('questions')
             ->latest()
             ->get();
+
         return view('teacher.exams.index', compact('exams'));
     }
 
     public function create()
     {
         $groups = auth()->user()->taughtGroups()->where('is_active', true)->get();
+
         return view('teacher.exams.create', compact('groups'));
     }
 
@@ -60,7 +62,7 @@ class ExamController extends Controller
     {
         \Illuminate\Support\Facades\Gate::authorize('view', $exam);
 
-        $exam->load(['questions' => function($query) {
+        $exam->load(['questions' => function ($query) {
             $query->orderBy('order');
         }, 'assignments.group']);
 
@@ -72,6 +74,7 @@ class ExamController extends Controller
         \Illuminate\Support\Facades\Gate::authorize('update', $exam);
 
         $groups = auth()->user()->taughtGroups()->where('is_active', true)->get();
+
         return view('teacher.exams.edit', compact('exam', 'groups'));
     }
 

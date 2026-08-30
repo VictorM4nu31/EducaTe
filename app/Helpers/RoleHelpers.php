@@ -1,6 +1,6 @@
 <?php
 
-if (!function_exists('is_admin')) {
+if (! function_exists('is_admin')) {
     /**
      * Check if the current user is an admin
      */
@@ -10,7 +10,7 @@ if (!function_exists('is_admin')) {
     }
 }
 
-if (!function_exists('is_docente')) {
+if (! function_exists('is_docente')) {
     /**
      * Check if the current user is a teacher
      */
@@ -20,7 +20,7 @@ if (!function_exists('is_docente')) {
     }
 }
 
-if (!function_exists('is_alumno')) {
+if (! function_exists('is_alumno')) {
     /**
      * Check if the current user is a student
      */
@@ -30,7 +30,7 @@ if (!function_exists('is_alumno')) {
     }
 }
 
-if (!function_exists('can_manage_tasks')) {
+if (! function_exists('can_manage_tasks')) {
     /**
      * Check if user can create/edit/delete tasks
      */
@@ -43,7 +43,7 @@ if (!function_exists('can_manage_tasks')) {
     }
 }
 
-if (!function_exists('can_manage_rewards')) {
+if (! function_exists('can_manage_rewards')) {
     /**
      * Check if user can create/edit/delete rewards
      */
@@ -56,7 +56,7 @@ if (!function_exists('can_manage_rewards')) {
     }
 }
 
-if (!function_exists('can_view_analytics')) {
+if (! function_exists('can_view_analytics')) {
     /**
      * Check if user can view analytics and reports
      */
@@ -69,15 +69,15 @@ if (!function_exists('can_view_analytics')) {
     }
 }
 
-if (!function_exists('user_role_badge')) {
+if (! function_exists('user_role_badge')) {
     /**
      * Get a formatted badge for the user's role
      */
     function user_role_badge(?string $role = null): string
     {
         $role = $role ?? (auth()->check() ? auth()->user()->getRoleNames()->first() : null);
-        
-        return match($role) {
+
+        return match ($role) {
             'admin' => '<span class="px-2 py-1 text-xs font-bold rounded bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-300">Admin</span>',
             'docente' => '<span class="px-2 py-1 text-xs font-bold rounded bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300">Docente</span>',
             'alumno' => '<span class="px-2 py-1 text-xs font-bold rounded bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300">Alumno</span>',

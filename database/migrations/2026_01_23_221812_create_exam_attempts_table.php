@@ -26,7 +26,7 @@ return new class extends Migration
             $table->boolean('is_annulled')->default(false);
             $table->decimal('ac_earned', 10, 2)->nullable(); // AC ganados
             $table->timestamps();
-            
+
             // Un estudiante puede tener múltiples intentos
             $table->index(['exam_id', 'user_id']);
         });

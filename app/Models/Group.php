@@ -3,12 +3,13 @@
 namespace App\Models;
 
 use App\Traits\HasSlug;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 class Group extends Model
 {
-    use HasSlug;
+    use HasFactory, HasSlug;
 
     protected $fillable = [
         'teacher_id',
@@ -31,7 +32,7 @@ class Group extends Model
     {
         static::creating(function ($group) {
             // Generar código único de 8 caracteres si no existe
-            if (!$group->code) {
+            if (! $group->code) {
                 $group->code = strtoupper(Str::random(8));
             }
         });
@@ -68,7 +69,7 @@ class Group extends Model
      */
     public function addStudent(User $user): void
     {
-        if (!$this->hasStudent($user)) {
+        if (! $this->hasStudent($user)) {
             $this->students()->attach($user->id, ['joined_at' => now()]);
         }
     }

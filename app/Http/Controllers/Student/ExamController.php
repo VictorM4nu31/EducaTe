@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Student;
 
 use App\Http\Controllers\Controller;
 use App\Models\Exam;
-use App\Models\ExamAttempt;
 use App\Models\ExamAssignment;
+use App\Models\ExamAttempt;
 use App\Models\User;
 use App\Notifications\ExamAnnulled;
 use App\Services\EconomyService;
@@ -21,8 +21,8 @@ class ExamController extends Controller
     {
         /** @var User $user */
         $user = Auth::user();
-        
-        if (!$user) {
+
+        if (! $user) {
             abort(403);
         }
 
@@ -30,11 +30,11 @@ class ExamController extends Controller
 
         // Obtener exámenes asignados a los grupos del estudiante
         $examIds = ExamAssignment::whereIn('group_id', $groupIds)
-            ->where(function($query) {
+            ->where(function ($query) {
                 $query->whereNull('available_from')
                     ->orWhere('available_from', '<=', now());
             })
-            ->where(function($query) {
+            ->where(function ($query) {
                 $query->whereNull('available_until')
                     ->orWhere('available_until', '>=', now());
             })
@@ -42,7 +42,7 @@ class ExamController extends Controller
 
         $exams = Exam::whereIn('id', $examIds)
             ->where('is_active', true)
-            ->with(['questions', 'attempts' => function($query) use ($user) {
+            ->with(['questions', 'attempts' => function ($query) use ($user) {
                 $query->where('user_id', $user->id);
             }])
             ->get();
@@ -57,8 +57,8 @@ class ExamController extends Controller
     {
         /** @var User $user */
         $user = Auth::user();
-        
-        if (!$user) {
+
+        if (! $user) {
             abort(403);
         }
 
@@ -71,7 +71,7 @@ class ExamController extends Controller
             }
         }
 
-        if (!$hasAccess) {
+        if (! $hasAccess) {
             abort(403);
         }
 
@@ -82,7 +82,7 @@ class ExamController extends Controller
             ->latest()
             ->first();
 
-        if (!$attempt) {
+        if (! $attempt) {
             $attempt = ExamAttempt::create([
                 'exam_id' => $exam->id,
                 'user_id' => $user->id,
@@ -97,7 +97,7 @@ class ExamController extends Controller
                 ->with('annulled_message', 'Tu examen ha sido anulado por salir de la pestaña. Contacta a tu profesor para habilitarlo.');
         }
 
-        $exam->load(['questions' => function($query) {
+        $exam->load(['questions' => function ($query) {
             $query->orderBy('order');
         }]);
 
@@ -120,7 +120,7 @@ class ExamController extends Controller
 
         $answers = $request->input('answers', []);
         $currentAnswers = $attempt->answers ?? [];
-        
+
         // Combinar respuestas existentes con las nuevas
         foreach ($answers as $questionId => $answer) {
             $currentAnswers[$questionId] = $answer;
@@ -158,8 +158,8 @@ class ExamController extends Controller
     {
         /** @var User|null $user */
         $user = Auth::user();
-        
-        if (!$user || $attempt->user_id !== $user->id || $attempt->exam_id !== $exam->id) {
+
+        if (! $user || $attempt->user_id !== $user->id || $attempt->exam_id !== $exam->id) {
             abort(403);
         }
 
@@ -171,8 +171,18 @@ class ExamController extends Controller
             return back()->withErrors(['error' => 'Este examen está anulado']);
         }
 
+        // Validar el tiempo límite en el servidor (con un margen de 30s de tolerancia).
+        if ($exam->time_limit && $attempt->started_at) {
+            $elapsed = abs(now()->diffInSeconds($attempt->started_at));
+            $limitWithGrace = ($exam->time_limit * 60) + 30;
+
+            if ($elapsed > $limitWithGrace) {
+                return back()->withErrors(['error' => 'El tiempo del examen ha expirado.']);
+            }
+        }
+
         $answers = $request->input('answers', $attempt->answers ?? []);
-        $hintsUsed = (int)$request->input('hints_used', $attempt->hints_used);
+        $hintsUsed = (int) $request->input('hints_used', $attempt->hints_used);
 
         // Calcular calificación
         $totalPoints = 0;
@@ -234,7 +244,7 @@ class ExamController extends Controller
         }
 
         return redirect()
-            ->route('exams')
-            ->with('success', "Examen completado. Calificación: " . number_format($finalGrade, 1) . ". Ganaste " . number_format($acEarned, 2) . " AC.");
+            ->route('student.exams')
+            ->with('success', 'Examen completado. Calificación: '.number_format($finalGrade, 1).'. Ganaste '.number_format($acEarned, 2).' AC.');
     }
 }

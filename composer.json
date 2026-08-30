@@ -1,11 +1,15 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "laravel/livewire-starter-kit",
+    "name": "educate/educate",
     "type": "project",
-    "description": "The official Laravel starter kit for Livewire.",
+    "description": "Plataforma educativa gamificada con economia interna (AulaChain) y educacion fiscal SAT para el aula.",
     "keywords": [
         "laravel",
-        "framework"
+        "livewire",
+        "educacion",
+        "gamificacion",
+        "economia",
+        "aula"
     ],
     "license": "MIT",
     "require": {

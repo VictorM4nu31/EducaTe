@@ -38,6 +38,7 @@ class SavingsGoal extends Model
         if ($this->target_amount <= 0) {
             return 0;
         }
+
         return min(($this->current_amount / $this->target_amount) * 100, 100);
     }
 
@@ -46,7 +47,7 @@ class SavingsGoal extends Model
      */
     public function isNearGoal(): bool
     {
-        return $this->progress_percentage >= 80 && !$this->is_completed;
+        return $this->progress_percentage >= 80 && ! $this->is_completed;
     }
 
     /**
@@ -54,9 +55,10 @@ class SavingsGoal extends Model
      */
     public function getDaysRemainingAttribute(): ?int
     {
-        if (!$this->target_date) {
+        if (! $this->target_date) {
             return null;
         }
+
         return max(0, now()->diffInDays($this->target_date, false));
     }
 }

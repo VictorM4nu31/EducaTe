@@ -32,6 +32,19 @@
     --color-accent-content: var(--color-white);
     --color-accent-foreground: var(--color-white);
 
+    /* Tokens usados por el resto de la UI (exámenes, banco AulaChain, SAT, reglamento).
+       Se mapean a la paleta base para mantener una identidad coherente. */
+    --color-academic-purple: var(--color-indigo-600);
+    --color-academic-purple-hover: var(--color-indigo-700);
+    --color-academic-purple-active: var(--color-indigo-800);
+    --color-aulachain-green: var(--color-emerald-500);
+    --color-aulachain-green-active: var(--color-emerald-600);
+    --color-aulachain-green-hover: var(--color-emerald-400);
+    --color-alert-red: #e35353;
+    --color-alert-red-hover: #d84545;
+    --color-warning-yellow: #d9b23f;
+    --color-warning-yellow-hover: #c9a231;
+
     /* Global Tailwind Overrides for 2026 Consistency (Atmospheric Focus) */
     
     /* PRIMARY: Blue Scale -> Atmospheric Blue */
