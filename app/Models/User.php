@@ -3,18 +3,18 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Traits\HasSlug;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Spatie\Permission\Traits\HasRoles;
-use App\Traits\HasSlug;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, TwoFactorAuthenticatable, HasRoles, HasSlug;
+    use HasFactory, HasRoles, HasSlug, Notifiable, TwoFactorAuthenticatable;
 
     /**
      * Field to use for slug generation
@@ -69,39 +69,33 @@ class User extends Authenticatable
 
             // Generate simulated RFC if not present
             // Formato: 4 letras (iniciales) + 6 dígitos (fecha) + 3 caracteres (homoclave)
-            if (!$user->rfc) {
+            if (! $user->rfc) {
                 // Obtener iniciales del nombre (máximo 4 caracteres)
                 $nameParts = explode(' ', $user->name);
                 $initials = '';
-                
+
                 // Tomar primera letra de cada palabra hasta 4 caracteres
                 foreach ($nameParts as $part) {
-                    if (strlen($initials) < 4 && !empty($part)) {
+                    if (strlen($initials) < 4 && ! empty($part)) {
                         $initials .= strtoupper(substr($part, 0, 1));
                     }
                 }
-                
+
                 // Completar a 4 caracteres si es necesario
                 if (strlen($initials) < 4) {
                     $initials = str_pad($initials, 4, 'X');
                 } else {
                     $initials = substr($initials, 0, 4);
                 }
-                
+
                 // Fecha en formato YYMMDD (año, mes, día)
                 $date = now()->format('ymd');
-                
+
                 // Homoclave: 3 caracteres alfanuméricos aleatorios
                 $homoclave = strtoupper(Str::random(3));
-                
+
                 $user->rfc = "{$initials}{$date}{$homoclave}";
                 $user->save();
-            }
-            
-            // Asignar rol de 'alumno' automáticamente si no tiene ningún rol
-            // Los admins y docentes se crean con roles específicos desde el seeder o panel admin
-            if (!$user->hasAnyRole(['admin', 'docente', 'alumno'])) {
-                $user->assignRole('alumno');
             }
         });
     }
@@ -117,7 +111,7 @@ class User extends Authenticatable
     {
         // Simple level logic: every 100 XP is a level
         $newLevel = floor($this->experience / 100) + 1;
-        
+
         if ($newLevel > $this->level) {
             $this->level = $newLevel;
             // Potencial logic for level-up notification
