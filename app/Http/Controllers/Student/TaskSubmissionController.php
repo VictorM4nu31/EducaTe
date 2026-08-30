@@ -32,7 +32,7 @@ class TaskSubmissionController extends Controller
             $hasAccess = true;
         }
 
-        if (!$hasAccess) {
+        if (! $hasAccess) {
             abort(403, 'No tienes acceso a esta tarea');
         }
 
@@ -69,13 +69,13 @@ class TaskSubmissionController extends Controller
         if ($task->assignments()->where('user_id', $user->id)->exists()) {
             $hasAccess = true;
         }
-        if (!$hasAccess) {
+        if (! $hasAccess) {
             abort(403);
         }
 
         // Guardar archivo
         $file = $request->file('file');
-        $fileName = time() . '_' . $file->getClientOriginalName();
+        $fileName = time().'_'.$file->getClientOriginalName();
         $filePath = $file->storeAs('task_submissions', $fileName, 'public');
 
         // Determinar si es entrega anticipada o tardía
@@ -120,7 +120,7 @@ class TaskSubmissionController extends Controller
         }
 
         return redirect()
-            ->route('tasks')
+            ->route('student.tasks')
             ->with('success', 'Tarea entregada exitosamente. Espera la calificación de tu profesor.');
     }
 
@@ -129,7 +129,7 @@ class TaskSubmissionController extends Controller
      */
     public function download(TaskSubmission $submission)
     {
-        if ($submission->user_id !== auth()->id() && !auth()->user()->hasRole(['admin', 'docente'])) {
+        if ($submission->user_id !== auth()->id() && ! auth()->user()->hasRole(['admin', 'docente'])) {
             abort(403);
         }
 
