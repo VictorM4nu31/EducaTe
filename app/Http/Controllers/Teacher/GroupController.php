@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers\Teacher;
 
+use App\Concerns\LogsActivity;
 use App\Http\Controllers\Controller;
 use App\Models\Group;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 
 class GroupController extends Controller
 {
+    use LogsActivity;
+
     /**
      * Display a listing of the resource.
      */
@@ -50,9 +52,11 @@ class GroupController extends Controller
             'grade' => $validated['grade'] ?? null,
         ]);
 
+        $this->logActivity('group.created', "Clase creada: {$group->name}");
+
         return redirect()
             ->route('teacher.groups.show', $group)
-            ->with('success', 'Clase creada exitosamente. Comparte el código: ' . $group->code);
+            ->with('success', 'Clase creada exitosamente. Comparte el código: '.$group->code);
     }
 
     /**
@@ -110,6 +114,8 @@ class GroupController extends Controller
 
         $group->delete();
 
+        $this->logActivity('group.deleted', "Clase eliminada: {$group->name}");
+
         return redirect()
             ->route('teacher.groups.index')
             ->with('success', 'Clase eliminada exitosamente');
@@ -125,7 +131,9 @@ class GroupController extends Controller
         $group->code = strtoupper(\Illuminate\Support\Str::random(8));
         $group->save();
 
-        return back()->with('success', 'Código regenerado: ' . $group->code);
+        $this->logActivity('group.code_regenerated', "Código de clase regenerado: {$group->name}");
+
+        return back()->with('success', 'Código regenerado: '.$group->code);
     }
 
     /**
@@ -136,6 +144,8 @@ class GroupController extends Controller
         \Illuminate\Support\Facades\Gate::authorize('removeStudent', $group);
 
         $group->removeStudent($student);
+
+        $this->logActivity('group.student_removed', "Estudiante removido de {$group->name}: {$student->name}");
 
         return back()->with('success', 'Estudiante removido de la clase');
     }
