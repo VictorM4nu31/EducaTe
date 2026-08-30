@@ -3,9 +3,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
-use App\Models\User;
+use Spatie\Permission\Models\Role;
 
 class RolesAndPermissionsSeeder extends Seeder
 {
@@ -18,149 +17,85 @@ class RolesAndPermissionsSeeder extends Seeder
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
         // ========================================
-        // CREAR PERMISOS
+        // CREAR PERMISOS (idempotente)
         // ========================================
-        
+
         // Permisos de Usuarios
-        Permission::create(['name' => 'view users']);
-        Permission::create(['name' => 'create users']);
-        Permission::create(['name' => 'edit users']);
-        Permission::create(['name' => 'delete users']);
-        
+        foreach (['view users', 'create users', 'edit users', 'delete users'] as $permission) {
+            Permission::firstOrCreate(['name' => $permission]);
+        }
+
         // Permisos de Tareas
-        Permission::create(['name' => 'view tasks']);
-        Permission::create(['name' => 'create tasks']);
-        Permission::create(['name' => 'edit tasks']);
-        Permission::create(['name' => 'delete tasks']);
-        Permission::create(['name' => 'complete tasks']); // Para alumnos
-        Permission::create(['name' => 'grade tasks']); // Para docentes
-        
+        foreach (['view tasks', 'create tasks', 'edit tasks', 'delete tasks', 'complete tasks', 'grade tasks'] as $permission) {
+            Permission::firstOrCreate(['name' => $permission]);
+        }
+
         // Permisos de Recompensas (Marketplace)
-        Permission::create(['name' => 'view rewards']);
-        Permission::create(['name' => 'create rewards']);
-        Permission::create(['name' => 'edit rewards']);
-        Permission::create(['name' => 'delete rewards']);
-        Permission::create(['name' => 'redeem rewards']); // Para alumnos
-        Permission::create(['name' => 'approve redemptions']); // Para docentes
-        
+        foreach (['view rewards', 'create rewards', 'edit rewards', 'delete rewards', 'redeem rewards', 'approve redemptions'] as $permission) {
+            Permission::firstOrCreate(['name' => $permission]);
+        }
+
         // Permisos de Transacciones (AulaChain)
-        Permission::create(['name' => 'view own transactions']);
-        Permission::create(['name' => 'view all transactions']);
-        Permission::create(['name' => 'create transactions']); // Para docentes (ajustes manuales)
-        Permission::create(['name' => 'transfer ac']); // P2P para alumnos
-        
+        foreach (['view own transactions', 'view all transactions', 'create transactions', 'transfer ac'] as $permission) {
+            Permission::firstOrCreate(['name' => $permission]);
+        }
+
         // Permisos de Facturas SAT
-        Permission::create(['name' => 'view invoices']);
-        Permission::create(['name' => 'generate invoices']);
-        Permission::create(['name' => 'manage tax settings']);
-        
+        foreach (['view invoices', 'generate invoices', 'manage tax settings'] as $permission) {
+            Permission::firstOrCreate(['name' => $permission]);
+        }
+
         // Permisos de Reportes y Analíticas
-        Permission::create(['name' => 'view reports']);
-        Permission::create(['name' => 'view analytics']);
-        Permission::create(['name' => 'export data']);
-        
+        foreach (['view reports', 'view analytics', 'export data'] as $permission) {
+            Permission::firstOrCreate(['name' => $permission]);
+        }
+
         // Permisos de Configuración
-        Permission::create(['name' => 'manage settings']);
-        Permission::create(['name' => 'manage roles']);
-        
+        foreach (['manage settings', 'manage roles'] as $permission) {
+            Permission::firstOrCreate(['name' => $permission]);
+        }
+
         // ========================================
-        // CREAR ROLES Y ASIGNAR PERMISOS
+        // CREAR ROLES Y ASIGNAR PERMISOS (idempotente)
         // ========================================
-        
+
         // ROL: ADMIN
-        $adminRole = Role::create(['name' => 'admin']);
-        $adminRole->givePermissionTo(Permission::all()); // Todos los permisos
-        
+        $adminRole = Role::firstOrCreate(['name' => 'admin']);
+        $adminRole->syncPermissions(Permission::all());
+
         // ROL: DOCENTE
-        $docenteRole = Role::create(['name' => 'docente']);
-        $docenteRole->givePermissionTo([
-            // Usuarios (solo ver)
+        $docenteRole = Role::firstOrCreate(['name' => 'docente']);
+        $docenteRole->syncPermissions([
             'view users',
-            
-            // Tareas (control completo)
             'view tasks',
             'create tasks',
             'edit tasks',
             'delete tasks',
             'grade tasks',
-            
-            // Recompensas (control completo)
             'view rewards',
             'create rewards',
             'edit rewards',
             'delete rewards',
             'approve redemptions',
-            
-            // Transacciones
             'view all transactions',
-            'create transactions', // Ajustes manuales de AC
-            
-            // Facturas
+            'create transactions',
             'view invoices',
             'generate invoices',
-            
-            // Reportes
             'view reports',
             'view analytics',
             'export data',
         ]);
-        
+
         // ROL: ALUMNO
-        $alumnoRole = Role::create(['name' => 'alumno']);
-        $alumnoRole->givePermissionTo([
-            // Tareas
+        $alumnoRole = Role::firstOrCreate(['name' => 'alumno']);
+        $alumnoRole->syncPermissions([
             'view tasks',
             'complete tasks',
-            
-            // Recompensas
             'view rewards',
             'redeem rewards',
-            
-            // Transacciones
             'view own transactions',
-            'transfer ac', // Transferencias P2P
-            
-            // Facturas (solo ver las propias)
+            'transfer ac',
             'view invoices',
         ]);
-        
-        // ========================================
-        // ASIGNAR ROLES A USUARIOS EXISTENTES
-        // ========================================
-        
-        // Buscar usuario admin (puedes ajustar el criterio)
-        $admin = User::where('email', 'admin@educate.com')->first();
-        if ($admin) {
-            $admin->assignRole('admin');
-        }
-        
-        // Crear usuarios de ejemplo si no existen
-        $this->createSampleUsers();
-    }
-    
-    /**
-     * Crear usuario administrador inicial
-     * Los docentes serán creados por el admin desde el panel
-     * Los alumnos se registrarán mediante el formulario público
-     */
-    private function createSampleUsers(): void
-    {
-        // Crear solo el Admin inicial
-        if (!User::where('email', 'admin@educate.com')->exists()) {
-            $admin = User::create([
-                'name' => 'Administrador del Sistema',
-                'email' => 'admin@educate.com',
-                'password' => bcrypt('admin123'), // Cambiar en producción
-                'rfc' => 'XAXX010101000',
-            ]);
-            $admin->assignRole('admin');
-            
-            // Crear wallet para admin
-            $admin->wallet()->create(['balance' => 10000]);
-            
-            echo "✅ Usuario Admin creado: admin@educate.com / admin123\n";
-        } else {
-            echo "ℹ️  Usuario Admin ya existe\n";
-        }
     }
 }

@@ -123,4 +123,29 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Credenciales de demostración
+    |--------------------------------------------------------------------------
+    |
+    | Usuarios y credenciales de demo creados por `php artisan db:seed`.
+    | Solo pensados para propósitos de demostración; no usar en producción.
+    |
+    */
+
+    'demo' => [
+        'admin' => [
+            'email' => env('DEMO_ADMIN_EMAIL', 'admin@educate.com'),
+            'password' => env('DEMO_ADMIN_PASSWORD', 'admin123'),
+        ],
+        'docente' => [
+            'email' => env('DEMO_DOCENTE_EMAIL', 'docente@educate.com'),
+            'password' => env('DEMO_DOCENTE_PASSWORD', 'docente123'),
+        ],
+        'alumno' => [
+            'email' => env('DEMO_ALUMNO_EMAIL', 'alumno@educate.com'),
+            'password' => env('DEMO_ALUMNO_PASSWORD', 'alumno123'),
+        ],
+    ],
+
 ];
