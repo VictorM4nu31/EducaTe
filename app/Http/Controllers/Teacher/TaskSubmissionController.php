@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Teacher;
 
+use App\Concerns\LogsActivity;
 use App\Http\Controllers\Controller;
 use App\Models\Task;
 use App\Models\TaskSubmission;
@@ -10,6 +11,8 @@ use Illuminate\Http\Request;
 
 class TaskSubmissionController extends Controller
 {
+    use LogsActivity;
+
     /**
      * Listar todas las entregas pendientes de revisión
      */
@@ -55,7 +58,7 @@ class TaskSubmissionController extends Controller
 
         // Calcular AC ganados
         $baseReward = $submission->task->ac_reward;
-        
+
         // Recompensa proporcional a la calificación (Ej: 10 = 100%, 5 = 50%)
         $acEarned = ($baseReward * ($grade / 10));
 
@@ -106,9 +109,14 @@ class TaskSubmissionController extends Controller
             );
         }
 
+        $this->logActivity('task.graded', "Tarea calificada: {$submission->task->title} (nota {$grade})", [
+            'task_id' => $submission->task->id,
+            'submission_id' => $submission->id,
+        ]);
+
         return redirect()
             ->route('teacher.tasks.submissions')
-            ->with('success', 'Tarea calificada exitosamente. Se otorgaron ' . number_format($acEarned, 2) . ' AC al estudiante.');
+            ->with('success', 'Tarea calificada exitosamente. Se otorgaron '.number_format($acEarned, 2).' AC al estudiante.');
     }
 
     /**

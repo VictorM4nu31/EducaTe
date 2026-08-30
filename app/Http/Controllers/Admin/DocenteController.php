@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Concerns\LogsActivity;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -10,6 +11,8 @@ use Illuminate\Validation\Rules\Password;
 
 class DocenteController extends Controller
 {
+    use LogsActivity;
+
     /**
      * Display a listing of the resource.
      */
@@ -57,6 +60,8 @@ class DocenteController extends Controller
 
         // Asignar rol de docente (esto evitará que se asigne 'alumno' automáticamente)
         $docente->assignRole('docente');
+
+        $this->logActivity('user.docente_created', "Docente creado: {$docente->email}", ['user_id' => $docente->id]);
 
         return redirect()
             ->route('admin.teachers.index')
@@ -114,6 +119,8 @@ class DocenteController extends Controller
             ]);
         }
 
+        $this->logActivity('user.docente_updated', "Docente actualizado: {$docente->email}", ['user_id' => $docente->id]);
+
         return redirect()
             ->route('admin.teachers.index')
             ->with('success', 'Docente actualizado exitosamente.');
@@ -127,6 +134,8 @@ class DocenteController extends Controller
         abort_unless($docente->hasRole('docente'), 404);
 
         $docente->delete();
+
+        $this->logActivity('user.docente_deleted', "Docente eliminado: {$docente->email}", ['user_id' => $docente->id]);
 
         return redirect()
             ->route('admin.teachers.index')
