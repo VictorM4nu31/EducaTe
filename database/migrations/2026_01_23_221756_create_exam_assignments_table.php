@@ -20,7 +20,7 @@ return new class extends Migration
             $table->dateTime('available_until')->nullable(); // Disponible hasta
             $table->integer('time_limit')->nullable(); // Tiempo límite en minutos
             $table->timestamps();
-            
+
             $table->index(['exam_id', 'group_id']);
             $table->index(['exam_id', 'user_id']);
         });

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('score')->default(0);
             $table->decimal('earned_ac', 10, 2)->default(0);
             $table->timestamps();
-            
+
             // Un usuario solo puede completar una lección una vez y recibir recompensa por ella
             $table->unique(['user_id', 'sat_lesson_id']);
         });

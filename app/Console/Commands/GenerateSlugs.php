@@ -2,10 +2,10 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Task;
 use App\Models\Exam;
 use App\Models\Group;
 use App\Models\Question;
+use App\Models\Task;
 use Illuminate\Console\Command;
 
 class GenerateSlugs extends Command

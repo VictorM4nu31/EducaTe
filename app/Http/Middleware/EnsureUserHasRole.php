@@ -15,11 +15,11 @@ class EnsureUserHasRole
      */
     public function handle(Request $request, Closure $next, string ...$roles): Response
     {
-        if (!$request->user()) {
+        if (! $request->user()) {
             abort(403, 'No autenticado.');
         }
 
-        if (!$request->user()->hasAnyRole($roles)) {
+        if (! $request->user()->hasAnyRole($roles)) {
             abort(403, 'No tienes permisos para acceder a esta sección.');
         }
 

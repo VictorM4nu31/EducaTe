@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('group_id')->nullable()->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
             $table->timestamps();
-            
+
             // Una tarea puede estar asignada a un grupo O a usuarios específicos
             // Si group_id es null, entonces user_id debe tener valor
             $table->index(['task_id', 'group_id']);
