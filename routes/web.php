@@ -1,16 +1,15 @@
 <?php
 
-use App\Http\Controllers\Admin\DocenteController;
-use App\Http\Controllers\Admin\AlumnoController;
-use App\Http\Controllers\Teacher\GroupController;
-use App\Http\Controllers\Student\JoinGroupController;
+use App\Http\Controllers\Admin\StudentController;
+use App\Http\Controllers\Admin\TeacherController;
 use App\Http\Controllers\SatEducationController;
+use App\Http\Controllers\Student\JoinGroupController;
+use App\Http\Controllers\Teacher\GroupController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
-
 
 Route::get('dashboard', function () {
     $user = auth()->user();
@@ -31,13 +30,13 @@ Route::get('dashboard', function () {
 // ========================================
 Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     // Gestión de Docentes
-    Route::resource('teachers', DocenteController::class)->parameters(['teachers' => 'docente:slug']);
+    Route::resource('teachers', TeacherController::class);
 
     // Panel de administración
     Route::view('/', 'admin.dashboard')->name('dashboard');
 
     // Gestión de Alumnos (ver todos los alumnos)
-    Route::get('students', [AlumnoController::class, 'index'])->name('students.index');
+    Route::get('students', [StudentController::class, 'index'])->name('students.index');
 
     // Configuración del sistema
     Route::view('settings', 'admin.settings')->name('settings');
@@ -53,7 +52,7 @@ Route::middleware(['auth', 'verified', 'role:admin|docente'])->prefix('teacher')
     Route::get('tasks/{task:slug}/edit', function (\App\Models\Task $task) {
         return view('teacher.tasks.edit', compact('task'));
     })->name('tasks.edit');
-    
+
     // Revisión de Entregas
     Route::get('tasks/submissions', [\App\Http\Controllers\Teacher\TaskSubmissionController::class, 'index'])->name('tasks.submissions');
     Route::get('tasks/submissions/{submission}', [\App\Http\Controllers\Teacher\TaskSubmissionController::class, 'show'])->name('tasks.submissions.show');
@@ -122,7 +121,7 @@ Route::middleware(['auth', 'verified'])->prefix('resources')->name('resources.')
     Route::get('help', function () {
         return view('resources.help');
     })->name('help');
-    
+
     // Manual del Docente (Solo docentes/admins)
     Route::middleware('role:admin|docente')->get('manual', function () {
         return view('resources.manual');

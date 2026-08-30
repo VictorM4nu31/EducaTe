@@ -28,11 +28,11 @@
                     Dashboard Admin
                 </flux:sidebar.item>
                 <flux:sidebar.item icon="user-group" :href="route('admin.teachers.index')"
-                    :current="request()->routeIs('admin.docentes.*')" wire:navigate>
+                    :current="request()->routeIs('admin.teachers.*')" wire:navigate>
                     Docentes
                 </flux:sidebar.item>
                 <flux:sidebar.item icon="users" :href="route('admin.students.index')"
-                    :current="request()->routeIs('admin.alumnos.index')" wire:navigate>
+                    :current="request()->routeIs('admin.students.index')" wire:navigate>
                     Alumnos
                 </flux:sidebar.item>
                 <flux:sidebar.item icon="cog-6-tooth" :href="route('admin.settings')"
